@@ -1,26 +1,7 @@
 import { getAsset } from './utils/permalinks';
 
 export const headerData = {
-  // links: [
-  //   {
-  //     text: 'Homes',
-  //   },
-  //   {
-  //     text: 'Pages',
-  //   },
-  //   {
-  //     text: 'Landing',
 
-  //   },
-  //   {
-  //     text: 'Blog',
-  //     href: '/blog'
-  //   },
-  //   {
-  //     text: 'Widgets',
-  //     href: '#',
-  //   },
-  // ],
 };
 
 export const footerData = {

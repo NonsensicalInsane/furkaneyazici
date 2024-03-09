@@ -16,7 +16,6 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <Fragment slot="announcement"></Fragment>
   <Fragment slot="header">
     <Header
       links={[
@@ -27,7 +26,7 @@ const metadata = {
       ]}
       actions={[
         {
-          text: 'Hire me',
+          text: 'Contact me!',
           href: '#contact',
         },
       ]}
@@ -60,10 +59,18 @@ const metadata = {
           text: 'Github',
           href: 'www.github.com/nonsensicalinsane',
         },
+      },    
+
+    {
+      icon: 'tabler:brand-linkedin',
+      callToAction: {
+        target: '_blank',
+        text: 'LinkedIn',
+        href: 'www.linkedin.com/nonsensicalinsane',
       },
-    ]}
+    },
+  ]}
     callToAction={{
-      target: '_blank',
       text: 'More about me and my resume!',
       icon: 'tabler:chevron-right',
       href: '/about',
@@ -135,7 +142,7 @@ const metadata = {
   <!-- Content Widget **************** -->
 
   <Content
-    id="Projects"
+    id="projects"
     title="Feautured Projects"
     subtitle="Explore my most recent projects and the creative process behind them."
     isReversed
@@ -156,13 +163,13 @@ const metadata = {
 
   <!-- CallToAction Widget *********** -->
 
-  <CallToAction
-    title="Let's create together"
-    subtitle="Ready to transform your vision into captivating designs?"
+  <CallToAction 
+    title="Help me on my projects!"
+    subtitle=" Your support will help me continue my research and development work, and contribute to the open-source community."
     actions={[{
       variant:"primary",
-      text: 'Hire me',
-      href: '/',
+      text: 'Patreon!',
+      href: 'https://patreon.com/TheFEY?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink',
     }]}
   />
 
@@ -180,6 +187,8 @@ const metadata = {
 
 <Features2
   title="I am here to help!"
+  id="contact"
+  subtitle="Reach out to me for collaborations, inquiries, or to simply say hello!"
   items={[
 
     {
@@ -203,9 +212,9 @@ const metadata = {
       icon: 'tabler:brand-github',
     },
     {
-      title: 'Medium',
-      description: '<a href="https://medium.com/@nonsensicalinsane" target="_blank">@nonsensicalinsane</a>',
-      icon: 'tabler:brand-medium',
+      title: 'Discord',
+      description: '<a href="  " target="_blank">@furkaneyazici</a>',
+      icon: 'tabler:brand-discord',
     },
     {
       title: 'Twitter',

@@ -3,15 +3,55 @@ import Hero from '~/components/widgets/Hero.astro';
 import Steps from '~/components/widgets/Steps.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import Content from '~/components/widgets/Content.astro';
-
+import Header from '~/components/widgets/Header.astro';
 const metadata = {
-  title: 'About us',
+  title: 'Who am I?',
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
+  <Fragment slot="header">
+  <Header
+    links={[
+      {
+        text: 'Home',
+        href: '/',
+      },
+      {
+      text: 'About',
+      links: 
+        [
+        {
+          text: 'Research',
+          href: '#research-experience',
+        },
+        {
+          text: 'Work',
+          href: '#work-experience',
+        },
+        {
+          text: 'Education',
+          href: '#education',
+        },
+        {
+          text: 'Certifications',
+          href: '#certifications',
+        },
+      
+      ],
+    },
+    {
+      text: 'Project', href: '/projects',
+    },
+    {
+      text: 'Blog', href: '/blog',
+    },
+    ]}
+    isSticky
+    />
 
+  </Fragment>
   <Hero>
     <Fragment slot="title">
       <h1 class="text-4xl font-bold tracking-tight dark:text-white sm:text-5xl">
@@ -31,10 +71,26 @@ const metadata = {
         href: 'www.github.com/nonsensicalinsane',
       },
     },
+    {
+      icon: 'tabler:brand-twitter',
+      callToAction: {
+        target: '_blank',
+        text: 'Twitter',
+        href: 'www.twitter.com/nonsensicalinsane',
+      },
+    },
+    {
+      icon: 'tabler:brand-linkedin',
+      callToAction: {
+        target: '_blank',
+        text: 'LinkedIn',
+        href: 'www.linkedin.com/nonsensicalinsane',
+      },
+    },
   ]}
   image={{
     src: '/src/assets/images/me.png',
-    alt: 'Colorful Image',
+    alt: 'Furkan Eşref Yazıcı',
     loading: 'eager',
   }}
 >
@@ -60,13 +116,13 @@ const metadata = {
     items={[
       {
         title:
-          'Graphic Designer <br /> <span class="font-normal">ABC Design Studio, New York, NY</span> <br /> <span class="text-sm font-normal">2021 - Present</span>',
+          'Undergraduate Research Assistant <br /> <span class="font-normal">ABC Design Studio, New York, NY</span> <br /> <span class="text-sm font-normal">2021 - Present</span>',
         description: `Collaborate with clients to understand design requirements and objectives. <br /> Develop branding solutions, including logos, color palettes, and brand guidelines. <br /> Design marketing materials such as brochures, posters, and digital assets. <br /> Create visually appealing user interfaces for websites and applications.`,
         icon: 'tabler:briefcase',
       },
       {
         title:
-          'Junior Graphic Designer <br /> <span class="font-normal">XYZ Creative Agency, Los Angeles, CA</span> <br /> <span class="text-sm font-normal">2018 - 2021</span>',
+          'Undergraduate Research Assistant <br /> <span class="font-normal">XYZ Creative Agency, Los Angeles, CA</span> <br /> <span class="text-sm font-normal">2018 - 2021</span>',
         description: `Assisted senior designers in creating design concepts and visual assets. <br /> Contributed to the development of brand identities and marketing collateral. <br /> Collaborated with the marketing team to ensure consistent design across campaigns. <br /> Gained hands-on experience in various design software and tools.`,
         icon: 'tabler:briefcase',
       },

@@ -10,7 +10,24 @@ const metadata = {
 ---
 
 <Layout {...metadata}>
-    <Header />
+    <Fragment slot="header">
+        <Header
+        links={[
+            { text: 'Home', href: '/' },
+            { text: 'About', href: '/about' },
+            { text: 'Projects', href: '#' },
+            { text: 'Blog', href: '/blog' },
+        ]}
+        actions={[
+            {
+                text: 'Contact me!',
+                href: '/#contact',
+            },
+        ]}
+        isSticky
+        showToggleTheme
+        />
+    </Fragment>
     <Hero />
     <Content />
 </Layout>

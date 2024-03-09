@@ -1,4 +1,4 @@
-# Furkan Eyazici's Personal Website
+# Furkan E. Yazici's Personal Website
 
 Welcome to the GitHub repository for [furkaneyazici.com](https://furkaneyazici.com), the digital portfolio and blog of Furkan Eyazici - physicist, machine learning enthusiast, and software developer. This website is built with the Astro framework and styled using Tailwind CSS, showcasing a range of works and thoughts in physics, machine learning, deep learning, quantum computing, and more.
 

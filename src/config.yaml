@@ -1,30 +1,29 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name: Furkan Eşref Yazıcı
+  site: 'https://furkaneyazici.com'
   base: '/'
   trailingSlash: false
 
-  googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M
 
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: Furkan Eşref Yazıcı
+    template: '%s — The FEY'
+  description: "Furkan Eşref Yazıcı's personal website. I write about web development, software engineering, and other things I find interesting."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: Furkan Eşref Yazıcı
     images:
-      - url: '~/assets/images/default.png'
+      - url: '~/assets/images/me.png'
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@onwidget'
-    site: '@onwidget'
+    handle: '@furkaneyazici'
+    site: '@furkaneyazici'
     cardType: summary_large_image
 
 i18n:
@@ -69,7 +68,7 @@ analytics:
       id: null # or "G-XXXXXXXXXX"
 
 ui:
-  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
+  theme: 'dark:only' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
 
   tokens:
     default:
@@ -94,8 +93,8 @@ ui:
     dark:
       fonts: {}
       colors:
-        default: rgb(247, 248, 248)
-        heading: rgb(247, 248, 248)
+        default: rgb(254, 254, 254)
+        heading: rgb(254, 254, 254)
         muted: rgb(200, 188, 208)
         bgPage: rgb(3 6 32)
         primary: rgb(29 78 216)

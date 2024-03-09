@@ -14,10 +14,11 @@ const {
   callToAction,
   items = [],
   columns,
+  callPageName = await Astro.slots.render('callPageName'),
+  callPagePath = await Astro.slots.render('callPagePath'),
   image = await Astro.slots.render('image'),
   isReversed = false,
   isAfterContent = false,
-
   id,
   isDark = false,
   classes = {},
@@ -40,6 +41,8 @@ const {
       title: 'text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4 font-heading',
       subtitle: 'max-w-3xl mx-auto sm:text-center text-xl text-muted dark:text-slate-400',
     }}
+    callPageName={callPageName}
+    callPagePath={callPagePath}
   />
   <div class="mx-auto max-w-7xl p-4 md:px-8">
     <div class={`md:flex ${isReversed ? 'md:flex-row-reverse' : ''} md:gap-16`}>

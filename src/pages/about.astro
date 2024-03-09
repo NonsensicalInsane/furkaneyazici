@@ -2,6 +2,7 @@
 import Hero from '~/components/widgets/Hero.astro';
 import Steps from '~/components/widgets/Steps.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import Content from '~/components/widgets/Content.astro';
 
 const metadata = {
   title: 'About us',
@@ -11,24 +12,47 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
 
-  <Hero
-    tagline="About me"
-    image={{
-      src: '/src/assets/images/me.png',
-      alt: 'Caos Image',
-    }}
-  >
+  <Hero>
     <Fragment slot="title">
-      Elevate your online presence with our <br />
-      <span class="text-accent dark:text-white highlight"> Beautiful Website Templates</span>
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      Donec efficitur, ipsum quis congue luctus, mauris magna convallis mauris, eu auctor nisi lectus non augue. Donec
-      quis lorem non massa vulputate efficitur ac at turpis. Sed tincidunt ex a nunc convallis, et lobortis nisi tempus.
-      Suspendisse vitae nisi eget tortor luctus maximus sed non lectus.
+      <h1 class="text-4xl font-bold tracking-tight dark:text-white sm:text-5xl">
+        Hi, I'm <span class="text-blue-600 dark:text-blue-400">FEY!</span>
+      </h1>
     </Fragment>
   </Hero>
+  <Content
+  id="about"
+  columns={3}
+  items={[
+    {
+      icon: 'tabler:brand-github',
+      callToAction: {
+        target: '_blank',
+        text: 'Github',
+        href: 'www.github.com/nonsensicalinsane',
+      },
+    },
+  ]}
+  image={{
+    src: '/src/assets/images/me.png',
+    alt: 'Colorful Image',
+    loading: 'eager',
+  }}
+>
+  <Fragment slot="content">
+    <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">About me</h2>
+    <p>
+      I'm an enthusiast with a burgeoning interest in machine learning and quantum computing. While my journey into these fields is just beginning, this website represents both a starting point and a canvas for documenting my progress, learning, and future contributions. Here, I aim to share my explorations, discoveries, and the knowledge gained as I delve deeper into these fascinating areas of study, reflecting a commitment to growth and a curiosity about the potential they hold.
+    </p>
+    
+  </Fragment>
+  
+
+  <Fragment slot="bg">
+    <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+  </Fragment>
+</Content>
+
+
 
   <Steps
     id="research-experience"

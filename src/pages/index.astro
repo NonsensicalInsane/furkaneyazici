@@ -8,7 +8,7 @@ import Features3 from '~/components/widgets/Features3.astro';
 // import Testimonials from '~/components/widgets/Testimonials.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 // import { Icon } from 'astro-icon/components';
-
+import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
   title: "Furkan Eşref Yazıcı's personal website",
@@ -62,9 +62,15 @@ const metadata = {
         },
       },
     ]}
+    callToAction={{
+      target: '_blank',
+      text: 'More about me and my resume!',
+      icon: 'tabler:chevron-right',
+      href: '/about',
+    }}
     image={{
       src: '/src/assets/images/me.png',
-      alt: 'Colorful Image',
+      alt: 'Furkan Eşref Yazıcı',
       loading: 'eager',
     }}
   >
@@ -73,7 +79,9 @@ const metadata = {
       <p>
         I'm an enthusiast with a burgeoning interest in machine learning and quantum computing. While my journey into these fields is just beginning, this website represents both a starting point and a canvas for documenting my progress, learning, and future contributions. Here, I aim to share my explorations, discoveries, and the knowledge gained as I delve deeper into these fascinating areas of study, reflecting a commitment to growth and a curiosity about the potential they hold.
       </p>
+      
     </Fragment>
+    
 
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
@@ -127,119 +135,21 @@ const metadata = {
   <!-- Content Widget **************** -->
 
   <Content
-    id="porfolio"
-    title="Elevating visual narratives"
-    subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination. Explore my portfolio, where passion and creativity converge to shape enthralling visual narratives."
+    id="Projects"
+    title="Feautured Projects"
+    subtitle="Explore my most recent projects and the creative process behind them."
     isReversed
-    items={[
-      {
-        title: 'Description:',
-        description:
-          'Developed a comprehensive brand identity for a tech startup, Tech Innovators, specializing in disruptive innovations. The goal was to convey a modern yet approachable image that resonated with both corporate clients and tech enthusiasts.',
-      },
-      {
-        title: 'Role:',
-        description:
-          'Led the entire branding process from concept to execution. Created a dynamic logo that symbolized innovation, selected a vibrant color palette, and I designed corporate stationery, website graphics, and social media assets.',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1658248165252-71e116af1b34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=928&q=80',
-      alt: 'Tech Design Image',
-    }}
-    callToAction={{
-      target: '_blank',
-      text: 'Go to the project',
-      icon: 'tabler:chevron-right',
-      href: '#',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        Project 1: <br /><span class="text-2xl">Brand identity for tech innovators</span>
-      </h3>
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
+    items={[]}
+    callPageName = "More Projects"
+    callPagePath = "/projects"
+    >
   </Content>
 
+
+,
   <!-- Content Widget **************** -->
 
-  <Content
-    isReversed
-    isAfterContent={true}
-    items={[
-      {
-        title: 'Description:',
-        description:
-          'Designed a captivating event poster for an art and music festival, "ArtWave Fusion," aiming to showcase the synergy between visual art and music genres.',
-      },
-      {
-        title: 'Role:',
-        description: `Translated the festival's creative theme into a visually striking poster. Used bold typography, vibrant colors, and abstract elements to depict the fusion of art and music. Ensured the design captured the festival's vibrant atmosphere.`,
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1619983081563-430f63602796?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-      alt: 'Art and Music Poster Image',
-    }}
-    callToAction={{
-      target: '_blank',
-      text: 'Go to the project',
-      icon: 'tabler:chevron-right',
-      href: '#',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        Project 2: <br /><span class="text-2xl">Event poster for art & music festival</span>
-      </h3>
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    isAfterContent={true}
-    items={[
-      {
-        title: 'Description:',
-        description: `Redesigned the e-commerce website for an eco-conscious fashion brand, GreenVogue. The objective was to align the brand's online presence with its sustainable ethos and improve user experience.`,
-      },
-      {
-        title: 'Role:',
-        description: `Conducted a thorough analysis of the brand's values and customer base to inform the design direction. Created a visually appealing interface with intuitive navigation, highlighting sustainable materials, and integrating a user-friendly shopping experience.`,
-      },
-    ]}
-    image={{
-      src: 'https://plus.unsplash.com/premium_photo-1683288295841-782fa47e4770?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-      alt: 'Fashion e-commerce Image',
-    }}
-    callToAction={{
-      target: '_blank',
-      text: 'Go to the project',
-      icon: 'tabler:chevron-right',
-      href: '#',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        Project 3: <br /><span class="text-2xl">E-commerce website redesign for fashion brand</span>
-      </h3>
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
+  
   <!-- Testimonials Widget *********** -->
 
   
@@ -267,4 +177,41 @@ const metadata = {
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
   </BlogLatestPosts>
+
+<Features2
+  title="I am here to help!"
+  items={[
+
+    {
+      title: 'Email',
+      description: '<a href="mailto:yazici.furkan@proton.me"> yazici.furkan@proton.me </a>',
+      icon: 'tabler:mail',
+    },
+    {
+      title: 'Upwork',
+      description: '<a href="https://www.upwork.com/freelancers/~01ae41556331664a51" target="_blank">Upwork Profile</a>',
+      icon: 'tabler:brand-upwork',
+    },
+    {
+      title: 'LinkedIn',
+      description: '<a href="https://www.linkedin.com/in/nonsensicalinsane/" target="_blank">LinkedIn Profile</a>',
+      icon: 'tabler:brand-linkedin',
+    },
+    {
+      title: 'Github',
+      description: '<a href="https://www.github.com/nonsensicalinsane" target="_blank">@nonsensicalinsane</a>',
+      icon: 'tabler:brand-github',
+    },
+    {
+      title: 'Medium',
+      description: '<a href="https://medium.com/@nonsensicalinsane" target="_blank">@nonsensicalinsane</a>',
+      icon: 'tabler:brand-medium',
+    },
+    {
+      title: 'Twitter',
+      description: '<a href="https://twitter.com/furkaneyazici" target="_blank">@furkaneyazici</a>',
+      icon: 'tabler:brand-twitter',
+    }
+  ]}
+/>
 </Layout>

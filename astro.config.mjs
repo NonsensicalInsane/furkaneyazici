@@ -10,7 +10,7 @@ import compress from 'astro-compress';
 import tasks from './src/utils/tasks';
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/utils/frontmatter.mjs';
 import { ANALYTICS, SITE } from './src/utils/config.ts';
-import vercel from "@astrojs/vercel/serverless";
+// import vercel from "@astrojs/vercel/serverless";
 import netlify from "@astrojs/netlify";
 import preact from "@astrojs/preact";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

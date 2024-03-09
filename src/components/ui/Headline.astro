@@ -1,12 +1,16 @@
 ---
 import type { Headline } from "~/types";
 import { twMerge } from "tailwind-merge";
+import { getPagePermalink } from "~/utils/permalinks";
+import Button from "../ui/Button.astro";
 
 const {
   title = await Astro.slots.render("title"),
   subtitle = await Astro.slots.render("subtitle"),
   tagline,
   classes = {},
+  callPagePath = await Astro.slots.render("callPagePath"),
+  callPageName = await Astro.slots.render("callPageName"),
 } = Astro.props as Headline;
 
 const {
@@ -14,10 +18,11 @@ const {
   title: titleClass = "text-3xl md:text-4xl ",
   subtitle: subtitleClass = "text-xl",
 } = classes;
+
 ---
 
 {
-  (title || subtitle || tagline) && (
+  (title || subtitle || tagline || callPageName || callPagePath) && (
     <div
       class={twMerge("mb-8 md:mx-auto md:mb-12 text-center", containerClass)}
     >
@@ -43,6 +48,11 @@ const {
           set:html={subtitle}
         />
       )}
+      <div class="mt-8">
+      { callPageName && callPagePath && (
+        <Button href={getPagePermalink(callPagePath)}>{callPageName}</Button>
+            )}
+      </div>
     </div>
   )
 }

@@ -3,7 +3,6 @@ import Layout from '~/layouts/PageLayout.astro';
 import Header from '~/components/widgets/Header.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Content from '~/components/widgets/Content.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 // import Testimonials from '~/components/widgets/Testimonials.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
@@ -163,21 +162,13 @@ const metadata = {
 
   <!-- CallToAction Widget *********** -->
 
-  <CallToAction 
-    title="Help me on my projects!"
-    subtitle=" Your support will help me continue my research and development work, and contribute to the open-source community."
-    actions={[{
-      variant:"primary",
-      text: 'Patreon!',
-      href: 'https://patreon.com/TheFEY?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink',
-    }]}
-  />
+
 
   <!-- BlogLatestPost Widget **************** -->
 
   <BlogLatestPosts
     id="blog"
-    title="Explore my insightful articles on my blog"
+    title="Explore my insightful articles on my <span class='text-blue-600 dark:text-blue-400'>blog<span>"
   >
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>

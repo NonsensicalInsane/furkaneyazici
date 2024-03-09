@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚀 AstroWind
 
 <img src="https://raw.githubusercontent.com/onwidget/.github/main/resources/astrowind/lighthouse-score.png" align="right"
@@ -277,3 +278,6 @@ Initially created by [onWidget](https://onwidget.com) and maintained by a commun
 ## License
 
 **AstroWind** is licensed under the MIT license — see the [LICENSE](./LICENSE.md) file for details.
+=======
+# furkaneyazici
+>>>>>>> 6653f2e0058f3b8b842078134aa3fc701e3e1977

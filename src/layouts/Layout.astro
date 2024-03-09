@@ -10,7 +10,6 @@ import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
 import Metadata from '~/components/common/Metadata.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
 import { ViewTransitions } from 'astro:transitions';
-
 // Uncomment line below to activate View Transitions
 // import { ViewTransitions } from 'astro:transitions';
 
@@ -32,7 +31,7 @@ const { language, textDirection } = I18N;
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
-
+    <script defer src="/nameAnimation.js"></script>
     <!-- Uncomment line below to activate View Transitions -->
     <ViewTransitions />
   </head>

@@ -4,7 +4,7 @@ import Header from '~/components/widgets/Header.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Content from '~/components/widgets/Content.astro';
 import Headline from '~/components/blog/Headline.astro';
-import Button from '~/components/ui/Button.astro';
+
 
 const metadata = {
     title: "Furkan's Projects",
@@ -27,17 +27,17 @@ const metadata = {
     <Hero 
         title="Projects"
         subtitle="Here are some of the projects I have worked on. I am always looking for new projects to work on, so if you have an idea, feel free to contact me!"
-        
+        callPageName= "Contact"
+        callPagePath="/#contact"
     />
-    <Button variant="link" href="/#contact" class="mt-4">Contact Me</Button>
 
     <Content />
 
-    <Content>
-        <Headline 
-            title="Upcoming Projects"
-            description="These are the projects that I am currently working on. They are not yet ready for public use, but I will be sharing them here once they are ready."
-        />
+    <Content
+    title="Upcoming Projects"
+    subtitle="Here are some of the projects that I am currently working on. They are not yet ready for public use, but I will be sharing them here once they are ready."
+    >
+        
         <Fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-white shadow-md p-4 rounded-lg">
@@ -49,5 +49,6 @@ const metadata = {
                     <p class="text-gray-600">This is a project that I am currently working on. It is not yet ready for public use, but I will be sharing it here once it is ready.</p>
                 </div>
             </div>
+        </Fragment>
         </Content>
 </Layout>

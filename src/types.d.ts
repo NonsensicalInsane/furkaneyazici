@@ -216,6 +216,8 @@ export interface Hero extends Headline, Widget {
   callToAction1?: CallToAction;
   callToAction2?: CallToAction;
   isReversed?: boolean;
+  callPagePath?: string;
+  callPageName?: string;
 }
 
 export interface Team extends Headline, Widget {

@@ -1,7 +1,12 @@
 import { getAsset } from './utils/permalinks';
 
-export const headerData = {
-
+export const headerData = {    
+  links: [
+  { text: 'Home', href: '/' },
+  { text: 'About', href: '/about' },
+  { text: 'Projects', href: '/projects' },
+  { text: 'Blog', href: '/blog' },
+]
 };
 
 export const footerData = {

@@ -20,8 +20,8 @@ export default defineConfig({
   site: SITE.site,
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
-  output: 'server',
-  adapter: netlify(),
+  output: 'hybrid',
+  adapter: vercel(),
   integrations: [tailwind({
     applyBaseStyles: false
   }), sitemap(), mdx(), icon({

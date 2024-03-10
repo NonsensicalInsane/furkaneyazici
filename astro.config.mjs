@@ -15,11 +15,13 @@ import netlify from "@astrojs/netlify";
 import preact from "@astrojs/preact";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// https://astro.build/config
 export default defineConfig({
   site: SITE.site,
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
-  output: 'hybrid',
+  output: 'server',
+  adapter: netlify(),
   integrations: [tailwind({
     applyBaseStyles: false
   }), sitemap(), mdx(), icon({
@@ -27,9 +29,7 @@ export default defineConfig({
       tabler: ['*'],
       'flat-color-icons': ['template', 'gallery', 'approval', 'document', 'advertising', 'currency-exchange', 'voice-presentation', 'business-contact', 'database']
     }
-  }),
-
-  compress({
+  }), compress({
     CSS: true,
     HTML: {
       'html-minifier-terser': {
@@ -55,5 +55,4 @@ export default defineConfig({
       }
     }
   },
-  adapter: vercel()
 });

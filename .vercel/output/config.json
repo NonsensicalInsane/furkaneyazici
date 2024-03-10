@@ -72,8 +72,32 @@
 			"dest": "_render"
 		},
 		{
+			"src": "^\\/404$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/about$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/contact$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/projects$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/rss\\.xml$",
+			"dest": "_render"
+		},
+		{
+			"src": "^\\/$",
+			"dest": "_render"
+		},
+		{
 			"src": "/.*",
-			"dest": "/404.html",
+			"dest": "_render",
 			"status": 404
 		}
 	]

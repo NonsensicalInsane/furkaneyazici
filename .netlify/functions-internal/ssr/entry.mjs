@@ -1,19 +1,19 @@
 import { renderers } from './renderers.mjs';
-import { manifest } from './manifest_fnDp_K2t.mjs';
+import { manifest } from './manifest_C7otSBGf.mjs';
 import * as serverEntrypointModule from '@astrojs/netlify/ssr-function.js';
 import { onRequest } from './_noop-middleware.mjs';
 
-const _page0 = () => import('./chunks/generic_BHqzXcRm.mjs');
-const _page1 = () => import('./chunks/404_D7hu1wzf.mjs');
-const _page2 = () => import('./chunks/about_AvP6gbkG.mjs');
-const _page3 = () => import('./chunks/contact_Ab__cnwS.mjs');
-const _page4 = () => import('./chunks/projects_BIJ2YeHM.mjs');
-const _page5 = () => import('./chunks/rss_C401tgIJ.mjs');
-const _page6 = () => import('./chunks/_.._TLopbbwh.mjs');
-const _page7 = () => import('./chunks/_.._YnU8SEzQ.mjs');
-const _page8 = () => import('./chunks/_.._C9A3C_kp.mjs');
-const _page9 = () => import('./chunks/index_D0qoXUIX.mjs');
-const _page10 = () => import('./chunks/index_CmKj4UIr.mjs');
+const _page0 = () => import('./chunks/generic_BeaDiffT.mjs');
+const _page1 = () => import('./chunks/404_D3KdtMnt.mjs');
+const _page2 = () => import('./chunks/about_DWLFn1lW.mjs');
+const _page3 = () => import('./chunks/contact_DQ2X1kN9.mjs');
+const _page4 = () => import('./chunks/projects_BvTmZWnu.mjs');
+const _page5 = () => import('./chunks/rss_rTVnXAhL.mjs');
+const _page6 = () => import('./chunks/_.._4VNDMaMS.mjs');
+const _page7 = () => import('./chunks/_.._D7FScwF5.mjs');
+const _page8 = () => import('./chunks/_.._CJKYJPGl.mjs');
+const _page9 = () => import('./chunks/index_Cvzqznov.mjs');
+const _page10 = () => import('./chunks/index_DblYojOf.mjs');
 const pageMap = new Map([
     ["node_modules/astro/dist/assets/endpoint/generic.js", _page0],
     ["src/pages/404.astro", _page1],
@@ -34,7 +34,7 @@ const _manifest = Object.assign(manifest, {
     middleware: onRequest
 });
 const _args = {
-    "middlewareSecret": "e68b27f1-a616-43c3-8822-0b2f96e908af"
+    "middlewareSecret": "69ed80d5-e33b-4c4b-8ffd-4045f993deae"
 };
 const _exports = serverEntrypointModule.createExports(_manifest, _args);
 const __astrojsSsrVirtualEntry = _exports.default;

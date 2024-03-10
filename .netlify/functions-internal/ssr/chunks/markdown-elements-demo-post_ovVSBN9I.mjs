@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./markdown-elements-demo-post_CAEkbZYj.mjs');
+						return import('./markdown-elements-demo-post_BjeTN5oZ.mjs');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

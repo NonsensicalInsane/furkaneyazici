@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import prepass from 'preact-ssr-prepass';
 import { render } from 'preact-render-to-string';
-import { t as AstroJSX, A as AstroError, v as renderJSX, w as createVNode } from './chunks/astro_CDPvs3qL.mjs';
+import { t as AstroJSX, A as AstroError, v as renderJSX, w as createVNode } from './chunks/astro_akPyiXVm.mjs';
 
 const contexts = /* @__PURE__ */ new WeakMap();
 function getContext(result) {

@@ -1,12 +1,12 @@
 ---
-import { APP_BLOG } from "~/utils/config";
+import { APP_BLOG } from "../../utils/config";
 
-import Grid from "~/components/blog/Grid.astro";
+import Grid from "../../components/blog/Grid.astro";
 
-import { getBlogPermalink } from "~/utils/permalinks";
-import { findPostsByIds } from "~/utils/blog";
-import WidgetWrapper from "~/components/ui/WidgetWrapper.astro";
-import type { Widget } from "~/types";
+import { getBlogPermalink } from "../../utils/permalinks";
+import { findPostsByIds } from "../../utils/blog";
+import WidgetWrapper from "../../components/ui/WidgetWrapper.astro";
+import type { Widget } from "../../types";
 
 export interface Props extends Widget {
   title?: string;

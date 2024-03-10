@@ -1,0 +1,7 @@
+{
+	"runtime": "nodejs18.x",
+	"handler": ".vercel/output/_functions/entry.mjs",
+	"launcherType": "Nodejs",
+	"maxDuration": 8,
+	"supportsResponseStreaming": true
+}

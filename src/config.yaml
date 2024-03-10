@@ -1,6 +1,6 @@
 site:
   name: Furkan Eşref Yazıcı
-  site: 'https://furkaneyazici.com'
+  site: 'https://furkaneyazici.netlify.app'
   base: '/'
   trailingSlash: false
 

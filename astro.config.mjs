@@ -11,16 +11,17 @@ import tasks from './src/utils/tasks';
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/utils/frontmatter.mjs';
 import { SITE } from './src/utils/config.ts';
 import vercel from "@astrojs/vercel/serverless";
-// import netlify from "@astrojs/netlify";
+import netlify from "@astrojs/netlify";
 import preact from "@astrojs/preact";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// const whenExternalScripts = (items = []) => ANALYTICS.vendors.googleAnalytics.id && ANALYTICS.vendors.googleAnalytics.partytown ? Array.isArray(items) ? items.map(item => item()) : [items()] : [];
 
+// https://astro.build/config
 export default defineConfig({
   site: SITE.site,
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
-  output: 'hybrid',
+  output: 'server',
+  adapter: netlify(),
   integrations: [tailwind({
     applyBaseStyles: false
   }), sitemap(), mdx(), icon({
@@ -28,9 +29,7 @@ export default defineConfig({
       tabler: ['*'],
       'flat-color-icons': ['template', 'gallery', 'approval', 'document', 'advertising', 'currency-exchange', 'voice-presentation', 'business-contact', 'database']
     }
-  }),
-
-  compress({
+  }), compress({
     CSS: true,
     HTML: {
       'html-minifier-terser': {
@@ -56,5 +55,4 @@ export default defineConfig({
       }
     }
   },
-  adapter: vercel()
 });

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "allowJs": true,
-    "baseUrl": "/home/themanyface/Projects/personal_website/mywebsite/furkaneyazici",
+    "baseUrl": "/",
     "paths": {
       "~/*": [
         "src/*"

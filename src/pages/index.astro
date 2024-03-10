@@ -1,13 +1,13 @@
 ---
-import Layout from '~/layouts/PageLayout.astro';
-import Header from '~/components/widgets/Header.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Content from '~/components/widgets/Content.astro';
-import Features3 from '~/components/widgets/Features3.astro';
+import Layout from '../layouts/PageLayout.astro';
+import Header from '../components/widgets/Header.astro';
+import Hero from '../components/widgets/Hero.astro';
+import Content from '../components/widgets/Content.astro';
+import Features3 from '../components/widgets/Features3.astro';
 // import Testimonials from '~/components/widgets/Testimonials.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+import BlogLatestPosts from '../components/widgets/BlogLatestPosts.astro';
 // import { Icon } from 'astro-icon/components';
-import Features2 from '~/components/widgets/Features2.astro';
+import Features2 from '../components/widgets/Features2.astro';
 
 const metadata = {
   title: "Furkan Eşref Yazıcı's personal website",
@@ -76,7 +76,7 @@ const metadata = {
       href: '/about',
     }}
     image={{
-      src: '~/src/assets/images/me.png',
+      src: '/src/assets/images/me.png',
       alt: 'Furkan Eşref Yazıcı',
       loading: 'eager',
     }}

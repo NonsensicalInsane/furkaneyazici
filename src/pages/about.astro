@@ -4,6 +4,8 @@ import Steps from '../components/widgets/Steps.astro';
 import Layout from '../layouts/PageLayout.astro';
 import Content from '../components/widgets/Content.astro';
 import Header from '../components/widgets/Header.astro';
+import { Image } from 'astro:assets';
+import mepng from '../assets/images/me.png';
 const metadata = {
   title: 'Who am I?',
 };
@@ -81,7 +83,7 @@ const metadata = {
     },
   ]}
   image={{
-    src: '/src/assets/images/me.png',
+    src: '~/assets/images/me.png',
     alt: 'Furkan Eşref Yazıcı',
     loading: 'eager',
   }}

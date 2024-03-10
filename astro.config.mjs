@@ -41,10 +41,20 @@ export default defineConfig({
     JavaScript: true,
     SVG: false,
     Logger: 1
-  }), tasks(), preact(),
+  }), 
+  tasks(), 
+  preact(),
   storyblok({
     accessToken: "Ctj1eeLrOkGfJ7X1YBWLIgtt",
-  }),],
+    components: {
+      page: "storyblok/Page",
+      feature: "storyblok/Feature",
+      grid: "storyblok/Grid",
+      teaser: "storyblok/Teaser",
+    },
+  }),
+
+],
   image: {
     service: squooshImageService()
   },

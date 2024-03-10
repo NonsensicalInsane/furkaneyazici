@@ -12,6 +12,8 @@ import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/uti
 import { SITE } from './src/utils/config.ts';
 import vercel from "@astrojs/vercel/serverless";
 import preact from "@astrojs/preact";
+import storyblok from "@storyblok/astro";
+import netlify from "@astrojs/netlify";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
@@ -20,7 +22,7 @@ export default defineConfig({
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
   output: 'hybrid',
-  adapter: vercel(),
+  adapter: netlify(),
   integrations: [tailwind({
     applyBaseStyles: false
   }), sitemap(), mdx(), icon({
@@ -39,7 +41,10 @@ export default defineConfig({
     JavaScript: true,
     SVG: false,
     Logger: 1
-  }), tasks(), preact()],
+  }), tasks(), preact(),
+  storyblok({
+    accessToken: "Ctj1eeLrOkGfJ7X1YBWLIgtt",
+  }),],
   image: {
     service: squooshImageService()
   },

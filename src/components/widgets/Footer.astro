@@ -18,7 +18,7 @@ export interface Props {
   theme?: string;
 }
 
-const { socialLinks = [],  footNote = '', theme = 'light' } = Astro.props;
+const { socialLinks = [], theme = 'light' } = Astro.props;
 ---
 
 <footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
@@ -54,9 +54,8 @@ const { socialLinks = [],  footNote = '', theme = 'light' } = Astro.props;
       }
 
       <div class="text-sm mr-4 dark:text-muted">
-        <span class="w-5 h-5 md:w-6 md:h-6 md:-mt-0.5 bg-cover mr-1.5 rtl:mr-0 rtl:ml-1.5 float-left rtl:float-right rounded-sm"><Image src={logoicon} class="logo" alt="Logo" width={50} height={50} /></span>
+        <span class="w-5 h-5 md:w-6 md:h-6 md:-mt-0.5 bg-cover mr-1.5 rtl:mr-0 rtl:ml-1.5 float-left rtl:float-right rounded-sm"><Image src={logoicon} class="logo" alt="Logo" width={50} height={50} /> </span>
         Made by <a class="text-blue-600 underline dark:text-muted" href="https://github.com/nonsensicalinsane "> The FEY</a>
-        </span>
       </div>
     </div>
   </div>

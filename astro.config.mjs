@@ -11,7 +11,7 @@ import tasks from './src/utils/tasks';
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/utils/frontmatter.mjs';
 import { SITE } from './src/utils/config.ts';
 import vercel from "@astrojs/vercel/serverless";
-// import netlify from "@astrojs/netlify";
+import netlify from "@astrojs/netlify";
 import preact from "@astrojs/preact";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // const whenExternalScripts = (items = []) => ANALYTICS.vendors.googleAnalytics.id && ANALYTICS.vendors.googleAnalytics.partytown ? Array.isArray(items) ? items.map(item => item()) : [items()] : [];
@@ -56,5 +56,5 @@ export default defineConfig({
       }
     }
   },
-  adapter: vercel()
+  adapter: netlify()
 });

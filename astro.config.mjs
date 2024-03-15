@@ -4,7 +4,6 @@ import { defineConfig, squooshImageService } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
-// import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import tasks from './src/utils/tasks';
@@ -12,7 +11,6 @@ import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/uti
 import { SITE } from './src/utils/config.ts';
 import vercel from "@astrojs/vercel/serverless";
 import preact from "@astrojs/preact";
-//import netlify from "@astrojs/netlify";
 
 import basicSsl from '@vitejs/plugin-basic-ssl'
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

@@ -3,7 +3,6 @@ import WidgetWrapper from '../ui/WidgetWrapper.astro';
 import type { CallToAction, Widget } from '../../types';
 import Headline from '../../components/ui/Headline.astro';
 import Button from "../../components/ui/Button.astro"
-
 interface Props extends Widget {
   title?: string;
   subtitle?: string;
@@ -27,7 +26,7 @@ const {
   isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
-  logo = await Astro.slots.render('logo'),
+  //logo = await Astro.slots.render('logo'),
 } = Astro.props as Props;
 ---
 
@@ -47,13 +46,7 @@ const {
       callPageName={callPageName}
       callPagePath={callPagePath}
     />
-    {
-      logo && (
-        <div class="flex justify-center mt-6">
-          <img src={logo} class="w-32" />
-        </div>
-      )
-    }
+
     {
       actions && (
         <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-6">

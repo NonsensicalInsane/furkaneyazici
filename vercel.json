@@ -14,7 +14,7 @@
   ],
   "functions": {
     "_render": {
-      "runtime": "nodejs18.x.x"
+      "runtime": "nodejs18.x"
     }
   }
 }

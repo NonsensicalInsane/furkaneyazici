@@ -11,9 +11,9 @@ import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/uti
 import { SITE } from './src/utils/config.ts';
 import vercel from "@astrojs/vercel/serverless";
 import preact from "@astrojs/preact";
-
-import basicSsl from '@vitejs/plugin-basic-ssl'
+import basicSsl from '@vitejs/plugin-basic-ssl';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,16 +24,12 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [tailwind({
     applyBaseStyles: false
-  }),
-  sitemap(),
-  mdx(), 
-  icon({
+  }), sitemap(), mdx(), icon({
     include: {
       tabler: ['*'],
       'flat-color-icons': ['template', 'gallery', 'approval', 'document', 'advertising', 'currency-exchange', 'voice-presentation', 'business-contact', 'database']
     }
-  }), 
-  compress({
+  }), compress({
     CSS: true,
     HTML: {
       'html-minifier-terser': {
@@ -44,10 +40,7 @@ export default defineConfig({
     JavaScript: true,
     SVG: false,
     Logger: 1
-  }), 
-  tasks(), 
-  preact(),
-],
+  }), tasks(), preact()],
   image: {
     service: squooshImageService()
   },
@@ -61,6 +54,6 @@ export default defineConfig({
       alias: {
         '~': path.resolve(__dirname, './src')
       }
-    },
-  },
+    }
+  }
 });

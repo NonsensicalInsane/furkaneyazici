@@ -21,7 +21,4 @@ export const footerData = {
     { ariaLabel: 'Upwork', icon: 'tabler:brand-upwork', href: 'https://www.upwork.com/freelancers/~01ae41556331664a51', target:"_blank" },
     { ariaLabel: 'Youtube', icon: 'tabler:brand-youtube', href: 'https://www.youtube.com/@furkaneyazici', target:"_blank"}
   ],
-  footNote: `
-    .
-  `,
 };

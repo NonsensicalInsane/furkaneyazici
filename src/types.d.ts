@@ -107,6 +107,7 @@ export interface Headline {
   classes?: Record<string, string>;
   callPagePath?: string;
   callPageName?: string;
+  image?: string | Image;
 
 }
 

@@ -8,9 +8,9 @@ import Features3 from '../components/widgets/Features3.astro';
 import BlogLatestPosts from '../components/widgets/BlogLatestPosts.astro';
 // import { Icon } from 'astro-icon/components';
 import Features2 from '../components/widgets/Features2.astro';
-
+import CalltoAction from '../components/widgets/CallToAction.astro';
 const metadata = {
-  title: "Furkan Eşref Yazıcı's personal website",
+  title: "The FEY Website",
 };
 ---
 
@@ -42,7 +42,7 @@ const metadata = {
     tagline="Researcher & Developer"
   >
     <Fragment slot="subtitle">
-      This website showcases my journey into technology and research, reflecting my passion for innovation. Here, I share insights and project outcomes, aiming to foster dialogue and learning with others in the tech community. My goal is to contribute to the ongoing conversation about technology's impact on our future and to continually deepen my own expertise. 
+      This website showcases my journey into technology and research, reflecting my passion for innovation. Here, I share insights and project outcomes, aiming to foster dialogue and learning with others in the tech community. My goal is to contribute to the ongoing conversation about technology's impact on our future and to continually deepen my own expertise. Additionally, illustrations in this website are created by me, and I am open to collaborations and commissions for your different projects.
     </Fragment>
   </Hero>
 
@@ -84,7 +84,7 @@ const metadata = {
     <Fragment slot="content">
       <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">About me</h2>
       <p>
-        I'm an enthusiast with a burgeoning interest in machine learning and quantum computing. While my journey into these fields is just beginning, this website represents both a starting point and a canvas for documenting my progress, learning, and future contributions. Here, I aim to share my explorations, discoveries, and the knowledge gained as I delve deeper into these fascinating areas of study, reflecting a commitment to growth and a curiosity about the potential they hold.
+        Hello, I'm an interdisciplinary researcher passionate about exploring various fields and turning my research into projects.The areas I specialize in mostly revolve around deep learning and quantum computing, particularly their mathematical and theoretical aspects as well as their applications to various other fields. My other areas of interest include biology, complexity science, sociology, and more. Additionally, if you would like to support me financially in my work, projects, and blog posts, you can support me through the Patreon link below. This would make me extremely happy. In the future, I am also considering producing some content on a YouTube channel to the best of my ability. To learn more, you can click on the link below:
       </p>
       
     </Fragment>
@@ -175,6 +175,20 @@ const metadata = {
     </Fragment>
   </BlogLatestPosts>
 
+  <CalltoAction
+    id ="patreon"
+    title="Help me on my journey!"
+    subtitle="If you would like to support me financially in my work, projects, and blog posts, you can support me through the Patreon link below. This would make me extremely happy. In the future, I am also considering producing some content on a YouTube channel to the best of my ability."
+    logo= 'src/assets/images/icons/patreon.svg',
+    actions={[
+      {
+        text: 'Support me on Patreon',
+        href: 'https://www.patreon.com/theFEY',
+        target: '_blank',
+      },
+    ]}
+    
+  />
 <Features2
   title="I am here to help!"
   id="contact"

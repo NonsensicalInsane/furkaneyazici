@@ -12,8 +12,9 @@ import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/uti
 import { SITE } from './src/utils/config.ts';
 import vercel from "@astrojs/vercel/serverless";
 import preact from "@astrojs/preact";
-import storyblok from "@storyblok/astro";
-import netlify from "@astrojs/netlify";
+//import netlify from "@astrojs/netlify";
+
+import basicSsl from '@vitejs/plugin-basic-ssl'
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
@@ -25,12 +26,16 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [tailwind({
     applyBaseStyles: false
-  }), sitemap(), mdx(), icon({
+  }),
+  sitemap(),
+  mdx(), 
+  icon({
     include: {
       tabler: ['*'],
       'flat-color-icons': ['template', 'gallery', 'approval', 'document', 'advertising', 'currency-exchange', 'voice-presentation', 'business-contact', 'database']
     }
-  }), compress({
+  }), 
+  compress({
     CSS: true,
     HTML: {
       'html-minifier-terser': {
@@ -44,16 +49,6 @@ export default defineConfig({
   }), 
   tasks(), 
   preact(),
-  storyblok({
-    accessToken: "Ctj1eeLrOkGfJ7X1YBWLIgtt",
-    components: {
-      page: "storyblok/Page",
-      feature: "storyblok/Feature",
-      grid: "storyblok/Grid",
-      teaser: "storyblok/Teaser",
-    },
-  }),
-
 ],
   image: {
     service: squooshImageService()
@@ -63,10 +58,16 @@ export default defineConfig({
     rehypePlugins: [responsiveTablesRehypePlugin]
   },
   vite: {
+    plugins: [basicSsl()],
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src')
       }
-    }
+    },
+    server: {
+
+      https: true,
+
+    },
   },
 });

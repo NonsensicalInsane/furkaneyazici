@@ -10,6 +10,10 @@ interface Props extends Widget {
   tagline?: string;
   callToAction?: CallToAction;
   actions?: string | CallToAction[];
+  callPageName?: string;
+  callPagePath?: string;
+  logo ?: string;
+
 }
 
 const {
@@ -17,11 +21,13 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
   actions = await Astro.slots.render('actions'),
-
+  callPageName = await Astro.slots.render('callPageName'),
+  callPagePath = await Astro.slots.render('callPagePath'),
   id,
   isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
+  logo = await Astro.slots.render('logo'),
 } = Astro.props as Props;
 ---
 
@@ -38,7 +44,16 @@ const {
         title: 'text-4xl md:text-4xl font-bold leading-tighter tracking-tighter mb-4 font-heading',
         subtitle: 'text-xl text-muted dark:text-slate-400',
       }}
+      callPageName={callPageName}
+      callPagePath={callPagePath}
     />
+    {
+      logo && (
+        <div class="flex justify-center mt-6">
+          <img src={logo} class="w-32" />
+        </div>
+      )
+    }
     {
       actions && (
         <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-6">

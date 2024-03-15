@@ -1,6 +1,6 @@
 import { d as createAstro, e as createComponent, r as renderTemplate, i as renderComponent, j as Fragment } from '../astro_Cn1-UY-y.mjs';
 import 'kleur/colors';
-import { g as $$Hero, h as $$Content, i as $$Header, d as $$PageLayout } from './about_ClYjhyIr.mjs';
+import { g as $$Hero, h as $$Content, i as $$Header, d as $$PageLayout } from './about_BoWTcAt-.mjs';
 
 const $$Astro = createAstro("https://furkaneyazici.netlify.app");
 const $$Projects = createComponent(async ($$result, $$props, $$slots) => {

@@ -754,7 +754,7 @@ const $$AstroSeo = createComponent(async ($$result, $$props, $$slots) => {
 const load = async function() {
   let images = void 0;
   try {
-    images = /* #__PURE__ */ Object.assign({"/src/assets/images/icons/logo.png": () => import('./about_ClYjhyIr.mjs').then(n => n.l),"/src/assets/images/icons/logo.svg": () => Promise.resolve().then(() => logo),"/src/assets/images/icons/patreon.png": () => import('../patreon_Bo0KQA5b.mjs'),"/src/assets/images/icons/patreon.svg": () => import('../patreon_dLW1SFkL.mjs'),"/src/assets/images/me.png": () => import('../me_DGdkgyfR.mjs')});
+    images = /* #__PURE__ */ Object.assign({"/src/assets/images/icons/logo.png": () => import('./about_BoWTcAt-.mjs').then(n => n.l),"/src/assets/images/icons/logo.svg": () => Promise.resolve().then(() => logo),"/src/assets/images/icons/patreon.png": () => import('../patreon_Bo0KQA5b.mjs'),"/src/assets/images/icons/patreon.svg": () => import('../patreon_dLW1SFkL.mjs'),"/src/assets/images/me.png": () => import('../me_DGdkgyfR.mjs')});
   } catch (e) {
   }
   return images;

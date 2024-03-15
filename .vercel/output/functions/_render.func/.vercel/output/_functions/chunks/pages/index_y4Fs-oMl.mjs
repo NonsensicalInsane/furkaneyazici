@@ -1,9 +1,9 @@
 import { A as AstroError, n as UnknownContentCollectionError, e as createComponent, o as renderUniqueStylesheet, p as renderScriptElement, q as createHeadAndContent, r as renderTemplate, i as renderComponent, u as unescapeHTML, d as createAstro, m as maybeRenderHead, j as Fragment, g as addAttribute } from '../astro_Cn1-UY-y.mjs';
 import 'kleur/colors';
-import { a as $$WidgetWrapper, b as $$Headline, e as $$Image, f as $$ItemGrid, $ as $$Button, g as $$Hero, h as $$Content, i as $$Header, d as $$PageLayout } from './about_ClYjhyIr.mjs';
-import { A as APP_BLOG, B as BLOG_BASE, C as CATEGORY_BASE, T as TAG_BASE, h as cleanSlug, P as POST_PERMALINK_PATTERN, t as trimSlash, f as findImage, j as getPermalink, k as getBlogPermalink } from './404_BjS7Eeu0.mjs';
+import { a as $$WidgetWrapper, b as $$Headline, e as $$Image, f as $$ItemGrid, $ as $$Button, g as $$Hero, h as $$Content, i as $$Header, d as $$PageLayout } from './about_BoWTcAt-.mjs';
+import { A as APP_BLOG, B as BLOG_BASE, C as CATEGORY_BASE, T as TAG_BASE, h as cleanSlug, P as POST_PERMALINK_PATTERN, t as trimSlash, f as findImage, j as getPermalink, k as getBlogPermalink } from './404_BVup45wh.mjs';
 import { p as prependForwardSlash } from '../astro/assets-service_CobtS9Yp.mjs';
-import { $ as $$Features2 } from './contact_BV5zDSO5.mjs';
+import { $ as $$Features2 } from './contact_DuMqI7Bm.mjs';
 
 function createCollectionToGlobResultMap({
   globResult,

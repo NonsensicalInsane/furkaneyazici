@@ -563,7 +563,7 @@ Hello, I'm an interdisciplinary researcher passionate about exploring various fi
       href: "https://www.patreon.com/theFEY",
       target: "_blank"
     }
-  ], ",": true, "logo": "src/assets/images/icons/patreon.png" })} ${renderComponent($$result2, "Features2", $$Features2, { "title": "I am here to help!", "id": "contact", "subtitle": "Reach out to me for collaborations, inquiries, or to simply say hello!", "items": [
+  ], ",": true, "logo": "~/assets/images/icons/patreon.png" })} ${renderComponent($$result2, "Features2", $$Features2, { "title": "I am here to help!", "id": "contact", "subtitle": "Reach out to me for collaborations, inquiries, or to simply say hello!", "items": [
     {
       title: "Email",
       description: '<a href="mailto:yazici.furkan@proton.me"> yazici.furkan@proton.me </a>',

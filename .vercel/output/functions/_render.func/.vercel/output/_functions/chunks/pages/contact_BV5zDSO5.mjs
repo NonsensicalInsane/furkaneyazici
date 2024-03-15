@@ -1,6 +1,6 @@
 import { d as createAstro, e as createComponent, r as renderTemplate, m as maybeRenderHead, u as unescapeHTML, i as renderComponent, j as Fragment, g as addAttribute } from '../astro_Cn1-UY-y.mjs';
 import 'kleur/colors';
-import { $ as $$Button, a as $$WidgetWrapper, b as $$Headline, c as $$Icon, d as $$PageLayout } from './about_CtNYn95N.mjs';
+import { $ as $$Button, a as $$WidgetWrapper, b as $$Headline, c as $$Icon, d as $$PageLayout } from './about_ClYjhyIr.mjs';
 import { twMerge } from 'tailwind-merge';
 
 const $$Astro$5 = createAstro("https://furkaneyazici.netlify.app");

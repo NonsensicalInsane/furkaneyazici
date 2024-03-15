@@ -1,6 +1,6 @@
 import { d as createAstro, e as createComponent, r as renderTemplate, i as renderComponent, m as maybeRenderHead, g as addAttribute, s as spreadAttributes, j as Fragment, u as unescapeHTML, l as renderSlot } from '../astro_Cn1-UY-y.mjs';
 import 'kleur/colors';
-import { g as getImage, f as findImage, a as getPagePermalink, $ as $$Image$1, U as UI, t as trimSlash, b as getHomePermalink, c as getAsset, S as SITE, d as $$Layout } from './404_DggYqcLh.mjs';
+import { g as getImage, f as findImage, a as getPagePermalink, $ as $$Image$1, U as UI, t as trimSlash, b as getHomePermalink, c as getAsset, S as SITE, d as $$Layout } from './404_BjS7Eeu0.mjs';
 import { parseUrl, transformUrl } from 'unpic';
 import { getIconData, iconToSVG } from '@iconify/utils';
 import { twMerge } from 'tailwind-merge';

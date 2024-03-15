@@ -1,9 +1,9 @@
 import { A as AstroError, n as UnknownContentCollectionError, e as createComponent, o as renderUniqueStylesheet, p as renderScriptElement, q as createHeadAndContent, r as renderTemplate, i as renderComponent, u as unescapeHTML, d as createAstro, m as maybeRenderHead, j as Fragment, g as addAttribute } from '../astro_Cn1-UY-y.mjs';
 import 'kleur/colors';
-import { a as $$WidgetWrapper, b as $$Headline, e as $$Image, f as $$ItemGrid, $ as $$Button, g as $$Hero, h as $$Content, i as $$Header, d as $$PageLayout } from './about_CtNYn95N.mjs';
-import { A as APP_BLOG, B as BLOG_BASE, C as CATEGORY_BASE, T as TAG_BASE, h as cleanSlug, P as POST_PERMALINK_PATTERN, t as trimSlash, f as findImage, j as getPermalink, k as getBlogPermalink } from './404_DggYqcLh.mjs';
+import { a as $$WidgetWrapper, b as $$Headline, e as $$Image, f as $$ItemGrid, $ as $$Button, g as $$Hero, h as $$Content, i as $$Header, d as $$PageLayout } from './about_ClYjhyIr.mjs';
+import { A as APP_BLOG, B as BLOG_BASE, C as CATEGORY_BASE, T as TAG_BASE, h as cleanSlug, P as POST_PERMALINK_PATTERN, t as trimSlash, f as findImage, j as getPermalink, k as getBlogPermalink } from './404_BjS7Eeu0.mjs';
 import { p as prependForwardSlash } from '../astro/assets-service_CobtS9Yp.mjs';
-import { $ as $$Features2 } from './contact_D310nnxV.mjs';
+import { $ as $$Features2 } from './contact_BV5zDSO5.mjs';
 
 function createCollectionToGlobResultMap({
   globResult,
@@ -480,14 +480,14 @@ const $$CallToAction = createComponent(async ($$result, $$props, $$slots) => {
     id,
     isDark = false,
     classes = {},
-    bg = await Astro2.slots.render("bg")
-    //logo = await Astro.slots.render('logo'),
+    bg = await Astro2.slots.render("bg"),
+    logo = await Astro2.slots.render("logo")
   } = Astro2.props;
   return renderTemplate`${renderComponent($$result, "WidgetWrapper", $$WidgetWrapper, { "id": id, "isDark": isDark, "containerClass": `max-w-6xl mx-auto ${classes?.container ?? ""}`, "bg": bg }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="max-w-3xl mx-auto text-center p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:border-slate-600"> ${renderComponent($$result2, "Headline", $$Headline, { "title": title, "subtitle": subtitle, "tagline": tagline, "classes": {
     container: "mb-0 md:mb-0",
     title: "text-4xl md:text-4xl font-bold leading-tighter tracking-tighter mb-4 font-heading",
     subtitle: "text-xl text-muted dark:text-slate-400"
-  }, "callPageName": callPageName, "callPagePath": callPagePath })} ${actions && renderTemplate`<div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-6"> ${Array.isArray(actions) ? actions.map((action) => renderTemplate`<div class="flex w-full sm:w-auto"> ${renderComponent($$result2, "Button", $$Button, { ...action || {}, "class": "w-full sm:mb-0" })} </div>`) : renderTemplate`${renderComponent($$result2, "Fragment", Fragment, {}, { "default": ($$result3) => renderTemplate`${unescapeHTML(actions)}` })}`} </div>`} </div> ` })}`;
+  }, "callPageName": callPageName, "callPagePath": callPagePath })} ${logo && renderTemplate`<div class="flex justify-center"> <img${addAttribute(logo, "src")} class="w-32 h-32"> </div>`} ${actions && renderTemplate`<div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-6"> ${Array.isArray(actions) ? actions.map((action) => renderTemplate`<div class="flex w-full sm:w-auto"> ${renderComponent($$result2, "Button", $$Button, { ...action || {}, "class": "w-full sm:mb-0" })} </div>`) : renderTemplate`${renderComponent($$result2, "Fragment", Fragment, {}, { "default": ($$result3) => renderTemplate`${unescapeHTML(actions)}` })}`} </div>`} </div> ` })}`;
 }, "/home/themanyface/Projects/personal_website/mywebsite/furkaneyazici2/src/components/widgets/CallToAction.astro", void 0);
 
 const $$Astro = createAstro("https://furkaneyazici.netlify.app");
@@ -563,7 +563,7 @@ Hello, I'm an interdisciplinary researcher passionate about exploring various fi
       href: "https://www.patreon.com/theFEY",
       target: "_blank"
     }
-  ] })} ${renderComponent($$result2, "Features2", $$Features2, { "title": "I am here to help!", "id": "contact", "subtitle": "Reach out to me for collaborations, inquiries, or to simply say hello!", "items": [
+  ], ",": true, "logo": "src/assets/images/icons/patreon.png" })} ${renderComponent($$result2, "Features2", $$Features2, { "title": "I am here to help!", "id": "contact", "subtitle": "Reach out to me for collaborations, inquiries, or to simply say hello!", "items": [
     {
       title: "Email",
       description: '<a href="mailto:yazici.furkan@proton.me"> yazici.furkan@proton.me </a>',

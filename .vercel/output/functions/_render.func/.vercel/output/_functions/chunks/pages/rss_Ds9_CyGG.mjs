@@ -1,6 +1,6 @@
 import { getRssString } from '@astrojs/rss';
-import { A as APP_BLOG, S as SITE, M as METADATA, j as getPermalink } from './404_DggYqcLh.mjs';
-import { f as fetchPosts } from './index_CLyLjKe6.mjs';
+import { A as APP_BLOG, S as SITE, M as METADATA, j as getPermalink } from './404_BjS7Eeu0.mjs';
+import { f as fetchPosts } from './index_D7kmQZEa.mjs';
 
 const GET = async () => {
   if (!APP_BLOG.isEnabled) {

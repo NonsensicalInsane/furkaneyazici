@@ -26,7 +26,7 @@ const {
   isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
-  //logo = await Astro.slots.render('logo'),
+  logo = await Astro.slots.render('logo'),
 } = Astro.props as Props;
 ---
 
@@ -46,6 +46,13 @@ const {
       callPageName={callPageName}
       callPagePath={callPagePath}
     />
+    {
+      logo && (
+        <div class="flex justify-center">
+          <img src={logo} class="w-32 h-32" />
+        </div>
+      )
+    }
 
     {
       actions && (

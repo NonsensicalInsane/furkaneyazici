@@ -20,7 +20,7 @@ export default defineConfig({
   site: SITE.site,
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
-  output: 'hybrid',
+  output: 'server',
   adapter: vercel(),
   integrations: [tailwind({
     applyBaseStyles: false

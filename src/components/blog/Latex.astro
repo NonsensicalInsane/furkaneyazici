@@ -1,5 +1,5 @@
 ---
-import katex from '';
+import katex from 'katex';
 
 const { formula = '' } = Astro.props;
 const html = katex.renderToString(formula, {throwOnError: false});

@@ -68,36 +68,8 @@
 			"handle": "filesystem"
 		},
 		{
-			"src": "^\\/_image$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/404$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/about$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/contact$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/projects$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/rss\\.xml$",
-			"dest": "_render"
-		},
-		{
-			"src": "^\\/$",
-			"dest": "_render"
-		},
-		{
 			"src": "/.*",
-			"dest": "_render",
+			"dest": "/404.html",
 			"status": 404
 		}
 	]

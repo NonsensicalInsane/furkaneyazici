@@ -24,12 +24,16 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [tailwind({
     applyBaseStyles: false
-  }), sitemap(), mdx(), icon({
+  }), 
+  sitemap(), 
+  mdx(), 
+  icon({
     include: {
       tabler: ['*'],
       'flat-color-icons': ['template', 'gallery', 'approval', 'document', 'advertising', 'currency-exchange', 'voice-presentation', 'business-contact', 'database']
     }
-  }), compress({
+  }),
+  compress({
     CSS: true,
     HTML: {
       'html-minifier-terser': {
@@ -40,13 +44,17 @@ export default defineConfig({
     JavaScript: true,
     SVG: false,
     Logger: 1
-  }), tasks(), preact()],
+  }), 
+  tasks(), 
+  preact()],
+
   image: {
     service: squooshImageService()
   },
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin],
-    rehypePlugins: [responsiveTablesRehypePlugin]
+    rehypePlugins: [responsiveTablesRehypePlugin],
+    
   },
   vite: {
     plugins: [basicSsl()],

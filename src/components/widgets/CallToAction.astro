@@ -2,7 +2,7 @@
 import WidgetWrapper from '../ui/WidgetWrapper.astro';
 import type { CallToAction, Widget } from '../../types';
 import Headline from '../../components/ui/Headline.astro';
-import Button from "../../components/ui/Button.astro"
+import Button from '../../components/ui/Button.astro';
 interface Props extends Widget {
   title?: string;
   subtitle?: string;
@@ -11,8 +11,7 @@ interface Props extends Widget {
   actions?: string | CallToAction[];
   callPageName?: string;
   callPagePath?: string;
-  logo ?: string;
-
+  logo?: string;
 }
 
 const {

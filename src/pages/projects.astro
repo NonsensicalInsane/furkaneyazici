@@ -4,40 +4,38 @@ import Header from '../components/widgets/Header.astro';
 import Hero from '../components/widgets/Hero.astro';
 import Content from '../components/widgets/Content.astro';
 
-
 const metadata = {
-    title: "Furkan's Projects",
+  title: "Furkan's Projects",
 };
 ---
 
 <Layout {...metadata}>
-    <Fragment slot="header">
-        <Header
-        links={[
-            { text: 'Home', href: '/' },
-            { text: 'About', href: '/about' },
-            { text: 'Projects', href: '#' },
-            { text: 'Blog', href: '/blog' },
-        ]}
-        isSticky
-        showToggleTheme
-        />
-    </Fragment>
-    <Hero 
-        title="Projects"
-        subtitle="Here are some of the projects I have worked on. I am always looking for new projects to work on, so if you have an idea, feel free to contact me!"
-        callPageName= "Contact"
-        callPagePath="/#contact"
+  <Fragment slot="header">
+    <Header
+      links={[
+        { text: 'Home', href: '/' },
+        { text: 'About', href: '/about' },
+        { text: 'Projects', href: '#' },
+        { text: 'Blog', href: '/blog' },
+      ]}
+      isSticky
+      showToggleTheme
     />
+  </Fragment>
+  <Hero
+    title="Projects"
+    subtitle="Here are some of the projects I have worked on. I am always looking for new projects to work on, so if you have an idea, feel free to contact me!"
+    callPageName="Contact"
+    callPagePath="/#contact"
+  />
 
-    <Content />
+  <Content />
 
-    <Content
+  <Content
     title="Upcoming Projects"
     subtitle="Here are some of the projects that I am currently working on. They are not yet ready for public use, but I will be sharing them here once they are ready."
-    >
-        
-        <!-- <Fragment slot="content">
+  >
+    <!-- <Fragment slot="content">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-white shadow-md p-4 rounded-lg">
                     <h2 class="text-2xl font-bold mb-2">Project 1</h2>
@@ -49,5 +47,5 @@ const metadata = {
                 </div>
             </div>
         </Fragment> -->
-    </Content>
+  </Content>
 </Layout>

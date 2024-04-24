@@ -2,7 +2,7 @@
 import Image from '../../components/common/Image.astro';
 import Button from '../../components/ui/Button.astro';
 import type { CallToAction } from '../../types';
-import { getPagePermalink } from "../../utils/permalinks"
+import { getPagePermalink } from '../../utils/permalinks';
 export interface Props {
   id?: string;
   title?: string;
@@ -23,8 +23,8 @@ const {
   content = await Astro.slots.render('content'),
   actions = await Astro.slots.render('actions'),
   image = await Astro.slots.render('image'),
-  callPagePath = await Astro.slots.render("callPagePath"),
-  callPageName = await Astro.slots.render("callPageName"),
+  callPagePath = await Astro.slots.render('callPagePath'),
+  callPageName = await Astro.slots.render('callPageName'),
 } = Astro.props;
 ---
 

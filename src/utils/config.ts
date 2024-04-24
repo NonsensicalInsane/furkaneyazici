@@ -61,7 +61,6 @@ export interface AppBlogConfig {
   };
 }
 
-
 const config = yaml.load(fs.readFileSync('src/config.yaml', 'utf8')) as {
   site?: SiteConfig;
   metadata?: MetaDataConfig;
@@ -179,7 +178,6 @@ const getUI = () => {
 
   return merge({}, _default, config?.ui ?? {});
 };
-
 
 export const SITE = getSite();
 export const I18N = getI18N();

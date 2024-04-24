@@ -11,7 +11,7 @@ import Features2 from '../components/widgets/Features2.astro';
 import CalltoAction from '../components/widgets/CallToAction.astro';
 import patreon from '../assets/images/icons/patreon.png';
 const metadata = {
-  title: "The FEY Website",
+  title: 'The FEY Website',
 };
 ---
 
@@ -37,13 +37,13 @@ const metadata = {
 
   <!-- Hero2 Widget ******************* -->
 
-  <Hero
-    id="hero"
-    title="Furkan Eşref Yazıcı"
-    tagline="Researcher & Developer"
-  >
+  <Hero id="hero" title="Furkan Eşref Yazıcı" tagline="Researcher & Developer">
     <Fragment slot="subtitle">
-      This website showcases my journey into technology and research, reflecting my passion for innovation. Here, I share insights and project outcomes, aiming to foster dialogue and learning with others in the tech community. My goal is to contribute to the ongoing conversation about technology's impact on our future and to continually deepen my own expertise. Additionally, illustrations in this website are created by me, and I am open to collaborations and commissions for your different projects
+      This website showcases my journey into technology and research, reflecting my passion for innovation. Here, I
+      share insights and project outcomes, aiming to foster dialogue and learning with others in the tech community. My
+      goal is to contribute to the ongoing conversation about technology's impact on our future and to continually
+      deepen my own expertise. Additionally, illustrations in this website are created by me, and I am open to
+      collaborations and commissions for your different projects
     </Fragment>
   </Hero>
 
@@ -60,17 +60,17 @@ const metadata = {
           text: 'Github',
           href: 'www.github.com/nonsensicalinsane',
         },
-      },    
-
-    {
-      icon: 'tabler:brand-linkedin',
-      callToAction: {
-        target: '_blank',
-        text: 'LinkedIn',
-        href: 'www.linkedin.com/nonsensicalinsane',
       },
-    },
-  ]}
+
+      {
+        icon: 'tabler:brand-linkedin',
+        callToAction: {
+          target: '_blank',
+          text: 'LinkedIn',
+          href: 'www.linkedin.com/nonsensicalinsane',
+        },
+      },
+    ]}
     callToAction={{
       text: 'More about me and my resume!',
       icon: 'tabler:chevron-right',
@@ -85,11 +85,12 @@ const metadata = {
     <Fragment slot="content">
       <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">About me</h2>
       <p>
-        Hello, I'm an interdisciplinary researcher passionate about exploring various fields and turning my research into projects.The areas I specialize in mostly revolve around deep learning and quantum computing, particularly their mathematical and theoretical aspects as well as their applications to various other fields. <br> To learn more about me, click the button below:
+        Hello, I'm an interdisciplinary researcher passionate about exploring various fields and turning my research
+        into projects.The areas I specialize in mostly revolve around deep learning and quantum computing, particularly
+        their mathematical and theoretical aspects as well as their applications to various other fields. <br /> To learn
+        more about me, click the button below:
       </p>
-      
     </Fragment>
-    
 
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
@@ -97,7 +98,6 @@ const metadata = {
   </Content>
 
   <!-- Steps Widget ****************** -->
-
 
   <!-- Features3 Widget ************** -->
 
@@ -114,27 +114,32 @@ const metadata = {
       },
       {
         title: 'Data Science & Deep Learning',
-        description: 'My work involves utilizing data analysis and deep learning to unearth insights and solve problems in innovative ways.',
+        description:
+          'My work involves utilizing data analysis and deep learning to unearth insights and solve problems in innovative ways.',
         icon: 'tabler:brain',
       },
       {
         title: 'Quantum Computing',
-        description: 'I am exploring the potential of quantum computing to address challenges that are currently beyond the scope of classical computing methods.',
+        description:
+          'I am exploring the potential of quantum computing to address challenges that are currently beyond the scope of classical computing methods.',
         icon: 'tabler:atom',
       },
       {
         title: 'Research',
-        description: 'My research interests are broad, spanning across quantum machine learning to other interdisciplinary areas where technology and science converge to offer novel solutions and deeper understanding.',
+        description:
+          'My research interests are broad, spanning across quantum machine learning to other interdisciplinary areas where technology and science converge to offer novel solutions and deeper understanding.',
         icon: 'tabler:book',
       },
       {
         title: 'Software Development',
-        description: 'I develop applications and tools that aid in research and projects related to my fields of interest, using a variety of programming languages to create meaningful contributions.',
+        description:
+          'I develop applications and tools that aid in research and projects related to my fields of interest, using a variety of programming languages to create meaningful contributions.',
         icon: 'tabler:code',
       },
       {
         title: 'Adaptability',
-        description: 'I am adept at adapting to new technologies, tools, and methodologies, allowing me to stay ahead of the curve and remain agile in the face of change.',
+        description:
+          'I am adept at adapting to new technologies, tools, and methodologies, allowing me to stay ahead of the curve and remain agile in the face of change.',
         icon: 'tabler:refresh',
       },
     ]}
@@ -148,28 +153,22 @@ const metadata = {
     subtitle="Explore my most recent projects and the creative process behind them."
     isReversed
     items={[]}
-    callPageName = "More Projects"
-    callPagePath = "/projects"
-    >
-  </Content>
+    callPageName="More Projects"
+    callPagePath="/projects"
+  />
 
   <!-- Content Widget **************** -->
 
-  
   <!-- Testimonials Widget *********** -->
 
-  
-
   <!-- CallToAction Widget *********** -->
-
-
 
   <!-- BlogLatestPost Widget **************** -->
 
   <BlogLatestPosts
     id="blog"
     title="Explore my insightful articles on my <span class='text-blue-600 dark:text-blue-400'>blog</span>"
-    information={"I share my thoughts, insights, and discoveries on a variety of topics, including quantum computing, machine learning, and more."}
+    information={'I share my thoughts, insights, and discoveries on a variety of topics, including quantum computing, machine learning, and more.'}
   >
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
@@ -177,7 +176,7 @@ const metadata = {
   </BlogLatestPosts>
 
   <CalltoAction
-    id ="patreon"
+    id="patreon"
     title="Help me on my journey!"
     subtitle="If you would like to support me financially in my work, projects, blog posts and YouTube videos. You can support me through the Patreon link below."
     actions={[
@@ -186,47 +185,46 @@ const metadata = {
         href: 'https://www.patreon.com/theFEY',
         target: '_blank',
       },
-    ]},
-    logo = {patreon.src}
-  
-    
+    ]}
+    ,
+    logo={patreon.src}
   />
-<Features2
-  title="I am here to help!"
-  id="contact"
-  subtitle="Reach out to me for collaborations, inquiries, or to simply say hello!"
-  items={[
-
-    {
-      title: 'Email',
-      description: '<a href="mailto:yazici.furkan@proton.me"> yazici.furkan@proton.me </a>',
-      icon: 'tabler:mail',
-    },
-    {
-      title: 'Upwork',
-      description: '<a href="https://www.upwork.com/freelancers/~01ae41556331664a51" target="_blank">Upwork Profile</a>',
-      icon: 'tabler:brand-upwork',
-    },
-    {
-      title: 'LinkedIn',
-      description: '<a href="https://www.linkedin.com/in/furkaneyazici/" target="_blank">LinkedIn Profile</a>',
-      icon: 'tabler:brand-linkedin',
-    },
-    {
-      title: 'Github',
-      description: '<a href="https://www.github.com/nonsensicalinsane" target="_blank">@nonsensicalinsane</a>',
-      icon: 'tabler:brand-github',
-    },
-    {
-      title: 'Discord',
-      description: '<a href="  " target="_blank">@furkaneyazici</a>',
-      icon: 'tabler:brand-discord',
-    },
-    {
-      title: 'Twitter',
-      description: '<a href="https://twitter.com/furkaneyazici" target="_blank">@furkaneyazici</a>',
-      icon: 'tabler:brand-twitter',
-    }
-  ]}
-/>
+  <Features2
+    title="I am here to help!"
+    id="contact"
+    subtitle="Reach out to me for collaborations, inquiries, or to simply say hello!"
+    items={[
+      {
+        title: 'Email',
+        description: '<a href="mailto:yazici.furkan@proton.me"> yazici.furkan@proton.me </a>',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Upwork',
+        description:
+          '<a href="https://www.upwork.com/freelancers/~01ae41556331664a51" target="_blank">Upwork Profile</a>',
+        icon: 'tabler:brand-upwork',
+      },
+      {
+        title: 'LinkedIn',
+        description: '<a href="https://www.linkedin.com/in/furkaneyazici/" target="_blank">LinkedIn Profile</a>',
+        icon: 'tabler:brand-linkedin',
+      },
+      {
+        title: 'Github',
+        description: '<a href="https://www.github.com/nonsensicalinsane" target="_blank">@nonsensicalinsane</a>',
+        icon: 'tabler:brand-github',
+      },
+      {
+        title: 'Discord',
+        description: '<a href="  " target="_blank">@furkaneyazici</a>',
+        icon: 'tabler:brand-discord',
+      },
+      {
+        title: 'Twitter',
+        description: '<a href="https://twitter.com/furkaneyazici" target="_blank">@furkaneyazici</a>',
+        icon: 'tabler:brand-twitter',
+      },
+    ]}
+  />
 </Layout>

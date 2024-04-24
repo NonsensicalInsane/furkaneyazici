@@ -108,7 +108,6 @@ export interface Headline {
   callPagePath?: string;
   callPageName?: string;
   image?: string | Image;
-
 }
 
 interface TeamMember {

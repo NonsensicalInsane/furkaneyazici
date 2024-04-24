@@ -4,7 +4,6 @@ site:
   base: '/'
   trailingSlash: false
 
-
 # Default SEO metadata
 metadata:
   title:

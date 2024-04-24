@@ -9,7 +9,7 @@ import compress from '@playform/compress';
 import tasks from './src/utils/tasks';
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/utils/frontmatter.mjs';
 import { SITE } from './src/utils/config.ts';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel/static';
 import preact from '@astrojs/preact';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import remarkMath from 'remark-math';
@@ -21,7 +21,7 @@ export default defineConfig({
   site: SITE.site,
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
-  output: 'hybrid',
+  output: 'static',
   adapter: vercel(),
   integrations: [
     tailwind({

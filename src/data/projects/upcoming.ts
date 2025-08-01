@@ -1,23 +1,7 @@
 import type { UpcomingProject } from './types';
 
 export const upcomingProjects: UpcomingProject[] = [
-  {
-    title: "Sample Upcoming Project",
-    description: "A sample upcoming project to demonstrate the structure and prevent type errors.",
-    icon: "tabler:rocket",
-    techStack: ["TypeScript", "Astro", "Tailwind CSS"],
-    status: "in-development",
-    progress: 75,
-    expectedCompletion: "2024-06-01",
-    callToAction: {
-      text: "Learn More",
-      href: "#",
-      variant: "secondary"
-    },
-    links: {
-      github: "#"
-    }
-  }
+
 ];
 
 export const upcomingProjectsConfig = {

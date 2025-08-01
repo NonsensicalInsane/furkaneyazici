@@ -1,3 +1,4 @@
+// Import for re-export
 export { featuredProjects } from './featured';
 export { upcomingProjects, upcomingProjectsConfig } from './upcoming';
 export type {
@@ -10,6 +11,11 @@ export type {
   ProjectSectionConfig,
   ProjectCategories
 } from './types';
+
+// Import for local use
+import { featuredProjects } from './featured';
+import { upcomingProjects } from './upcoming';
+import type { ProjectStatus } from './types';
 
 // Helper function to get all projects
 export function getAllProjects() {

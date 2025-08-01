@@ -11,13 +11,14 @@ import Features2 from '../components/widgets/Features2.astro';
 import CalltoAction from '../components/widgets/CallToAction.astro';
 import patreon from '../assets/images/icons/patreon.png';
 import { featuredProjects } from '../data/projects/featured';
+import type { FeaturedProject } from '../data/projects/types';
 
 const metadata = {
   title: 'The FEY Website',
 };
 
 // Get only the latest 3 projects for horizontal display
-const latestProjects = featuredProjects.slice(0, 3);
+const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
 ---
 
 <Layout metadata={metadata}>

@@ -57,8 +57,8 @@ if (_image !== null && typeof _image === 'object') {
     <AstroImage
       src={_image}
       alt={props.alt}
-      width={props.width}
-      height={props.height}
+      width={props.width || undefined}
+      height={props.height || undefined}
       loading={props.loading}
       decoding={props.decoding}
       class={props.class}

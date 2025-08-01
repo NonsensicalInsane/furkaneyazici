@@ -15,7 +15,7 @@ export const footerData = {
     {
       ariaLabel: 'Instagram',
       icon: 'tabler:brand-instagram',
-      href: 'https://instagram.com/nonsensicalinsane',
+      href: 'https://instagram.com/furkaneyazici',
       target: '_blank',
     },
     { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml'), target: '_blank' },
@@ -28,7 +28,7 @@ export const footerData = {
     {
       ariaLabel: 'Linkedin',
       icon: 'tabler:brand-linkedin',
-      href: 'https://linkedin.com/in/nonsensicalinsane',
+      href: 'https://linkedin.com/in/furkaneyazici',
       target: '_blank',
     },
     { ariaLabel: 'Email', icon: 'tabler:mail', href: 'mailto:yazici.furkan@proton.me', target: '_blank' },

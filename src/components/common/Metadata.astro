@@ -1,19 +1,24 @@
 ---
 import merge from 'lodash.merge';
-import { AstroSeo } from '@astrolib/seo';
-
-import type { Props as AstroSeoProps } from '@astrolib/seo';
+import { SEO as AstroSeo } from 'astro-seo';
+import type { SEOProps as AstroSeoProps } from 'astro-seo';
 
 import { SITE, METADATA, I18N } from '../../utils/config';
 import type { MetaData } from '../../types';
 import { getCanonical } from '../../utils/permalinks';
-
 import { adaptOpenGraphImages } from '../../utils/images';
 
+/**
+ * Props passed to this component from page front‑matter or parent layout.
+ */
 export interface Props extends MetaData {
+  /** Skip the global title template when true */
   dontUseTitleTemplate?: boolean;
 }
 
+// ────────────────────────────────────────────────────────────
+// Destructure incoming props with sensible fallbacks
+// ────────────────────────────────────────────────────────────
 const {
   title,
   ignoreTitleTemplate = false,
@@ -22,47 +27,79 @@ const {
   description,
   openGraph = {},
   twitter = {},
-} = Astro.props;
+} = Astro.props as Props;
 
+// ────────────────────────────────────────────────────────────
+// Build the base SEO config and merge three layers
+//   1) hard‑coded safe defaults
+//   2) site‑wide defaults (from /utils/config)
+//   3) page‑specific overrides (from props)
+// ────────────────────────────────────────────────────────────
 const seoProps: AstroSeoProps = merge(
   {
     title: '',
     titleTemplate: '%s',
-    canonical: canonical,
+    canonical,
     noindex: true,
     nofollow: true,
     description: undefined,
     openGraph: {
       url: canonical,
       site_name: SITE?.name,
-      images: [],
       locale: I18N?.language || 'en',
       type: 'website',
+      image: '/og-default.png',
     },
     twitter: {
-      cardType: openGraph?.images?.length ? 'summary_large_image' : 'summary',
+      cardType: 'summary',
     },
   },
   {
     title: METADATA?.title?.default,
     titleTemplate: METADATA?.title?.template,
-    noindex: typeof METADATA?.robots?.index !== 'undefined' ? !METADATA.robots.index : undefined,
-    nofollow: typeof METADATA?.robots?.follow !== 'undefined' ? !METADATA.robots.follow : undefined,
+    noindex: METADATA?.robots?.index === false,
+    nofollow: METADATA?.robots?.follow === false,
     description: METADATA?.description,
     openGraph: METADATA?.openGraph,
     twitter: METADATA?.twitter,
   },
   {
-    title: title,
+    title,
     titleTemplate: ignoreTitleTemplate ? '%s' : undefined,
-    canonical: canonical,
-    noindex: typeof robots?.index !== 'undefined' ? !robots.index : undefined,
-    nofollow: typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
-    description: description,
+    canonical,
+    noindex: robots?.index === false,
+    nofollow: robots?.follow === false,
+    description,
     openGraph: { url: canonical, ...openGraph },
-    twitter: twitter,
+    twitter,
   }
 );
+
+// ────────────────────────────────────────────────────────────
+// Ensure required Open Graph keys exist for astro‑seo
+// ────────────────────────────────────────────────────────────
+const og = await adaptOpenGraphImages(seoProps.openGraph, Astro.site);
+
+// Extract basic required properties
+const ogTitle = og?.title || seoProps.title || SITE?.name || 'Website';
+const ogType = og?.type || 'website';
+const ogImage = og?.image || 
+  (Array.isArray(og?.images) && og.images.length > 0 && og.images[0]?.url ? og.images[0].url : '/og-default.png');
+const ogUrl = og?.url || canonical;
+
+// Create the properly structured OpenGraph object
+const fixedOG = {
+  basic: {
+    title: ogTitle,
+    type: ogType,
+    image: ogImage,
+    url: ogUrl,
+  },
+  // Add any additional properties from the processed og object (excluding the basic ones)
+  ...Object.fromEntries(
+    Object.entries(og || {}).filter(([key]) => !['title', 'type', 'image', 'url'].includes(key))
+  ),
+};
 ---
 
-<AstroSeo {...{ ...seoProps, openGraph: await adaptOpenGraphImages(seoProps?.openGraph, Astro.site) }} />
+<AstroSeo {...seoProps} openGraph={fixedOG} />

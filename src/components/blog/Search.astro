@@ -1,0 +1,120 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div class="relative max-w-md mx-auto mb-8">
+  <div class="relative">
+    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <Icon name="tabler:search" class="h-5 w-5 text-gray-400 dark:text-slate-500" />
+    </div>
+    <input
+      type="text"
+      id="blog-search"
+      class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 placeholder-gray-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+      placeholder="Search posts..."
+      autocomplete="off"
+    />
+  </div>
+  <div id="search-results" class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg z-10 hidden max-h-96 overflow-y-auto">
+    <!-- Search results will be populated here -->
+  </div>
+</div>
+
+<script>
+  // Simple client-side search functionality
+  function initBlogSearch() {
+    const searchInput = document.getElementById('blog-search');
+    const searchResults = document.getElementById('search-results');
+    const blogPosts = Array.from(document.querySelectorAll('article'));
+    
+    if (!searchInput || !searchResults) return;
+    
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      const target = e.target as HTMLInputElement;
+      const query = target?.value.toLowerCase().trim() || '';
+      
+      if (query.length === 0) {
+        searchResults.classList.add('hidden');
+        showAllPosts();
+        return;
+      }
+      
+      searchTimeout = setTimeout(() => {
+        filterPosts(query);
+      }, 300);
+    });
+    
+    // Hide search results when clicking outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as Node;
+      if (!searchInput.contains(target) && !searchResults.contains(target)) {
+        searchResults.classList.add('hidden');
+      }
+    });
+    
+    function filterPosts(query) {
+      let visibleCount = 0;
+      
+      blogPosts.forEach(post => {
+        const title = post.querySelector('h3')?.textContent?.toLowerCase() || '';
+        const excerpt = post.querySelector('p')?.textContent?.toLowerCase() || '';
+        const tags = Array.from(post.querySelectorAll('[class*="tag"]')).map(tag => tag.textContent?.toLowerCase() || '').join(' ');
+        
+        const matchesSearch = title.includes(query) || excerpt.includes(query) || tags.includes(query);
+        
+        if (matchesSearch) {
+          post.style.display = 'block';
+          visibleCount++;
+        } else {
+          post.style.display = 'none';
+        }
+      });
+      
+      // Show "no results" message if needed
+      const gridContainer = document.querySelector('[class*="grid"]');
+      if (gridContainer) {
+        const existingNoResults = gridContainer.querySelector('.no-results');
+        if (existingNoResults) {
+          existingNoResults.remove();
+        }
+        
+        if (visibleCount === 0) {
+          const noResults = document.createElement('div');
+          noResults.className = 'no-results col-span-full text-center py-12 text-gray-500 dark:text-slate-400';
+          noResults.innerHTML = `
+            <div class="flex flex-col items-center">
+              <svg class="w-16 h-16 mb-4 text-gray-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <h3 class="text-lg font-medium mb-2">No posts found</h3>
+              <p>Try adjusting your search terms</p>
+            </div>
+          `;
+          gridContainer.appendChild(noResults);
+        }
+      }
+    }
+    
+    function showAllPosts() {
+      blogPosts.forEach(post => {
+        post.style.display = 'block';
+      });
+      
+      const gridContainer = document.querySelector('[class*="grid"]');
+      const existingNoResults = gridContainer?.querySelector('.no-results');
+      if (existingNoResults) {
+        existingNoResults.remove();
+      }
+    }
+  }
+  
+  // Initialize search when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogSearch);
+  } else {
+    initBlogSearch();
+  }
+</script>

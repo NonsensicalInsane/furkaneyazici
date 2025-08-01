@@ -15,20 +15,28 @@ const { prevUrl, nextUrl, prevText = 'Newer posts', nextText = 'Older posts' } =
 
 {
   (prevUrl || nextUrl) && (
-    <div class="container flex">
-      <div class="flex flex-row mx-auto container justify-between">
+    <div class="flex justify-center mt-12">
+      <div class="flex items-center gap-4">
         <Button
           variant="tertiary"
-          class={`md:px-3 px-3 mr-2 ${!prevUrl ? 'invisible' : ''}`}
+          class={`flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-primary dark:hover:border-blue-400 hover:bg-primary/5 dark:hover:bg-blue-400/5 transition-all duration-200 ${!prevUrl ? 'invisible' : ''}`}
           href={getPermalink(prevUrl)}
         >
-          <Icon name="tabler:chevron-left" class="w-6 h-6" />
-          <p class="ml-2">{prevText}</p>
+          <Icon name="tabler:chevron-left" class="w-5 h-5" />
+          <span class="font-medium">{prevText}</span>
         </Button>
 
-        <Button variant="tertiary" class={`md:px-3 px-3 ${!nextUrl ? 'invisible' : ''}`} href={getPermalink(nextUrl)}>
-          <span class="mr-2">{nextText}</span>
-          <Icon name="tabler:chevron-right" class="w-6 h-6" />
+        <div class="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 dark:text-slate-400">
+          <Icon name="tabler:dots" class="w-4 h-4" />
+        </div>
+
+        <Button 
+          variant="tertiary" 
+          class={`flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-primary dark:hover:border-blue-400 hover:bg-primary/5 dark:hover:bg-blue-400/5 transition-all duration-200 ${!nextUrl ? 'invisible' : ''}`} 
+          href={getPermalink(nextUrl)}
+        >
+          <span class="font-medium">{nextText}</span>
+          <Icon name="tabler:chevron-right" class="w-5 h-5" />
         </Button>
       </div>
     </div>

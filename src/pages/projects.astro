@@ -2,7 +2,12 @@
 import Layout from '../layouts/PageLayout.astro';
 import Header from '../components/widgets/Header.astro';
 import Hero from '../components/widgets/Hero.astro';
-import Content from '../components/widgets/Content.astro';
+import Features2 from '../components/widgets/Features2.astro';
+import Features3 from '../components/widgets/Features3.astro';
+
+// Import organized project data
+import { featuredProjects } from '../data/projects/featured';
+import { upcomingProjects, upcomingProjectsConfig } from '../data/projects/upcoming';
 
 const metadata = {
   title: "Furkan's Projects",
@@ -18,34 +23,35 @@ const metadata = {
         { text: 'Projects', href: '#' },
         { text: 'Blog', href: '/blog' },
       ]}
+      actions={[
+        {
+          text: 'Contact me!',
+          href: '/#contact',
+        },
+      ]}
       isSticky
       showToggleTheme
     />
   </Fragment>
   <Hero
-    title="Projects"
+    title="<span class='text-gradient'>Projects</span>"
     subtitle="Here are some of the projects I have worked on. I am always looking for new projects to work on, so if you have an idea, feel free to contact me!"
     callPageName="Contact"
     callPagePath="/#contact"
   />
 
-  <Content />
+  <Features2
+    title="<span class='text-gradient'>Featured Projects</span>"
+    subtitle="Explore my latest work and contributions"
+    items={featuredProjects}
+    columns={3}
+  />
 
-  <Content
-    title="Upcoming Projects"
-    subtitle="Here are some of the projects that I am currently working on. They are not yet ready for public use, but I will be sharing them here once they are ready."
-  >
-    <!-- <Fragment slot="content">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white shadow-md p-4 rounded-lg">
-                    <h2 class="text-2xl font-bold mb-2">Project 1</h2>
-                    <p class="text-gray-600">This is a project that I am currently working on. It is not yet ready for public use, but I will be sharing it here once it is ready.</p>
-                </div>
-                <div class="bg-white shadow-md p-4 rounded-lg">
-                    <h2 class="text-2xl font-bold mb-2">Project 2</h2>
-                    <p class="text-gray-600">This is a project that I am currently working on. It is not yet ready for public use, but I will be sharing it here once it is ready.</p>
-                </div>
-            </div>
-        </Fragment> -->
-  </Content>
+  <Features3
+    title={upcomingProjectsConfig.title}
+    subtitle={upcomingProjectsConfig.subtitle}
+    image={upcomingProjectsConfig.heroImage}
+    items={upcomingProjects}
+    columns={2}
+  />
 </Layout>

@@ -1,11 +1,14 @@
 ---
 import { APP_BLOG } from '../../utils/config';
 import type { Post } from '../../types';
+import { Icon } from 'astro-icon/components';
 
 import Image from '../../components/common/Image.astro';
+import PostTags from '../../components/blog/Tags.astro';
 
 import { findImage } from '../../utils/images';
 import { getPermalink } from '../../utils/permalinks';
+import { getFormattedDate } from '../../utils/utils';
 
 export interface Props {
   post: Post;
@@ -13,42 +16,86 @@ export interface Props {
 
 const { post } = Astro.props;
 const image = await findImage(post.image);
+const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
 ---
 
-<article class="mb-6 transition">
-  <div class="relative md:h-64 bg-gray-400 dark:bg-slate-700 rounded shadow-lg mb-6">
-    {
-      image && (
-        <a href={getPermalink(post.permalink, 'post')}>
+<article class="group bg-white dark:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-slate-800 hover:border-gray-200 dark:hover:border-slate-700">
+  {
+    image && (
+      <div class="relative overflow-hidden">
+        <a href={link || 'javascript:void(0)'} class="block">
           <Image
             src={image}
-            class="w-full md:h-full rounded shadow-lg bg-gray-400 dark:bg-slate-700"
-            widths={[400, 900]}
-            width={400}
-            sizes="(max-width: 900px) 400px, 900px"
+            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+            widths={[400, 600]}
+            width={600}
+            sizes="(max-width: 768px) 400px, 600px"
             alt={post.title}
             aspectRatio="16:9"
-            layout="cover"
             loading="lazy"
             decoding="async"
           />
         </a>
-      )
-    }
+        {
+          post.category && (
+            <div class="absolute top-4 left-4">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/90 text-white backdrop-blur-sm">
+                {post.category.replaceAll('-', ' ')}
+              </span>
+            </div>
+          )
+        }
+      </div>
+    )
+  }
+  
+  <div class="p-6">
+    <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-slate-400 mb-3">
+      <div class="flex items-center gap-1">
+        <Icon name="tabler:clock" class="w-4 h-4" />
+        <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
+      </div>
+      {
+        post.readingTime && (
+          <div class="flex items-center gap-1">
+            <Icon name="tabler:book" class="w-4 h-4" />
+            <span>{post.readingTime} min read</span>
+          </div>
+        )
+      }
+    </div>
+    
+    <h3 class="text-xl font-bold leading-tight mb-3 font-heading group-hover:text-primary dark:group-hover:text-blue-400 transition-colors duration-200">
+      {
+        link ? (
+          <a href={link} class="block">
+            {post.title}
+          </a>
+        ) : (
+          post.title
+        )
+      }
+    </h3>
+    
+    {post.excerpt && (
+      <p class="text-gray-600 dark:text-slate-300 text-base leading-relaxed mb-4 line-clamp-3">
+        {post.excerpt}
+      </p>
+    )}
+    
+    <div class="flex items-center justify-between">
+      <PostTags tags={post.tags} class="flex-1" />
+      {
+        link && (
+          <a 
+            href={link}
+            class="inline-flex items-center text-primary dark:text-blue-400 hover:text-primary-600 dark:hover:text-blue-300 font-medium text-sm transition-colors duration-200"
+          >
+            Read more
+            <Icon name="tabler:arrow-right" class="w-4 h-4 ml-1" />
+          </a>
+        )
+      }
+    </div>
   </div>
-  <h3 class="mb-2 text-xl font-bold leading-tight sm:text-2xl font-heading">
-    {
-      !APP_BLOG?.post?.isEnabled ? (
-        post.title
-      ) : (
-        <a
-          href={getPermalink(post.permalink, 'post')}
-          class="hover:text-primary dark:hover:text-blue-700  transition ease-in duration-200"
-        >
-          {post.title}
-        </a>
-      )
-    }
-  </h3>
-  <p class="text-muted dark:text-slate-400 text-lg">{post.excerpt}</p>
 </article>

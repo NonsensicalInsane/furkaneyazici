@@ -1,5 +1,6 @@
 ---
 import { findImage } from '../../utils/images';
+import { Image as AstroImage } from 'astro:assets';
 import {
   getImagesOptimized,
   astroAsseetsOptimizer,
@@ -49,4 +50,23 @@ if (_image !== null && typeof _image === 'object') {
 }
 ---
 
-{!image ? <Fragment /> : <img src={image.src} {...image.attributes} />}
+{
+  !image ? (
+    <Fragment />
+  ) : typeof _image === 'object' && _image !== null ? (
+    <AstroImage
+      src={_image}
+      alt={props.alt}
+      width={props.width}
+      height={props.height}
+      loading={props.loading}
+      decoding={props.decoding}
+      class={props.class}
+      {...(props.widths && { widths: props.widths })}
+      {...(props.sizes && { sizes: props.sizes })}
+      {...(props.style && { style: props.style })}
+    />
+  ) : (
+    <img src={image.src} {...image.attributes} />
+  )
+}

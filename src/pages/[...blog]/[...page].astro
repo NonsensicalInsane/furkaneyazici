@@ -2,9 +2,11 @@
 import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
 import Layout from '../../layouts/PageLayout.astro';
-import BlogList from '../../components/blog/List.astro';
+import BlogGrid from '../../components/blog/Grid.astro';
 import Headline from '../../components/blog/Headline.astro';
 import Pagination from '../../components/blog/Pagination.astro';
+import Search from '../../components/blog/Search.astro';
+import BackToTop from '../../components/blog/BackToTop.astro';
 // import PostTags from "~/components/blog/Tags.astro";
 import Header from '../../components/widgets/Header.astro';
 import { blogListRobots, getStaticPathsBlogList } from '../../utils/blog';
@@ -53,17 +55,19 @@ const metadata = {
       isSticky
     />
   </Fragment>
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
+  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-7xl relative blog-background">
     <Headline
       subtitle="A blog with news, tutorials, resources and other interesting content related to technology, programming, design and other topics."
     >
       The Blog
     </Headline>
-    <BlogList posts={page.data} />
+    <Search />
+    <BlogGrid posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
     <!--
       <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
       <PostTags tags={allTags}  title="Search by Tags:" />
     -->
   </section>
+  <BackToTop />
 </Layout>

@@ -1,10 +1,15 @@
 ---
 import { APP_BLOG } from '../../utils/config';
+import { Icon } from 'astro-icon/components';
 
 import Grid from '../../components/blog/Grid.astro';
+import Image from '../../components/common/Image.astro';
+import PostTags from '../../components/blog/Tags.astro';
 
-import { getBlogPermalink } from '../../utils/permalinks';
+import { getBlogPermalink, getPermalink } from '../../utils/permalinks';
 import { findLatestPosts } from '../../utils/blog';
+import { findImage } from '../../utils/images';
+import { getFormattedDate } from '../../utils/utils';
 import WidgetWrapper from '../../components/ui/WidgetWrapper.astro';
 import type { Widget } from '../../types';
 import Button from '../ui/Button.astro';
@@ -31,29 +36,123 @@ const {
 } = Astro.props;
 
 const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
+const featuredPost = posts[0];
+const remainingPosts = posts.slice(1, 4); // Show 3 more posts
+const featuredImage = featuredPost ? await findImage(featuredPost.image) : null;
 ---
 
 {
   APP_BLOG.isEnabled ? (
     <WidgetWrapper id={id} isDark={isDark} containerClass={classes?.container} bg={bg}>
-      <div class="flex flex-col lg:justify-between mb-8">
+      <!-- Header Section -->
+      <div class="text-center mb-12">
         {title && (
-          <div class="md:max-w-sm">
-            <h2
-              class="text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none group font-heading mb-2"
-              set:html={title}
-            />
-          </div>
+          <h2
+            class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tighter tracking-tighter font-heading mb-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-gray-300 bg-clip-text text-transparent"
+            set:html={title}
+          />
         )}
-        {information && <p class="text-muted dark:text-slate-400 lg:text-lg lg:max-w-md mb-4" set:html={information} />}
-        {APP_BLOG.list.isEnabled && linkText && linkUrl && (
-          <Button variant="link" href={linkUrl}>
-            {' '}
-            {linkText} »
-          </Button>
+        {information && (
+          <p class="text-lg text-gray-600 dark:text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed" set:html={information} />
         )}
+        <div class="w-20 h-1 bg-gradient-to-r from-primary to-blue-600 mx-auto rounded-full"></div>
       </div>
-      <Grid posts={posts} />
+
+      {featuredPost && (
+        <div class="mb-12">
+          <!-- Featured Post -->
+          <div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-slate-800 hover:border-gray-200 dark:hover:border-slate-700 group max-w-4xl mx-auto">
+            <div class="md:flex">
+              {featuredImage && (
+                <div class="md:w-2/5 relative overflow-hidden">
+                  <a href={getPermalink(featuredPost.permalink, 'post')} class="block h-full">
+                    <Image
+                      src={featuredImage}
+                      alt={featuredPost.title}
+                      class="w-full h-48 md:h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      widths={[300, 400, 500]}
+                      sizes="(max-width: 768px) 300px, 400px"
+                      width={400}
+                      height={300}
+                      aspectRatio="4:3"
+                      loading="eager"
+                    />
+                  </a>
+                  {featuredPost.category && (
+                    <div class="absolute top-4 left-4">
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/90 text-white backdrop-blur-sm">
+                        {featuredPost.category.replaceAll('-', ' ')}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              <div class={`p-6 flex flex-col justify-center ${featuredImage ? 'md:w-3/5' : 'w-full'}`}>
+                <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-slate-400 mb-3">
+                  <div class="flex items-center gap-1">
+                    <Icon name="tabler:clock" class="w-4 h-4" />
+                    <time datetime={String(featuredPost.publishDate)}>
+                      {getFormattedDate(featuredPost.publishDate)}
+                    </time>
+                  </div>
+                  {featuredPost.readingTime && (
+                    <div class="flex items-center gap-1">
+                      <Icon name="tabler:book" class="w-4 h-4" />
+                      <span>{featuredPost.readingTime} min read</span>
+                    </div>
+                  )}
+                </div>
+                
+                <h3 class="text-xl md:text-2xl font-bold leading-tight mb-3 font-heading group-hover:text-primary dark:group-hover:text-blue-400 transition-colors duration-200">
+                  <a href={getPermalink(featuredPost.permalink, 'post')} class="block">
+                    {featuredPost.title}
+                  </a>
+                </h3>
+                
+                {featuredPost.excerpt && (
+                  <p class="text-gray-600 dark:text-slate-300 text-base leading-relaxed mb-4 line-clamp-2">
+                    {featuredPost.excerpt}
+                  </p>
+                )}
+                
+                <div class="flex items-center justify-between">
+                  <PostTags tags={featuredPost.tags} class="flex-1" />
+                  <a 
+                    href={getPermalink(featuredPost.permalink, 'post')}
+                    class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 text-sm ml-3"
+                  >
+                    Read Article
+                    <Icon name="tabler:arrow-right" class="w-4 h-4 ml-1" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {remainingPosts.length > 0 && (
+        <div class="mb-8">
+          <h3 class="text-xl font-bold text-center mb-6 text-gray-900 dark:text-white">More Recent Posts</h3>
+          <Grid posts={remainingPosts} />
+        </div>
+      )}
+
+      <!-- View All Posts Button -->
+      {APP_BLOG.list.isEnabled && linkText && linkUrl && (
+        <div class="text-center">
+          <Button 
+            variant="primary" 
+            href={linkUrl}
+            class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            <Icon name="tabler:article" class="w-5 h-5 mr-2" />
+            {linkText}
+            <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
+          </Button>
+        </div>
+      )}
     </WidgetWrapper>
   ) : (
     <Fragment />

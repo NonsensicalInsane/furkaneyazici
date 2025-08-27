@@ -14,21 +14,18 @@
   ],
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/blog/$1",
+      "source": "/",
+      "destination": "/blog",
       "has": [
         {
           "type": "host",
           "value": "blog.furkaneyazici.com"
         }
       ]
-    }
-  ],
-  "redirects": [
+    },
     {
-      "source": "/",
-      "destination": "/blog",
-      "permanent": false,
+      "source": "/((?!blog).*)",
+      "destination": "/blog/$1",
       "has": [
         {
           "type": "host",

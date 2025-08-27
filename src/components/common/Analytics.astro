@@ -1,10 +1,114 @@
-<!-- ---
-import { GoogleAnalytics } from '@astrolib/analytics';
-import { ANALYTICS } from '~/utils/config';
+---
+// Vercel Analytics for tracking page views and user interactions
 ---
 
-{
-  ANALYTICS?.vendors?.googleAnalytics?.id ? (
-    <GoogleAnalytics id={String(ANALYTICS.vendors.googleAnalytics.id)} partytown={ANALYTICS?.vendors?.googleAnalytics?.partytown} />
-  ) : null
-} -->
+<script>
+  import { inject } from '@vercel/analytics';
+  inject();
+</script>
+
+<script>
+  // Custom analytics for tracking specific interactions
+  import { track } from '@vercel/analytics';
+  
+  // Track page views
+  document.addEventListener('astro:page-load', () => {
+    track('page_view', {
+      page: window.location.pathname,
+      title: document.title
+    });
+  });
+
+  // Track project clicks
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target instanceof Element) {
+      const target = e.target.closest('a[href*="/projects"]');
+      if (target instanceof HTMLAnchorElement) {
+        track('project_click', {
+          project_url: target.href,
+          project_text: target.textContent?.trim() || 'Unknown Project'
+        });
+      }
+    }
+  });
+
+  // Track blog post clicks
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target instanceof Element) {
+      const target = e.target.closest('a[href*="/blog"]');
+      if (target instanceof HTMLAnchorElement) {
+        track('blog_click', {
+          blog_url: target.href,
+          blog_title: target.textContent?.trim() || 'Unknown Post'
+        });
+      }
+    }
+  });
+
+  // Track contact form interactions
+  document.addEventListener('submit', (e) => {
+    if (e.target && e.target instanceof HTMLFormElement && e.target.action.includes('contact')) {
+      track('contact_form_submit');
+    }
+  });
+
+  // Track time spent on page
+  let startTime = Date.now();
+  let timeTracked = false;
+
+  // Track when user leaves or becomes inactive
+  const trackTimeSpent = () => {
+    if (!timeTracked) {
+      const timeSpent = Date.now() - startTime;
+      if (timeSpent > 5000) { // Only track if spent more than 5 seconds
+        track('time_spent', {
+          page: window.location.pathname,
+          seconds: Math.round(timeSpent / 1000)
+        });
+      }
+      timeTracked = true;
+    }
+  };
+
+  // Track time spent on various events
+  window.addEventListener('beforeunload', trackTimeSpent);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      trackTimeSpent();
+    }
+  });
+
+  // Track scroll depth
+  let maxScroll = 0;
+  let scrollTracked = false;
+
+  window.addEventListener('scroll', () => {
+    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    if (scrollPercent > maxScroll) {
+      maxScroll = scrollPercent;
+    }
+  });
+
+  window.addEventListener('beforeunload', () => {
+    if (!scrollTracked && maxScroll > 25) {
+      track('scroll_depth', {
+        page: window.location.pathname,
+        max_scroll_percent: maxScroll
+      });
+      scrollTracked = true;
+    }
+  });
+
+  // Track external link clicks
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target instanceof Element) {
+      const target = e.target.closest('a[href^="http"]');
+      if (target instanceof HTMLAnchorElement && !target.href.includes(window.location.hostname)) {
+        track('external_link_click', {
+          url: target.href,
+          text: target.textContent?.trim() || 'External Link'
+        });
+      }
+    }
+  });
+</script>

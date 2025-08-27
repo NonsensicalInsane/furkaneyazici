@@ -29,7 +29,7 @@ import { Icon } from 'astro-icon/components';
     
     if (!searchInput || !searchResults) return;
     
-    let searchTimeout;
+    let searchTimeout: NodeJS.Timeout;
     
     searchInput.addEventListener('input', (e) => {
       clearTimeout(searchTimeout);
@@ -55,7 +55,7 @@ import { Icon } from 'astro-icon/components';
       }
     });
     
-    function filterPosts(query) {
+    function filterPosts(query: string) {
       let visibleCount = 0;
       
       blogPosts.forEach(post => {

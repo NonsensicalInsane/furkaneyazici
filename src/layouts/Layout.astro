@@ -9,6 +9,7 @@ import CustomStyles from '../components/CustomStyles.astro';
 import ApplyColorMode from '../components/common/ApplyColorMode.astro';
 import Metadata from '../components/common/Metadata.astro';
 import BasicScripts from '../components/common/BasicScripts.astro';
+import Analytics from '../components/common/Analytics.astro';
 import { ViewTransitions } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '../types';
@@ -29,7 +30,7 @@ const { language, textDirection } = I18N;
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
-    <ViewTransitions  />
+    <ViewTransitions />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" />
   </head>
 
@@ -37,6 +38,7 @@ const { language, textDirection } = I18N;
     <slot />
 
     <BasicScripts />
+    <Analytics />
 
     <style is:global>
       img {

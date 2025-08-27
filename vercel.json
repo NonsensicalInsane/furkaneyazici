@@ -11,5 +11,30 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/blog/$1",
+      "has": [
+        {
+          "type": "host",
+          "value": "blog.furkaneyazici.com"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/blog",
+      "permanent": false,
+      "has": [
+        {
+          "type": "host",
+          "value": "blog.furkaneyazici.com"
+        }
+      ]
+    }
   ]
 }

@@ -12,10 +12,50 @@
       ]
     }
   ],
-  "redirects": [
+  "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/blog/$1",
+      "source": "/",
+      "destination": "/blog",
+      "has": [
+        {
+          "type": "host",
+          "value": "blog.furkaneyazici.com"
+        }
+      ]
+    },
+    {
+      "source": "/page/:page*",
+      "destination": "/blog/page/:page*",
+      "has": [
+        {
+          "type": "host",
+          "value": "blog.furkaneyazici.com"
+        }
+      ]
+    },
+    {
+      "source": "/category/:category*",
+      "destination": "/blog/category/:category*",
+      "has": [
+        {
+          "type": "host",
+          "value": "blog.furkaneyazici.com"
+        }
+      ]
+    },
+    {
+      "source": "/tag/:tag*",
+      "destination": "/blog/tag/:tag*",
+      "has": [
+        {
+          "type": "host",
+          "value": "blog.furkaneyazici.com"
+        }
+      ]
+    },
+    {
+      "source": "/:slug",
+      "destination": "/:slug",
       "has": [
         {
           "type": "host",

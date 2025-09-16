@@ -5,6 +5,8 @@ import Hero from '../components/widgets/Hero.astro';
 import Content from '../components/widgets/Content.astro';
 import Features3 from '../components/widgets/Features3.astro';
 import ProjectShowcase from '../components/widgets/ProjectShowcase.astro';
+import Newsletter from '../components/widgets/Newsletter.astro';
+import ParticleBackground from '../components/effects/ParticleBackground.astro';
 // import Testimonials from '~/components/widgets/Testimonials.astro';
 import BlogLatestPosts from '../components/widgets/BlogLatestPosts.astro';
 import { Icon } from 'astro-icon/components';
@@ -23,6 +25,9 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
 ---
 
 <Layout metadata={metadata}>
+  <!-- Particle Background -->
+  <ParticleBackground density={80} />
+  
   <Fragment slot="header">
     <Header
       links={[
@@ -200,6 +205,14 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
   </BlogLatestPosts>
+
+
+  <!-- Newsletter Signup -->
+  <Newsletter 
+    title="Join My Journey"
+    subtitle="Get exclusive insights into quantum computing, AI research, and cutting-edge technology. No spam, just pure knowledge."
+    className="bg-gradient-to-r from-primary/5 to-blue-600/5"
+  />
 
   <CalltoAction
     id="patreon"

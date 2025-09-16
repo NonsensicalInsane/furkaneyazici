@@ -1,0 +1,140 @@
+---
+export interface Props {
+  density?: number;
+  color?: string;
+  className?: string;
+}
+
+const {
+  density = 100,
+  color = '#667eea',
+  className = ''
+} = Astro.props;
+---
+
+<div class={`fixed inset-0 pointer-events-none z-0 ${className}`}>
+  <canvas id="particle-canvas" class="w-full h-full"></canvas>
+</div>
+
+<script is:inline define:vars={{ density, color }}>
+  class ParticleSystem {
+    constructor(canvas) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d');
+      this.particles = [];
+      this.mouse = { x: 0, y: 0 };
+      this.animationId = null;
+      
+      this.resize();
+      this.createParticles();
+      this.bindEvents();
+      this.animate();
+    }
+
+    resize() {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+    }
+
+    createParticles() {
+      const particleCount = Math.floor((this.canvas.width * this.canvas.height) / 15000) * (density / 100);
+      
+      for (let i = 0; i < particleCount; i++) {
+        this.particles.push({
+          x: Math.random() * this.canvas.width,
+          y: Math.random() * this.canvas.height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          size: Math.random() * 2 + 1,
+          opacity: Math.random() * 0.5 + 0.2,
+          hue: Math.random() * 60 + 200 // Blue to purple range
+        });
+      }
+    }
+
+    bindEvents() {
+      window.addEventListener('resize', () => {
+        this.resize();
+        this.particles = [];
+        this.createParticles();
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        this.mouse.x = e.clientX;
+        this.mouse.y = e.clientY;
+      });
+    }
+
+    animate() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      this.particles.forEach((particle, index) => {
+        // Update position
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        
+        // Mouse interaction
+        const dx = this.mouse.x - particle.x;
+        const dy = this.mouse.y - particle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 100) {
+          const force = (100 - distance) / 100;
+          particle.vx += (dx / distance) * force * 0.01;
+          particle.vy += (dy / distance) * force * 0.01;
+        }
+        
+        // Boundary checking
+        if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
+        
+        // Keep particles in bounds
+        particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
+        particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
+        
+        // Draw particle
+        this.ctx.beginPath();
+        this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        this.ctx.fillStyle = `hsla(${particle.hue}, 70%, 60%, ${particle.opacity})`;
+        this.ctx.fill();
+        
+        // Draw connections
+        this.particles.slice(index + 1).forEach(otherParticle => {
+          const dx = particle.x - otherParticle.x;
+          const dy = particle.y - otherParticle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 120) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(particle.x, particle.y);
+            this.ctx.lineTo(otherParticle.x, otherParticle.y);
+            this.ctx.strokeStyle = `hsla(${particle.hue}, 70%, 60%, ${0.1 * (1 - distance / 120)})`;
+            this.ctx.lineWidth = 1;
+            this.ctx.stroke();
+          }
+        });
+      });
+      
+      this.animationId = requestAnimationFrame(() => this.animate());
+    }
+
+    destroy() {
+      if (this.animationId) {
+        cancelAnimationFrame(this.animationId);
+      }
+    }
+  }
+
+  // Initialize particle system
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('particle-canvas');
+    if (canvas) {
+      const particleSystem = new ParticleSystem(canvas);
+      
+      // Clean up on page unload
+      window.addEventListener('beforeunload', () => {
+        particleSystem.destroy();
+      });
+    }
+  });
+</script>

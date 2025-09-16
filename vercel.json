@@ -14,6 +14,16 @@
   ],
   "rewrites": [
     {
+      "source": "/:path*",
+      "destination": "/blog/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "blog.furkaneyazici.com"
+        }
+      ]
+    },
+    {
       "source": "/",
       "destination": "/blog",
       "has": [

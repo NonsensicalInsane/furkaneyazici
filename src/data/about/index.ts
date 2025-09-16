@@ -19,7 +19,7 @@ export const aboutData: AboutContent = {
       yearsResearch: "3+",
       projects: "1+"
     },
-    resumeUrl: "/src/assets/pdf/Furkan_Eşref_Yazıcı_CV.pdf"
+    resumeUrl: "/assets/pdf/Furkan_Eşref_Yazıcı_CV.pdf"
   },
 
   research: [
@@ -29,7 +29,7 @@ export const aboutData: AboutContent = {
       location: "Ankara, Turkey",
       startDate: "Nov 2021",
       endDate: "Jun 2023",
-      description: "The laboratory's research area centers on intricate, far-from-equilibrium phenomena. As an integral component of broader collaborative investigations, I contributed to the cross-correlation analysis of hyperuniformity dynamics within a colloidal system, employing principles from the domain of fluid dynamics. Presently, my research entails an examination of causal network analysis concerning the emergence of hyperuniformity within this system. I am actively engaged in the development of Python code to assess causality resulting from interparticle collisions.",
+      description: "The laboratory's research area centers on intricate, far-from-equilibrium phenomena. I was actively helped on the development of Python code to assess causality resulting from interparticle collisions . Supervisor: Dr. Serim Ilday.",
       supervisor: "Dr. Serim İlday",
       icon: "🔬",
       color: "from-blue-500 to-purple-600"
@@ -55,8 +55,8 @@ export const aboutData: AboutContent = {
       startDate: "Sep 2023",
       endDate: "Present",
       description: [
-        "Qoordinate is a quantum software company that provides quantum software solutions to businesses.",
-        "As a Quantum Software Engineer, I am responsible for developing and maintaining quantum software solutions."
+        "Developed advanced logistics algorithms utilizing Quantum Computing to optimize cargo with neural networks and helped on routing algorithms. Built and designed website using React for microservice powered by FastAPI.",
+        "Collaborated with investors and partner companies to assist the CEO in fundraising and business development activities."
       ],
       icon: "⚛️",
       color: "from-emerald-500 to-teal-600"

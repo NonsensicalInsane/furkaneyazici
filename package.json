@@ -32,6 +32,7 @@
     "typescript": "^5.4.2",
     "unpic": "^4.1.2",
     "v18": "^1.0.2",
+    "vercel": "^48.0.1",
     "vite": "^7.0.0"
   },
   "devDependencies": {
@@ -64,5 +65,10 @@
   },
   "engines": {
     "node": ">=18.14.1"
+  },
+  "overrides": {
+    "esbuild": "^0.25.6",
+    "path-to-regexp": "^6.3.0",
+    "undici": "^6.0.0"
   }
 }

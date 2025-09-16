@@ -10,56 +10,49 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/blog/",
-      "has": [
-        {
-          "type": "host",
-          "value": "blog.furkaneyazici.com"
-        }
-      ]
     },
     {
-      "source": "/page/:page*",
-      "destination": "/blog/page/:page*",
-      "has": [
+      "source": "/(.*)",
+      "headers": [
         {
-          "type": "host",
-          "value": "blog.furkaneyazici.com"
-        }
-      ]
-    },
-    {
-      "source": "/category/:category*",
-      "destination": "/blog/category/:category*",
-      "has": [
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
         {
-          "type": "host",
-          "value": "blog.furkaneyazici.com"
-        }
-      ]
-    },
-    {
-      "source": "/tag/:tag*",
-      "destination": "/blog/tag/:tag*",
-      "has": [
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
         {
-          "type": "host",
-          "value": "blog.furkaneyazici.com"
-        }
-      ]
-    },
-    {
-      "source": "/:slug",
-      "destination": "/:slug",
-      "has": [
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
         {
-          "type": "host",
-          "value": "blog.furkaneyazici.com"
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "X-Permitted-Cross-Domain-Policies",
+          "value": "none"
+        },
+        {
+          "key": "X-DNS-Prefetch-Control",
+          "value": "off"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
         }
       ]
     }

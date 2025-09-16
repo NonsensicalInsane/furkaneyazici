@@ -2,8 +2,8 @@
 import Layout from '../layouts/PageLayout.astro';
 import Header from '../components/widgets/Header.astro';
 import Hero from '../components/widgets/Hero.astro';
-import Features2 from '../components/widgets/Features2.astro';
 import Features3 from '../components/widgets/Features3.astro';
+import ProjectShowcase from '../components/widgets/ProjectShowcase.astro';
 
 // Import organized project data
 import { featuredProjects } from '../data/projects/featured';
@@ -40,10 +40,11 @@ const metadata = {
     callPagePath="/#contact"
   />
 
-  <Features2
+  <ProjectShowcase
     title="<span class='text-gradient'>Featured Projects</span>"
     subtitle="Explore my latest work and contributions"
-    items={featuredProjects}
+    projects={featuredProjects}
+    showFilter={true}
     columns={3}
   />
 

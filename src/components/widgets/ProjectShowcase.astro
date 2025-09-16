@@ -1,0 +1,257 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { FeaturedProject } from '../../data/projects/types';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  projects: FeaturedProject[];
+  showFilter?: boolean;
+  columns?: number;
+}
+
+const {
+  title = 'Featured Projects',
+  subtitle = 'Explore my latest work and contributions',
+  projects = [],
+  showFilter = true,
+  columns = 3,
+} = Astro.props;
+
+// Get unique tech stack items for filtering
+const allTechStack = [...new Set(projects.flatMap(project => project.techStack || []))];
+---
+
+<section class="relative px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-7xl scroll-reveal">
+  <div class="text-center mb-12">
+    <h2 class="font-bold font-heading leading-tighter tracking-tighter md:text-4xl mb-4 lg:text-5xl text-3xl">
+      <span class="text-gradient-animated" set:html={title} />
+    </h2>
+    <p class="mx-auto dark:text-slate-300 leading-relaxed max-w-2xl text-gray-600 text-lg mb-8">
+      {subtitle}
+    </p>
+    <div class="mx-auto bg-gradient-to-r from-primary h-1 rounded-full to-blue-600 w-20"></div>
+  </div>
+
+  {showFilter && allTechStack.length > 0 && (
+    <div class="flex flex-wrap justify-center gap-2 mb-8 scroll-reveal">
+      <button 
+        class="filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-primary text-white hover:bg-primary-600"
+        data-filter="all"
+      >
+        All Projects
+      </button>
+      {allTechStack.map(tech => (
+        <button 
+          class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300"
+          data-filter={tech.toLowerCase()}
+        >
+          {tech}
+        </button>
+      ))}
+    </div>
+  )}
+
+  <div class={`grid gap-8 ${columns === 2 ? 'md:grid-cols-2' : columns === 3 ? 'lg:grid-cols-3 md:grid-cols-2' : 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'}`}>
+    {projects.map((project, index) => (
+      <div 
+        class={`project-card group rounded-xl overflow-hidden scroll-reveal project-item ${(project.techStack || []).map(tech => tech.toLowerCase()).join(' ')}`}
+        style={`animation-delay: ${index * 0.1}s`}
+      >
+        <!-- Project Header -->
+        <div class="p-6 pb-4">
+          <div class="flex items-start justify-between mb-4">
+            <div class="p-3 rounded-lg bg-gradient-to-br from-primary to-purple-600 group-hover:from-primary-600 group-hover:to-purple-700 transition-all duration-300">
+              <Icon name={project.icon || 'tabler:code'} class="w-6 h-6 text-white" />
+            </div>
+            <div class="flex gap-2">
+              {project.links?.github && (
+                <a 
+                  href={project.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all duration-200 group-hover:scale-110"
+                  aria-label="View on GitHub"
+                >
+                  <Icon name="tabler:brand-github" class="w-4 h-4" />
+                </a>
+              )}
+              {project.links?.demo && (
+                <a 
+                  href={project.links.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all duration-200 group-hover:scale-110"
+                  aria-label="View Live Demo"
+                >
+                  <Icon name="tabler:external-link" class="w-4 h-4" />
+                </a>
+              )}
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-3 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors duration-200">
+            {project.title}
+          </h3>
+          
+          <p class="text-gray-600 dark:text-slate-300 text-sm leading-relaxed mb-4 line-clamp-3">
+            {project.description}
+          </p>
+        </div>
+
+        <!-- Tech Stack -->
+        {project.techStack && project.techStack.length > 0 && (
+          <div class="px-6 pb-4">
+            <div class="flex flex-wrap gap-2">
+              {project.techStack.slice(0, 4).map(tech => (
+                <span class="tech-badge text-white text-xs px-2 py-1 rounded-md font-medium">
+                  {tech}
+                </span>
+              ))}
+              {project.techStack.length > 4 && (
+                <span class="text-xs text-gray-500 dark:text-slate-400 px-2 py-1">
+                  +{project.techStack.length - 4} more
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
+        <!-- Action Button -->
+        <div class="px-6 pb-6">
+          <a 
+            href={project.callToAction.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center w-full px-4 py-3 bg-primary hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl group-hover:scale-105"
+          >
+            {project.callToAction.text}
+            <Icon name="tabler:arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+          </a>
+        </div>
+
+        <!-- Share Options -->
+        <div class="px-6 pb-6 pt-0 border-t border-gray-100 dark:border-slate-700">
+          <div class="flex justify-center gap-3 pt-4">
+            <button 
+              class="share-button p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white"
+              onclick={`shareProject('${project.title}', '${project.callToAction.href}', 'twitter')`}
+              aria-label="Share on Twitter"
+            >
+              <Icon name="tabler:brand-twitter" class="w-4 h-4" />
+            </button>
+            <button 
+              class="share-button p-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white"
+              onclick={`shareProject('${project.title}', '${project.callToAction.href}', 'linkedin')`}
+              aria-label="Share on LinkedIn"
+            >
+              <Icon name="tabler:brand-linkedin" class="w-4 h-4" />
+            </button>
+            <button 
+              class="share-button p-2 rounded-lg bg-gray-600 hover:bg-gray-700 text-white"
+              onclick={`shareProject('${project.title}', '${project.callToAction.href}', 'copy')`}
+              aria-label="Copy Link"
+            >
+              <Icon name="tabler:link" class="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  // Scroll reveal animation
+  function revealOnScroll() {
+    const reveals = document.querySelectorAll('.scroll-reveal');
+    
+    for (let i = 0; i < reveals.length; i++) {
+      const windowHeight = window.innerHeight;
+      const elementTop = reveals[i].getBoundingClientRect().top;
+      const elementVisible = 150;
+      
+      if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add('revealed');
+      }
+    }
+  }
+
+  // Project filtering
+  function initProjectFiltering() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectItems = document.querySelectorAll('.project-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active', 'bg-primary', 'text-white'));
+        filterBtns.forEach(b => b.classList.add('bg-gray-100', 'hover:bg-gray-200', 'dark:bg-slate-700', 'dark:hover:bg-slate-600', 'text-gray-700', 'dark:text-slate-300'));
+        
+        btn.classList.remove('bg-gray-100', 'hover:bg-gray-200', 'dark:bg-slate-700', 'dark:hover:bg-slate-600', 'text-gray-700', 'dark:text-slate-300');
+        btn.classList.add('active', 'bg-primary', 'text-white', 'hover:bg-primary-600');
+        
+        // Filter projects
+        projectItems.forEach(item => {
+          const htmlItem = item as HTMLElement;
+          if (filter === 'all' || (filter && item.classList.contains(filter))) {
+            htmlItem.style.display = 'block';
+            htmlItem.style.animation = 'scaleIn 0.3s ease-out forwards';
+          } else {
+            htmlItem.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  // Project sharing
+  (window as any).shareProject = function(title: string, url: string, platform: string) {
+    const text = `Check out "${title}" by Furkan Eşref Yazıcı`;
+    
+    switch(platform) {
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        break;
+      case 'linkedin':
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        break;
+      case 'copy':
+        navigator.clipboard.writeText(url).then(() => {
+          // Show toast notification
+          const toast = document.createElement('div');
+          toast.textContent = 'Link copied to clipboard!';
+          toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-slide-in-right';
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 3000);
+        });
+        break;
+    }
+  };
+
+  // Initialize on load
+  document.addEventListener('DOMContentLoaded', () => {
+    revealOnScroll();
+    initProjectFiltering();
+  });
+
+  // Initialize on scroll
+  window.addEventListener('scroll', revealOnScroll);
+  
+  // Initialize on page transitions (Astro)
+  document.addEventListener('astro:page-load', () => {
+    revealOnScroll();
+    initProjectFiltering();
+  });
+</script>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 
 import Image from '../../components/common/Image.astro';
 import PostTags from '../../components/blog/Tags.astro';
-import SocialShare from '../../components/common/SocialShare.astro';
+import ShareButtons from '../../components/blog/ShareButtons.astro';
 
 import { getPermalink } from '../../utils/permalinks';
 import { getFormattedDate } from '../../utils/utils';
@@ -92,9 +92,20 @@ const { Content } = post;
     >
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>
-    <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-8 flex justify-between flex-col sm:flex-row">
-      <PostTags tags={post.tags} class="mr-5 rtl:mr-0 rtl:ml-5" />
-      <SocialShare url={url} text={post.title} class="mt-5 sm:mt-1 align-middle text-gray-500 dark:text-slate-600" />
+    <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-8">
+      <div class="flex justify-between flex-col sm:flex-row mb-6">
+        <PostTags tags={post.tags} class="mr-5 rtl:mr-0 rtl:ml-5" />
+      </div>
+      
+      <!-- Enhanced Share Buttons -->
+      <div class="border-t border-gray-200 dark:border-slate-700 pt-6">
+        <ShareButtons 
+          title={post.title}
+          url={String(url)}
+          excerpt={post.excerpt}
+          className="justify-center"
+        />
+      </div>
     </div>
   </article>
 </section>

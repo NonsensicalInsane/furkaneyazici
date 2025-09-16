@@ -15,7 +15,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/blog/index.html",
+      "destination": "/blog/",
       "has": [
         {
           "type": "host",

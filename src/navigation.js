@@ -5,7 +5,7 @@ export const headerData = {
     { text: 'Home', href: '/' },
     { text: 'About', href: '/about' },
     { text: 'Projects', href: '/projects' },
-    { text: 'Blog', href: '/blog' },
+    { text: 'Blog', href: 'https://blog.furkaneyazici.com' },
   ],
 };
 

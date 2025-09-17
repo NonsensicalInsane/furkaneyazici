@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components';
 import Image from '../../components/common/Image.astro';
 import PostTags from '../../components/blog/Tags.astro';
 import ShareButtons from '../../components/blog/ShareButtons.astro';
+import ReadingProgressBar from '../../components/blog/ReadingProgressBar.astro';
 
 import { getPermalink } from '../../utils/permalinks';
 import { getFormattedDate } from '../../utils/utils';
@@ -20,6 +21,8 @@ const { Content } = post;
 ---
 
 <section class="py-8 sm:py-16 lg:py-20 mx-auto">
+  <!-- Reading Progress Bar -->
+  <ReadingProgressBar />
   
   <article>
     <header class={post.image ? '' : ''}>

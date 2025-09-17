@@ -4,6 +4,7 @@ import Header from '../components/widgets/Header.astro';
 import Hero from '../components/widgets/Hero.astro';
 import Features3 from '../components/widgets/Features3.astro';
 import ProjectShowcase from '../components/widgets/ProjectShowcase.astro';
+import ParticleBackground from '../components/effects/ParticleBackground.astro';
 
 // Import organized project data
 import { featuredProjects } from '../data/projects/featured';
@@ -15,6 +16,9 @@ const metadata = {
 ---
 
 <Layout {...metadata}>
+  <!-- Particle Background -->
+  <ParticleBackground density={50} />
+  
   <Fragment slot="header">
     <Header
       links={[
@@ -34,7 +38,7 @@ const metadata = {
     />
   </Fragment>
   <Hero
-    title="<span class='text-gradient'>Projects</span>"
+    title="<span class='text-gradient-animated'>Projects</span>"
     subtitle="Here are some of the projects I have worked on. I am always looking for new projects to work on, so if you have an idea, feel free to contact me!"
     callPageName="Contact"
     callPagePath="/#contact"

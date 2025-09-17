@@ -1,0 +1,91 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getCollection } from 'astro:content';
+
+// Get all posts to extract categories and tags
+const allPosts = await getCollection('post');
+const categories = [...new Set(allPosts.map(post => post.data.category).filter(Boolean))];
+const tags = [...new Set(allPosts.flatMap(post => post.data.tags || []))];
+
+export interface Props {
+  currentCategory?: string;
+  currentTag?: string;
+  showCategories?: boolean;
+  showTags?: boolean;
+  className?: string;
+}
+
+const {
+  currentCategory = '',
+  currentTag = '',
+  showCategories = true,
+  showTags = true,
+  className = ''
+} = Astro.props;
+---
+
+<div class={`mb-8 scroll-reveal ${className}`}>
+  {showCategories && categories.length > 0 && (
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+        <Icon name="tabler:folder" class="w-5 h-5" />
+        Categories
+      </h3>
+      <div class="flex flex-wrap gap-2">
+        <a 
+          href="/blog"
+          class={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+            !currentCategory 
+              ? 'bg-primary text-white shadow-lg' 
+              : 'bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 hover:shadow-md'
+          }`}
+        >
+          All Posts
+        </a>
+        {categories.map(category => (
+          <a 
+            href={`/category/${category?.toLowerCase() || ''}`}
+            class={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 capitalize ${
+              currentCategory === category
+                ? 'bg-primary text-white shadow-lg' 
+                : 'bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 hover:shadow-md'
+            }`}
+          >
+            {category}
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {showTags && tags.length > 0 && (
+    <div>
+      <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+        <Icon name="tabler:tags" class="w-5 h-5" />
+        Popular Tags
+      </h3>
+      <div class="flex flex-wrap gap-2">
+        {tags.slice(0, 10).map(tag => (
+          <a 
+            href={`/tag/${tag.toLowerCase()}`}
+            class={`px-3 py-1 rounded-md text-xs font-medium transition-all duration-200 capitalize ${
+              currentTag === tag
+                ? 'bg-blue-500 text-white shadow-md' 
+                : 'bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-200 hover:shadow-sm'
+            }`}
+          >
+            #{tag}
+          </a>
+        ))}
+        {tags.length > 10 && (
+          <a 
+            href="/blog"
+            class="px-3 py-1 rounded-md text-xs font-medium bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-600 dark:text-slate-400 transition-all duration-200"
+          >
+            +{tags.length - 10} more
+          </a>
+        )}
+      </div>
+    </div>
+  )}
+</div>

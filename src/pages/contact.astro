@@ -2,6 +2,8 @@
 import Layout from '../layouts/PageLayout.astro';
 import HeroText from '../components/widgets/HeroText.astro';
 import ContactUs from '../components/widgets/Contact.astro';
+import ContactForm from '../components/widgets/ContactForm.astro';
+import ParticleBackground from '../components/effects/ParticleBackground.astro';
 import Features2 from '../components/widgets/Features2.astro';
 
 const metadata = {
@@ -10,9 +12,11 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
+  <!-- Particle Background -->
+  <ParticleBackground density={30} />
+  
   <!-- HeroText Widget ******************* -->
-
-  <HeroText tagline="Contact" title="Let's Connect!" />
+  <HeroText tagline="Contact" title="<span class='text-gradient-animated'>Let's Connect!</span>" />
 
   <ContactUs
     title="Drop us a message today!"
@@ -75,4 +79,7 @@ const metadata = {
       },
     ]}
   />
+
+  <!-- Enhanced Contact Form -->
+  <ContactForm />
 </Layout>

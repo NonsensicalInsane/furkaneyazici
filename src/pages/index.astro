@@ -5,7 +5,6 @@ import Hero from '../components/widgets/Hero.astro';
 import Content from '../components/widgets/Content.astro';
 import Features3 from '../components/widgets/Features3.astro';
 import ProjectShowcase from '../components/widgets/ProjectShowcase.astro';
-import Newsletter from '../components/widgets/Newsletter.astro';
 import ParticleBackground from '../components/effects/ParticleBackground.astro';
 // import Testimonials from '~/components/widgets/Testimonials.astro';
 import BlogLatestPosts from '../components/widgets/BlogLatestPosts.astro';
@@ -177,7 +176,7 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
     <div class="text-center mt-8">
       <a 
         href="/projects"
-        class="inline-flex items-center px-8 py-4 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-900 dark:text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 animate-bounce-slow"
+        class="inline-flex items-center px-8 py-4 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-900 dark:text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 btn-enhanced"
       >
         <Icon name="tabler:folder" class="w-5 h-5 mr-2" />
         More Projects
@@ -206,13 +205,6 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
     </Fragment>
   </BlogLatestPosts>
 
-
-  <!-- Newsletter Signup -->
-  <Newsletter 
-    title="Join My Journey"
-    subtitle="Get exclusive insights into quantum computing, AI research, and cutting-edge technology. No spam, just pure knowledge."
-    className="bg-gradient-to-r from-primary/5 to-blue-600/5"
-  />
 
   <CalltoAction
     id="patreon"

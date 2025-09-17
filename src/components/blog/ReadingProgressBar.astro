@@ -1,0 +1,138 @@
+---
+export interface Props {
+  className?: string;
+}
+
+const { className = '' } = Astro.props;
+---
+
+<!-- Reading Progress Bar at Bottom -->
+<div class={`fixed bottom-0 left-0 w-full z-50 ${className}`}>
+  <div 
+    id="reading-progress-bar" 
+    class="h-1 bg-gradient-to-r from-primary to-blue-600 transition-all duration-300"
+    style="width: 0%"
+  ></div>
+</div>
+
+<!-- Floating Progress Info -->
+<div 
+  id="reading-info"
+  class="fixed bottom-6 right-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 p-4 transition-all duration-300 opacity-0 transform translate-y-4 z-40"
+>
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
+      <span id="progress-percentage" class="text-white font-bold text-xs">0%</span>
+    </div>
+    <div>
+      <div class="text-sm font-medium text-gray-900 dark:text-white">Reading</div>
+      <div class="text-xs text-gray-600 dark:text-slate-400" id="reading-time">
+        <span id="reading-time-left">5 min</span> left
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Back to Top Button -->
+<button
+  id="back-to-top"
+  class="fixed bottom-6 left-6 w-12 h-12 bg-primary hover:bg-primary-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 transform translate-y-4 z-40 flex items-center justify-center"
+  aria-label="Back to top"
+>
+  ↑
+</button>
+
+<script>
+  function initializeReadingProgress() {
+    const progressBar = document.getElementById('reading-progress-bar');
+    const readingInfo = document.getElementById('reading-info');
+    const backToTopBtn = document.getElementById('back-to-top');
+    const progressPercentage = document.getElementById('progress-percentage');
+    const readingTimeLeft = document.getElementById('reading-time-left');
+    
+    if (!progressBar || !readingInfo || !backToTopBtn || !progressPercentage || !readingTimeLeft) {
+      return;
+    }
+
+    // Calculate reading time
+    const articleContent = document.querySelector('article .prose, article');
+    const wordsPerMinute = 200;
+    let totalReadingTime = 5;
+    
+    if (articleContent) {
+      const wordCount = articleContent.textContent?.split(/\s+/).length || 0;
+      totalReadingTime = Math.max(Math.ceil(wordCount / wordsPerMinute), 1);
+    }
+
+    function updateProgress() {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight - windowHeight;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (documentHeight <= 0) return;
+      
+      const progress = Math.min((scrollTop / documentHeight) * 100, 100);
+      const progressPercent = Math.round(progress);
+      
+      // Update progress bar
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`;
+      }
+      
+      // Update percentage
+      if (progressPercentage) {
+        progressPercentage.textContent = `${progressPercent}%`;
+      }
+      
+      // Calculate time left
+      const timeLeft = Math.max(Math.round(totalReadingTime * (1 - progress / 100)), 0);
+      if (readingTimeLeft) {
+        readingTimeLeft.textContent = timeLeft === 0 ? 'Done!' : `${timeLeft} min`;
+      }
+      
+      // Show/hide elements based on scroll
+      const showElements = scrollTop > 300;
+      
+      if (showElements) {
+        if (readingInfo) {
+          readingInfo.style.opacity = '1';
+          readingInfo.style.transform = 'translateY(0)';
+        }
+        if (backToTopBtn) {
+          backToTopBtn.style.opacity = '1';
+          backToTopBtn.style.transform = 'translateY(0)';
+        }
+      } else {
+        if (readingInfo) {
+          readingInfo.style.opacity = '0';
+          readingInfo.style.transform = 'translateY(16px)';
+        }
+        if (backToTopBtn) {
+          backToTopBtn.style.opacity = '0';
+          backToTopBtn.style.transform = 'translateY(16px)';
+        }
+      }
+    }
+
+    // Back to top functionality
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+
+    // Update on scroll
+    window.addEventListener('scroll', updateProgress);
+    
+    // Initialize
+    updateProgress();
+  }
+
+  // Initialize on different events for Astro page transitions
+  document.addEventListener('DOMContentLoaded', initializeReadingProgress);
+  document.addEventListener('astro:page-load', initializeReadingProgress);
+  document.addEventListener('astro:after-swap', initializeReadingProgress);
+</script>

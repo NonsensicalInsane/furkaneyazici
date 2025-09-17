@@ -1,23 +1,85 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ParticleBackground from '../components/effects/ParticleBackground.astro';
+import { Icon } from 'astro-icon/components';
 import { getHomePermalink } from '../utils/permalinks';
 
 const title = `Error 404`;
 ---
 
 <Layout metadata={{ title }}>
-  <section class="flex items-center h-full p-16">
-    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-      <div class="max-w-md text-center">
-        <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Error</span>
-          <span class="text-primary">404</span>
+  <!-- Particle Background -->
+  <ParticleBackground density={20} />
+  
+  <section class="relative min-h-screen flex items-center justify-center px-6">
+    <div class="text-center max-w-2xl mx-auto scroll-reveal">
+      <!-- Animated 404 -->
+      <div class="mb-8">
+        <h1 class="text-8xl md:text-9xl font-bold text-gradient-animated mb-4">
+          404
+        </h1>
+        <div class="w-32 h-1 bg-gradient-to-r from-primary to-blue-600 mx-auto rounded-full animate-pulse"></div>
+      </div>
+      
+      <!-- Error Message -->
+      <div class="mb-8 scroll-reveal">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+          Oops! Page Not Found
         </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
-        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          But dont worry, you can find plenty of other things on our homepage.
+        <p class="text-lg text-gray-600 dark:text-slate-300 mb-6">
+          It looks like the page you are looking for doesn't exist or has been moved.
+          But don't worry, let's get you back on track!
         </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Back to homepage</a>
+      </div>
+      
+      <!-- Navigation Options -->
+      <div class="grid sm:grid-cols-2 gap-4 mb-8 scroll-reveal">
+        <a 
+          href="/"
+          class="card-hover p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 transition-all duration-300 group btn-enhanced"
+        >
+          <Icon name="tabler:home" class="w-8 h-8 text-primary mb-3 mx-auto group-hover:scale-110 transition-transform duration-200" />
+          <h3 class="font-bold text-gray-900 dark:text-white mb-2">Go Home</h3>
+          <p class="text-sm text-gray-600 dark:text-slate-300">Return to the homepage</p>
+        </a>
+        
+        <a 
+          href="/blog"
+          class="card-hover p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 transition-all duration-300 group btn-enhanced"
+        >
+          <Icon name="tabler:article" class="w-8 h-8 text-blue-500 mb-3 mx-auto group-hover:scale-110 transition-transform duration-200" />
+          <h3 class="font-bold text-gray-900 dark:text-white mb-2">Read Blog</h3>
+          <p class="text-sm text-gray-600 dark:text-slate-300">Explore my latest posts</p>
+        </a>
+        
+        <a 
+          href="/projects"
+          class="card-hover p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 transition-all duration-300 group btn-enhanced"
+        >
+          <Icon name="tabler:folder" class="w-8 h-8 text-green-500 mb-3 mx-auto group-hover:scale-110 transition-transform duration-200" />
+          <h3 class="font-bold text-gray-900 dark:text-white mb-2">View Projects</h3>
+          <p class="text-sm text-gray-600 dark:text-slate-300">Check out my work</p>
+        </a>
+        
+        <a 
+          href="/contact"
+          class="card-hover p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 transition-all duration-300 group btn-enhanced"
+        >
+          <Icon name="tabler:mail" class="w-8 h-8 text-purple-500 mb-3 mx-auto group-hover:scale-110 transition-transform duration-200" />
+          <h3 class="font-bold text-gray-900 dark:text-white mb-2">Contact Me</h3>
+          <p class="text-sm text-gray-600 dark:text-slate-300">Get in touch</p>
+        </a>
+      </div>
+      
+      <!-- Fun Stats -->
+      <div class="text-center scroll-reveal">
+        <p class="text-sm text-gray-500 dark:text-slate-400 mb-4">
+          While you're here, did you know?
+        </p>
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-800 dark:text-blue-200">
+          <Icon name="tabler:bulb" class="w-4 h-4" />
+          <span class="text-sm">Quantum computers can process 2^n states simultaneously!</span>
+        </div>
       </div>
     </div>
   </section>

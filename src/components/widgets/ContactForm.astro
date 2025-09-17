@@ -1,0 +1,210 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  className?: string;
+}
+
+const { className = '' } = Astro.props;
+---
+
+<section class={`py-16 px-6 ${className}`}>
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12 scroll-reveal">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+        <Icon name="tabler:mail" class="w-8 h-8 inline-block mr-2" />
+        Get In Touch
+      </h2>
+      <p class="text-lg text-gray-600 dark:text-slate-300 max-w-2xl mx-auto">
+        Have a project idea, research collaboration, or just want to say hello? I'd love to hear from you!
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12">
+      <!-- Contact Info -->
+      <div class="scroll-reveal">
+        <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Let's Connect</h3>
+        
+        <div class="space-y-6">
+          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
+            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+              <Icon name="tabler:mail" class="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900 dark:text-white">Email</h4>
+              <a href="mailto:yazici.furkan@proton.me" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
+                yazici.furkan@proton.me
+              </a>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
+            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center pulse-glow">
+              <Icon name="tabler:brand-linkedin" class="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900 dark:text-white">LinkedIn</h4>
+              <a href="https://linkedin.com/in/furkaneyazici" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
+                /in/furkaneyazici
+              </a>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
+            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center pulse-glow">
+              <Icon name="tabler:brand-github" class="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900 dark:text-white">GitHub</h4>
+              <a href="https://github.com/nonsensicalinsane" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
+                @nonsensicalinsane
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="scroll-reveal">
+        <form 
+          id="contact-form" 
+          action="https://formspree.io/f/xdkoqvor" 
+          method="POST"
+          class="space-y-6"
+        >
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              Full Name *
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              placeholder="Your full name"
+            />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              Email Address *
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              placeholder="your.email@example.com"
+            />
+          </div>
+
+          <div>
+            <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              Subject *
+            </label>
+            <select
+              id="subject"
+              name="subject"
+              required
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+            >
+              <option value="">Select a topic</option>
+              <option value="collaboration">Research Collaboration</option>
+              <option value="project">Project Inquiry</option>
+              <option value="consultation">Consultation</option>
+              <option value="speaking">Speaking Opportunity</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              Message *
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows="6"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none"
+              placeholder="Tell me about your project, collaboration idea, or question..."
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full px-6 py-4 bg-primary hover:bg-primary-600 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed btn-enhanced"
+          >
+            <Icon name="tabler:send" class="w-5 h-5" />
+            <span id="submit-text">Send Message</span>
+          </button>
+
+          <!-- Success/Error Messages -->
+          <div id="form-message" class="hidden p-4 rounded-lg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initializeContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const messageDiv = document.getElementById('form-message') as HTMLElement;
+    const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const submitText = document.getElementById('submit-text') as HTMLElement;
+    
+    if (form && messageDiv && submitBtn && submitText) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.textContent = 'Sending...';
+        submitBtn.classList.add('opacity-50');
+        
+        try {
+          const formData = new FormData(form);
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+          
+          if (response.ok) {
+            messageDiv.className = 'p-4 rounded-lg bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+            messageDiv.innerHTML = '✅ <strong>Message sent successfully!</strong> I\'ll get back to you soon.';
+            messageDiv.classList.remove('hidden');
+            form.reset();
+          } else {
+            throw new Error('Network response was not ok');
+          }
+          
+        } catch (error) {
+          messageDiv.className = 'p-4 rounded-lg bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+          messageDiv.innerHTML = '❌ <strong>Something went wrong.</strong> Please try again or email me directly.';
+          messageDiv.classList.remove('hidden');
+        }
+        
+        // Reset button
+        submitBtn.disabled = false;
+        submitText.textContent = 'Send Message';
+        submitBtn.classList.remove('opacity-50');
+        
+        // Hide message after 10 seconds
+        setTimeout(() => {
+          messageDiv.classList.add('hidden');
+        }, 10000);
+      });
+    }
+  }
+
+  // Initialize on different events for Astro page transitions
+  document.addEventListener('DOMContentLoaded', initializeContactForm);
+  document.addEventListener('astro:page-load', initializeContactForm);
+  document.addEventListener('astro:after-swap', initializeContactForm);
+</script>

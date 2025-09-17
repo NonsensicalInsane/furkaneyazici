@@ -123,7 +123,7 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
             href={project.callToAction.href}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center w-full px-4 py-3 bg-primary hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl group-hover:scale-105"
+            class="inline-flex items-center justify-center w-full px-4 py-3 bg-primary hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl btn-enhanced"
           >
             {project.callToAction.text}
             <Icon name="tabler:arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
@@ -231,20 +231,18 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
     }
   };
 
-  // Initialize on load
-  document.addEventListener('DOMContentLoaded', () => {
+  function initializeAll() {
     revealOnScroll();
     initProjectFiltering();
-  });
+  }
+
+  // Initialize on different events
+  document.addEventListener('DOMContentLoaded', initializeAll);
+  document.addEventListener('astro:page-load', initializeAll);
+  document.addEventListener('astro:after-swap', initializeAll);
 
   // Initialize on scroll
   window.addEventListener('scroll', revealOnScroll);
-  
-  // Initialize on page transitions (Astro)
-  document.addEventListener('astro:page-load', () => {
-    revealOnScroll();
-    initProjectFiltering();
-  });
 </script>
 
 <style>

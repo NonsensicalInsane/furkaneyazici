@@ -6,6 +6,8 @@ import BlogGrid from '../../components/blog/Grid.astro';
 import Headline from '../../components/blog/Headline.astro';
 import Pagination from '../../components/blog/Pagination.astro';
 import Search from '../../components/blog/Search.astro';
+import CategoryNavigation from '../../components/blog/CategoryNavigation.astro';
+import ParticleBackground from '../../components/effects/ParticleBackground.astro';
 import BackToTop from '../../components/blog/BackToTop.astro';
 // import PostTags from "~/components/blog/Tags.astro";
 import Header from '../../components/widgets/Header.astro';
@@ -38,6 +40,9 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
+  <!-- Particle Background -->
+  <ParticleBackground density={25} />
+  
   <Fragment slot="header">
     <Header
       links={[
@@ -59,9 +64,10 @@ const metadata = {
     <Headline
       subtitle="A blog with news, tutorials, resources and other interesting content related to technology, programming, design and other topics."
     >
-      The Blog
+      <span class="text-gradient-animated">The Blog</span>
     </Headline>
     <Search />
+    <CategoryNavigation />
     <BlogGrid posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
     <!--

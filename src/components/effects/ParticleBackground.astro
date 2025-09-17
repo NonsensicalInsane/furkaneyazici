@@ -125,16 +125,29 @@ const {
     }
   }
 
-  // Initialize particle system
-  document.addEventListener('DOMContentLoaded', () => {
+  let currentParticleSystem = null;
+
+  function initializeParticles() {
+    // Clean up existing system
+    if (currentParticleSystem) {
+      currentParticleSystem.destroy();
+    }
+    
     const canvas = document.getElementById('particle-canvas');
     if (canvas) {
-      const particleSystem = new ParticleSystem(canvas);
-      
-      // Clean up on page unload
-      window.addEventListener('beforeunload', () => {
-        particleSystem.destroy();
-      });
+      currentParticleSystem = new ParticleSystem(canvas);
+    }
+  }
+
+  // Initialize on different events
+  document.addEventListener('DOMContentLoaded', initializeParticles);
+  document.addEventListener('astro:page-load', initializeParticles);
+  document.addEventListener('astro:after-swap', initializeParticles);
+  
+  // Clean up on page unload
+  window.addEventListener('beforeunload', () => {
+    if (currentParticleSystem) {
+      currentParticleSystem.destroy();
     }
   });
 </script>

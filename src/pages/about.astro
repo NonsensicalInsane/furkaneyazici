@@ -2,6 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Header from '~/components/widgets/Header.astro';
 import Image from '~/components/common/Image.astro';
+import ParticleBackground from '~/components/effects/ParticleBackground.astro';
 import myImage from '~/assets/images/me.png';
 import aboutData from '~/data/about/index';
 
@@ -13,6 +14,9 @@ const { personal, research, work, education, certifications, socialLinks } = abo
 ---
 
 <Layout metadata={metadata}>
+  <!-- Particle Background -->
+  <ParticleBackground density={40} />
+  
   <!-- Hero Widget ******************* -->
   <Fragment slot="header">
     <Header
@@ -71,8 +75,8 @@ const { personal, research, work, education, certifications, socialLinks } = abo
       <div class="pt-0 md:pt-[76px] pointer-events-none"></div>
       <div class="py-16 md:py-24">
         <div class="text-center pb-12 md:pb-20 max-w-5xl mx-auto">
-          <div class="space-y-6">
-            <h1 class="text-5xl md:text-7xl font-bold leading-tighter tracking-tighter font-heading">
+          <div class="space-y-6 scroll-reveal">
+            <h1 class="text-5xl md:text-7xl font-bold leading-tighter tracking-tighter font-heading text-gradient-animated">
               {personal.subtitle} <span class="text-gradient-blue relative">
                 {personal.name}!
                 <span class="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-blue-400/30 to-purple-400/30 rounded-full blur-sm"></span>

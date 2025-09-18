@@ -47,3 +47,5 @@ export function getProjectCounts() {
     concept: all.upcoming.filter(p => p.status === 'concept').length
   };
 }
+
+

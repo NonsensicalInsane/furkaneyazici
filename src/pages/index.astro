@@ -12,8 +12,8 @@ import { Icon } from 'astro-icon/components';
 import Features2 from '../components/widgets/Features2.astro';
 import CalltoAction from '../components/widgets/CallToAction.astro';
 import patreon from '../assets/images/icons/patreon.png';
-import { featuredProjects } from '../data/projects/featured';
-import type { FeaturedProject } from '../data/projects/types';
+import { featuredProjects } from '../content/projects/featured';
+import type { FeaturedProject } from '../content/projects/types';
 
 const metadata = {
   title: 'The FEY Website',
@@ -38,7 +38,7 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
       actions={[
         {
           text: 'Contact me!',
-          href: '#contact',
+          href: '/contact',
         },
       ]}
       isSticky
@@ -248,7 +248,7 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
       },
       {
         title: 'Discord',
-        description: '<a href="  " target="_blank">@furkaneyazici</a>',
+        description: '<a href="https://discord.com/users/758241023440453634" target="_blank">@furkaneyazici</a>',
         icon: 'tabler:brand-discord',
       },
       {

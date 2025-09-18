@@ -7,8 +7,8 @@ import ProjectShowcase from '../components/widgets/ProjectShowcase.astro';
 import ParticleBackground from '../components/effects/ParticleBackground.astro';
 
 // Import organized project data
-import { featuredProjects } from '../data/projects/featured';
-import { upcomingProjects, upcomingProjectsConfig } from '../data/projects/upcoming';
+import { featuredProjects } from '../content/projects/featured';
+import { upcomingProjects, upcomingProjectsConfig } from '../content/projects/upcoming';
 
 const metadata = {
   title: "Furkan's Projects",
@@ -30,7 +30,7 @@ const metadata = {
       actions={[
         {
           text: 'Contact me!',
-          href: '/#contact',
+          href: '/contact',
         },
       ]}
       isSticky

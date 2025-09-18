@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import type { FeaturedProject } from '../../data/projects/types';
+import type { FeaturedProject } from '../../content/projects/types';
 
 export interface Props {
   title?: string;
@@ -55,7 +55,7 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
   <div class={`grid gap-8 ${columns === 2 ? 'md:grid-cols-2' : columns === 3 ? 'lg:grid-cols-3 md:grid-cols-2' : 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'}`}>
     {projects.map((project, index) => (
       <div 
-        class={`project-card group rounded-xl overflow-hidden scroll-reveal project-item ${(project.techStack || []).map(tech => tech.toLowerCase()).join(' ')}`}
+        class={`project-card group rounded-xl overflow-hidden scroll-reveal project-item flex flex-col h-full ${(project.techStack || []).map(tech => tech.toLowerCase()).join(' ')}`}
         style={`animation-delay: ${index * 0.1}s`}
       >
         <!-- Project Header -->
@@ -85,6 +85,15 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
                   aria-label="View Live Demo"
                 >
                   <Icon name="tabler:external-link" class="w-4 h-4" />
+                </a>
+              )}
+              {project.links?.blog && (
+                <a 
+                  href={project.links.blog}
+                  class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all duration-200 group-hover:scale-110"
+                  aria-label="Read blog post"
+                >
+                  <Icon name="tabler:article" class="w-4 h-4" />
                 </a>
               )}
             </div>
@@ -118,7 +127,7 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
         )}
 
         <!-- Action Button -->
-        <div class="px-6 pb-6">
+        <div class="px-6 pb-6 mt-auto">
           <a 
             href={project.callToAction.href}
             target="_blank"

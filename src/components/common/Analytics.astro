@@ -4,7 +4,10 @@
 
 <script>
   import { inject } from '@vercel/analytics';
-  inject();
+  if (import.meta.env.PROD) {
+    inject();
+  }
+  // In development, we skip injection to avoid noisy debug logs
 </script>
 
 <script>

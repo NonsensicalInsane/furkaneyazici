@@ -16,7 +16,7 @@ const relatedPosts = post.tags ? getRelatedPosts(fetchedPosts, post.slug, post.t
 ---
 
 {
-  APP_BLOG.isRelatedPostsEnabled ? (
+  APP_BLOG.isRelatedPostsEnabled && relatedPosts.length > 0 ? (
     <BlogHighlightedPosts
       classes={{ container: 'pt-0 lg:pt-0 md:pt-0' }}
       title="Related Posts"

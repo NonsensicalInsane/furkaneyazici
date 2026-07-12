@@ -7,6 +7,7 @@ export const headerData = {
     { text: 'Projects', href: '/projects' },
     { text: 'Blog', href: '/blog' },
   ],
+  actions: [{ text: 'Contact me!', href: '/contact' }],
 };
 
 export const footerData = {

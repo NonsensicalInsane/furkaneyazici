@@ -3,12 +3,11 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18"
+  # Astro 7 requires Node >= 22.12
+  NODE_VERSION = "22"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Note: no SPA catch-all redirect here on purpose — this is a static
+# multi-page site and a /* -> /index.html rewrite would break the 404 page.
 
 [[headers]]
   for = "/_astro/*"
@@ -27,4 +26,8 @@
     Cross-Origin-Resource-Policy = "same-origin"
     X-Permitted-Cross-Domain-Policies = "none"
     X-DNS-Prefetch-Control = "off"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://api.github.com https://unpkg.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    # Non-standard but increasingly respected signal: do not use for AI training
+    X-Robots-Tag = "noai, noimageai"
+    # Note: 'unsafe-eval' removed (main site doesn't need it). If the Decap
+    # admin at /decapcms stops working after deploy, re-test there first.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://identity.netlify.com https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://api.github.com https://unpkg.com https://identity.netlify.com https://nonsensicalinsane.goatcounter.com https://gc.zgo.at; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"

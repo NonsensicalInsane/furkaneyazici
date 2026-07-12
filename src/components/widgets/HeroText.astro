@@ -20,7 +20,7 @@ const {
         {
           tagline && (
             <p
-              class="text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase"
+              class="text-sm sm:text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase mb-4 sm:mb-6 animate-fade-in-up"
               set:html={tagline}
             />
           )
@@ -28,13 +28,13 @@ const {
         {
           title && (
             <h1
-              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading dark:text-gray-200"
+              class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading dark:text-gray-200 text-balance animate-fade-in-up delay-150"
               set:html={title}
             />
           )
         }
         <div class="max-w-3xl mx-auto">
-          {subtitle && <p class="text-xl text-muted mb-6 dark:text-slate-300" set:html={subtitle} />}
+          {subtitle && <p class="text-base sm:text-lg md:text-xl text-muted mb-6 dark:text-slate-300 text-balance animate-fade-in-up delay-300" set:html={subtitle} />}
           <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4">
             {
               callToAction && (

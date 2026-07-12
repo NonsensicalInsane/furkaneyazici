@@ -8,10 +8,11 @@ import SinglePost from '../../components/blog/SinglePost.astro';
 import ToBlogLink from '../../components/blog/ToBlogLink.astro';
 
 import { getCanonical, getPermalink } from '../../utils/permalinks';
-import { getStaticPathsBlogPost, blogPostRobots } from '../../utils/blog';
+import { getStaticPathsBlogPost, blogPostRobots, findTranslations } from '../../utils/blog';
 import { findImage } from '../../utils/images';
 import type { MetaData } from '../../types';
 import RelatedPosts from '../../components/blog/RelatedPosts.astro';
+import BackToTop from '../../components/blog/BackToTop.astro';
 
 export const prerender = true;
 
@@ -25,6 +26,17 @@ const { post } = Astro.props as Props;
 
 const url = getCanonical(getPermalink(post.permalink, 'post'));
 const image = (await findImage(post.image)) as ImageMetadata | string | undefined;
+
+// Other language versions of this post; also emitted as hreflang alternates
+// so search engines serve readers the right language.
+const translations = await findTranslations(post);
+const alternates =
+  translations.length > 0
+    ? [
+        { lang: post.lang, href: String(url) },
+        ...translations.map((t) => ({ lang: t.lang, href: String(getCanonical(getPermalink(t.permalink, 'post'))) })),
+      ]
+    : [];
 
 const metadata = merge(
   {
@@ -46,7 +58,11 @@ const metadata = merge(
 ---
 
 <Layout metadata={metadata}>
-  <SinglePost post={{ ...post, image: image }} url={url} />
+  <Fragment slot="head">
+    {alternates.map(({ lang, href }) => <link rel="alternate" hreflang={lang} href={href} />)}
+  </Fragment>
+  <SinglePost post={{ ...post, image: image }} url={url} translations={translations} />
   <ToBlogLink />
   <RelatedPosts post={post} />
+  <BackToTop />
 </Layout>

@@ -19,15 +19,15 @@ const { className = '', id } = Astro.props as Props;
     <div class="grid lg:grid-cols-2 gap-12">
       <!-- Contact Info -->
       <div class="scroll-reveal">
-        <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Let's Connect</h3>
+        <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Let's Connect</h2>
         
         <div class="space-y-6">
           <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
               <Icon name="tabler:mail" class="w-6 h-6 text-white" />
             </div>
             <div>
-              <h4 class="font-semibold text-gray-900 dark:text-white">Email</h4>
+              <h3 class="font-semibold text-gray-900 dark:text-white">Email</h3>
               <a href="mailto:yazici.furkan@proton.me" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
                 yazici.furkan@proton.me
               </a>
@@ -35,11 +35,11 @@ const { className = '', id } = Astro.props as Props;
           </div>
 
           <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center pulse-glow">
+            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
               <Icon name="tabler:brand-linkedin" class="w-6 h-6 text-white" />
             </div>
             <div>
-              <h4 class="font-semibold text-gray-900 dark:text-white">LinkedIn</h4>
+              <h3 class="font-semibold text-gray-900 dark:text-white">LinkedIn</h3>
               <a href="https://linkedin.com/in/furkaneyazici" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
                 @furkaneyazici
               </a>
@@ -47,11 +47,11 @@ const { className = '', id } = Astro.props as Props;
           </div>
 
           <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center pulse-glow">
+            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
               <Icon name="tabler:brand-github" class="w-6 h-6 text-white" />
             </div>
             <div>
-              <h4 class="font-semibold text-gray-900 dark:text-white">GitHub</h4>
+              <h3 class="font-semibold text-gray-900 dark:text-white">GitHub</h3>
               <a href="https://github.com/nonsensicalinsane" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
                 @nonsensicalinsane
               </a>
@@ -59,22 +59,33 @@ const { className = '', id } = Astro.props as Props;
             
           </div>
           <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center pulse-glow">
+            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
+              <Icon name="tabler:brand-instagram" class="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900 dark:text-white">Instagram</h3>
+              <a href="https://instagram.com/furkaneyazici" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
+                @furkaneyazici
+              </a>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
+            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
               <Icon name="tabler:brand-discord" class="w-6 h-6 text-white" />
             </div>
             <div>
-              <h4 class="font-semibold text-gray-900 dark:text-white">Discord</h4>
+              <h3 class="font-semibold text-gray-900 dark:text-white">Discord</h3>
               <a href="https://discord.com/users/758241023440453634" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
                 @furkaneyazici
               </a>
             </div>
           </div>
           <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center pulse-glow">
+            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
               <Icon name="tabler:brand-x" class="w-6 h-6 text-white" />
             </div>
             <div>
-              <h4 class="font-semibold text-gray-900 dark:text-white">X</h4>
+              <h3 class="font-semibold text-gray-900 dark:text-white">X</h3>
               <a href="https://twitter.com/furkaneyazici" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
                 @furkaneyazici
               </a>
@@ -85,12 +96,19 @@ const { className = '', id } = Astro.props as Props;
 
       <!-- Contact Form -->
       <div class="scroll-reveal">
-        <form 
-          id="contact-form" 
-          action="/api/contact" 
+        <form
+          id="contact-form"
+          name="contact"
           method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
           class="space-y-6"
         >
+          <!-- Netlify Forms: form name + honeypot (spam trap, hidden from humans) -->
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="hidden" aria-hidden="true">
+            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+          </p>
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
               Full Name *
@@ -161,7 +179,7 @@ const { className = '', id } = Astro.props as Props;
           </button>
 
           <!-- Success/Error Messages -->
-          <div id="form-message" class="hidden p-4 rounded-lg"></div>
+          <div id="form-message" class="hidden p-4 rounded-lg" role="status" aria-live="polite"></div>
         </form>
       </div>
     </div>
@@ -169,17 +187,7 @@ const { className = '', id } = Astro.props as Props;
 </section>
 
 <script>
-  function revealOnScroll() {
-    const reveals = document.querySelectorAll('.scroll-reveal');
-    for (let i = 0; i < reveals.length; i++) {
-      const windowHeight = window.innerHeight;
-      const elementTop = reveals[i].getBoundingClientRect().top;
-      const elementVisible = 150;
-      if (elementTop < windowHeight - elementVisible) {
-        reveals[i].classList.add('revealed');
-      }
-    }
-  }
+  // Scroll reveal is handled globally in BasicScripts.astro.
 
   function initializeContactForm() {
     const form = document.getElementById('contact-form') as HTMLFormElement;
@@ -197,13 +205,12 @@ const { className = '', id } = Astro.props as Props;
         submitBtn.classList.add('opacity-50');
         
         try {
+          // Netlify Forms AJAX submission: POST urlencoded data to the page itself
           const formData = new FormData(form);
-          const response = await fetch(form.action, {
+          const response = await fetch('/', {
             method: 'POST',
-            body: formData,
-            headers: {
-              'Accept': 'application/json'
-            }
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
           });
           
           if (response.ok) {
@@ -232,10 +239,6 @@ const { className = '', id } = Astro.props as Props;
         }, 10000);
       });
     }
-
-    // Trigger initial reveal and bind on scroll
-    revealOnScroll();
-    window.addEventListener('scroll', revealOnScroll);
   }
 
   // Initialize on different events for Astro page transitions

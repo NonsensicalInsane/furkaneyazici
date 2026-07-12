@@ -1,8 +1,8 @@
 import type { PaginateFunction } from 'astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import type { Post } from '../types';
-import { APP_BLOG } from '../utils/config';
+import { APP_BLOG, I18N } from '../utils/config';
 import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
 
 const generatePermalink = async ({
@@ -41,8 +41,9 @@ const generatePermalink = async ({
 };
 
 const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> => {
-  const { id, slug: rawSlug = '', data } = post;
-  const { Content, remarkPluginFrontmatter } = await post.render();
+  const { id, data } = post;
+  const rawSlug = id;
+  const { Content, headings, remarkPluginFrontmatter } = await render(post);
 
   const {
     publishDate: rawPublishDate = new Date(),
@@ -55,6 +56,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     author,
     draft = false,
     metadata = {},
+    lang = I18N.language || 'en',
+    translationKey,
   } = data;
 
   const slug = cleanSlug(rawSlug); // cleanSlug(rawSlug.split('/').pop());
@@ -85,6 +88,11 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
 
     Content: Content,
     // or 'content' in case you consume from API
+
+    headings: headings,
+
+    lang: lang,
+    translationKey: translationKey,
 
     readingTime: remarkPluginFrontmatter?.readingTime,
   };
@@ -237,6 +245,24 @@ export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFu
       }
     )
   );
+};
+
+/** Other language versions of a post (same translationKey, different language). */
+export const findTranslations = async (post: Post): Promise<Array<Post>> => {
+  if (!post.translationKey) return [];
+  const posts = await fetchPosts();
+  return posts.filter((p) => p.translationKey === post.translationKey && p.slug !== post.slug);
+};
+
+/** Native name of a language from its BCP-47 code ("tr" → "Türkçe"). */
+export const languageName = (code: string): string => {
+  try {
+    const name = new Intl.DisplayNames([code], { type: 'language' }).of(code);
+    if (name && name !== code) return name.charAt(0).toLocaleUpperCase(code) + name.slice(1);
+  } catch {
+    /* unknown code — fall through */
+  }
+  return code.toUpperCase();
 };
 
 /** */

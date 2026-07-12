@@ -2,7 +2,6 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Header from '~/components/widgets/Header.astro';
 import Image from '~/components/common/Image.astro';
-import ParticleBackground from '~/components/effects/ParticleBackground.astro';
 import myImage from '~/assets/images/me.png';
 import aboutData from '~/data/about/index';
 
@@ -14,8 +13,6 @@ const { personal, research, work, education, certifications, socialLinks } = abo
 ---
 
 <Layout metadata={metadata}>
-  <!-- Particle Background -->
-  <ParticleBackground density={40} />
   
   <!-- Hero Widget ******************* -->
   <Fragment slot="header">
@@ -62,15 +59,12 @@ const { personal, research, work, education, certifications, socialLinks } = abo
         },
       ]}
       isSticky
-      showToggleTheme
     />
   </Fragment>
   
   <!-- Enhanced Hero Section with Animated Background -->
   <section class="relative md:-mt-[76px] not-prose">
-    <!-- Pure black background -->
-    <div class="absolute inset-0 bg-[#000000]"></div>
-    
+
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
       <div class="pt-0 md:pt-[76px] pointer-events-none"></div>
       <div class="py-16 md:py-24">
@@ -100,8 +94,7 @@ const { personal, research, work, education, certifications, socialLinks } = abo
 
   <!-- Enhanced About Section -->
   <section class="relative py-16 md:py-24" id="about">
-    <div class="absolute inset-0 bg-[#000000]"></div>
-    
+
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <!-- Content Side -->
@@ -116,9 +109,10 @@ const { personal, research, work, education, certifications, socialLinks } = abo
           <!-- Social Links with Enhanced Design -->
           <div class="grid grid-cols-2 gap-4">
             {socialLinks.map((link) => (
-              <a 
-                href={link.url} 
+              <a
+                href={link.url}
                 target="_blank"
+                rel="noopener noreferrer"
                 class="modern-card hover-lift p-6 text-center group transition-all duration-300"
               >
                 <div class="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
@@ -131,12 +125,13 @@ const { personal, research, work, education, certifications, socialLinks } = abo
 
           <!-- CTA Button -->
           <div class="pt-4">
-            <a 
-              href={personal.resumeUrl} 
+            <a
+              href={personal.resumeUrl}
               target="_blank"
+              rel="noopener noreferrer"
               class="btn-primary inline-flex items-center space-x-2 text-lg px-8 py-4 group"
             >
-              <span>📄 Download my resume!</span>
+              <span>Download my resume!</span>
               <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
@@ -164,12 +159,12 @@ const { personal, research, work, education, certifications, socialLinks } = abo
             </div>
             
             <!-- Floating stats -->
-            <div class="absolute -top-6 -right-6 bg-white dark:bg-slate-800 rounded-2xl p-4 text-center animate-bounce shadow-xl border border-gray-200 dark:border-slate-700">
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{personal.stats.yearsResearch}</div>
+            <div class="absolute -top-6 -right-6 bg-white dark:bg-slate-800 rounded-2xl p-4 text-center animate-float shadow-xl border border-gray-200 dark:border-slate-700">
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" data-countup>{personal.stats.yearsResearch}</div>
               <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Years Research</div>
             </div>
-            <div class="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 rounded-2xl p-4 text-center animate-bounce delay-75 shadow-xl border border-gray-200 dark:border-slate-700">
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{personal.stats.projects}</div>
+            <div class="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 rounded-2xl p-4 text-center animate-float delay-300 shadow-xl border border-gray-200 dark:border-slate-700">
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" data-countup>{personal.stats.projects}</div>
               <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Projects</div>
             </div>
           </div>

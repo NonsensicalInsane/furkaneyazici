@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+
 export interface ProjectLinks {
   github?: string;
   demo?: string;
@@ -25,6 +27,16 @@ export interface BaseProject {
   status: ProjectStatus;
   callToAction: ProjectCallToAction;
   links: ProjectLinks;
+  /**
+   * Screenshot / preview image shown at the top of the card.
+   * Import the image in the data file:
+   *   import riskforge from '~/assets/images/projects/riskforge.png';
+   *   image: { src: riskforge, alt: 'Risk Forge dashboard' }
+   */
+  image?: {
+    src: ImageMetadata | string;
+    alt: string;
+  };
 }
 
 export interface FeaturedProject extends BaseProject {

@@ -1,9 +1,7 @@
 ---
 import Layout from '../layouts/PageLayout.astro';
 import HeroText from '../components/widgets/HeroText.astro';
-import Header from '../components/widgets/Header.astro';
 import ContactForm from '../components/widgets/ContactForm.astro';
-import ParticleBackground from '../components/effects/ParticleBackground.astro';
 
 const metadata = {
   title: 'Contact',
@@ -11,28 +9,7 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Particle Background -->
-  <ParticleBackground density={80} />
 
-  <Fragment slot="header">
-    <Header
-      links={[
-        { text: 'Home', href: '/' },
-        { text: 'About', href: '/about' },
-        { text: 'Projects', href: '/projects' },
-        { text: 'Blog', href: '/blog' },
-      ]}
-      actions={[
-        {
-          text: 'Contact me!',
-          href: '#contact',
-        },
-      ]}
-      isSticky
-      showToggleTheme
-    />
-  </Fragment>
-  
   <!-- HeroText Widget ******************* -->
   <HeroText tagline="Contact" title="<span class='text-gradient-animated'>Let's Connect!</span>" />
 

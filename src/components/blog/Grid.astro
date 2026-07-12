@@ -4,11 +4,13 @@ import type { Post } from '../../types';
 
 export interface Props {
   posts: Array<Post>;
+  /** Render the first (newest) post as a full-width feature card */
+  featureFirst?: boolean;
 }
 
-const { posts } = Astro.props;
+const { posts, featureFirst = false } = Astro.props;
 ---
 
 <div class="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 lg:grid-cols-3 mb-8">
-  {posts.map((post) => <Item post={post} />)}
+  {posts.map((post, index) => <Item post={post} isFeatured={featureFirst && index === 0} />)}
 </div>

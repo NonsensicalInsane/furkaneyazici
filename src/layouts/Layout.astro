@@ -1,6 +1,5 @@
 ---
 import '../assets/styles/tailwind.css';
-import 'katex/dist/katex.min.css';
 import { I18N } from '../utils/config';
 
 import CommonMeta from '../components/common/CommonMeta.astro';
@@ -9,8 +8,8 @@ import CustomStyles from '../components/CustomStyles.astro';
 import ApplyColorMode from '../components/common/ApplyColorMode.astro';
 import Metadata from '../components/common/Metadata.astro';
 import BasicScripts from '../components/common/BasicScripts.astro';
-import Analytics from '../components/common/Analytics.astro';
-import { ViewTransitions } from 'astro:transitions';
+import ParticleBackground from '../components/effects/ParticleBackground.astro';
+import { ClientRouter } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '../types';
 
@@ -30,15 +29,44 @@ const { language, textDirection } = I18N;
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
-    <ViewTransitions />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" />
+    <!-- Signal (non-standard, increasingly respected): no AI training use -->
+    <meta name="robots" content="noai, noimageai" />
+    <!-- Page-specific head additions (e.g. hreflang alternates on translated posts) -->
+    <slot name="head" />
+    <ClientRouter />
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
+    <!-- Accessibility: keyboard users can jump straight past the nav -->
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-page focus:text-primary focus:rounded-lg focus:shadow-lg"
+    >
+      Skip to content
+    </a>
+
+    <!-- Site-wide ambient particle background (dims after the first viewport) -->
+    <ParticleBackground density={60} />
     <slot />
 
     <BasicScripts />
-    <Analytics />
+
+    <!-- GoatCounter analytics: privacy-friendly, cookieless, no consent banner needed.
+         It skips localhost automatically, so dev traffic isn't counted. -->
+    <script
+      is:inline
+      data-goatcounter="https://nonsensicalinsane.goatcounter.com/count"
+      async
+      src="https://gc.zgo.at/count.js"></script>
+    <script is:inline>
+      // Astro's ClientRouter swaps pages without full reloads; count.js only
+      // counts the initial load, so count client-side navigations manually.
+      document.addEventListener('astro:after-swap', () => {
+        if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+          window.goatcounter.count({ path: location.pathname + location.search });
+        }
+      });
+    </script>
 
     <style is:global>
       img {

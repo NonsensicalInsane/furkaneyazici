@@ -1,32 +1,68 @@
 ---
+// KaTeX styles are only needed where math can actually render (blog posts)
+import 'katex/dist/katex.min.css';
+
 import { Icon } from 'astro-icon/components';
 
 import Image from '../../components/common/Image.astro';
 import PostTags from '../../components/blog/Tags.astro';
 import ShareButtons from '../../components/blog/ShareButtons.astro';
 import ReadingProgressBar from '../../components/blog/ReadingProgressBar.astro';
+import TableOfContents from '../../components/blog/TableOfContents.astro';
+import Callout from '../../components/blog/Callout.astro';
+import Quote from '../../components/blog/Quote.astro';
 
 import { getPermalink } from '../../utils/permalinks';
 import { getFormattedDate } from '../../utils/utils';
+import { languageName } from '../../utils/blog';
 
 import type { Post } from '../../types';
 
 export interface Props {
   post: Post;
   url: string | URL;
+  /** Other language versions of this post (same translationKey) */
+  translations?: Array<Post>;
 }
 
-const { post, url } = Astro.props;
+const { post, url, translations = [] } = Astro.props;
 const { Content } = post;
+
+// Structured data: helps search engines & AI answer engines feature the
+// article (rich results, citations) without them needing to guess.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.excerpt,
+  datePublished: post.publishDate ? new Date(post.publishDate).toISOString() : undefined,
+  dateModified: post.updateDate ? new Date(post.updateDate).toISOString() : undefined,
+  author: {
+    '@type': 'Person',
+    name: post.author || 'Furkan Eşref Yazıcı',
+    url: 'https://furkaneyazici.com/about',
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': String(url) },
+  ...(post.lang ? { inLanguage: post.lang } : {}),
+  ...(typeof post.image === 'string'
+    ? { image: post.image }
+    : post.image && typeof post.image === 'object' && 'src' in post.image
+      ? { image: new URL((post.image as { src: string }).src, url).href }
+      : {}),
+};
 ---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 <section class="py-8 sm:py-16 lg:py-20 mx-auto">
   <!-- Reading Progress Bar -->
   <ReadingProgressBar />
   
-  <article>
+  <article lang={post.lang}>
     <header class={post.image ? '' : ''}>
-      <div class="flex justify-between flex-col sm:flex-row max-w-3xl mx-auto mt-0 mb-2 px-4 sm:px-6 sm:items-center">
+      <div
+        class="flex justify-between flex-col sm:flex-row max-w-3xl mx-auto mt-0 mb-2 px-4 sm:px-6 sm:items-center animate-fade-in-up"
+      >
         <p>
           <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
           <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
@@ -60,13 +96,32 @@ const { Content } = post;
         </p>
       </div>
 
+      {
+        translations.length > 0 && (
+          <div class="flex flex-wrap items-center gap-2 max-w-3xl mx-auto mb-3 px-4 sm:px-6 text-sm animate-fade-in-up">
+            <Icon name="tabler:language" class="w-4 h-4 text-muted dark:text-slate-400" />
+            <span class="text-muted dark:text-slate-400">Also available in:</span>
+            {translations.map((t) => (
+              <a
+                href={getPermalink(t.permalink, 'post')}
+                hreflang={t.lang}
+                lang={t.lang}
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full border border-gray-200 dark:border-slate-700 text-primary dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors font-medium"
+              >
+                {languageName(t.lang || '')}
+              </a>
+            ))}
+          </div>
+        )
+      }
+
       <h1
-        class="px-4 sm:px-6 max-w-3xl mx-auto text-4xl md:text-5xl font-bold leading-tighter tracking-tighter font-heading"
+        class="px-4 sm:px-6 max-w-3xl mx-auto text-4xl md:text-5xl font-bold leading-tighter tracking-tighter font-heading text-balance animate-fade-in-up delay-150"
       >
         {post.title}
       </h1>
       <p
-        class="max-w-3xl mx-auto mt-4 mb-8 px-4 sm:px-6 text-xl md:text-2xl text-muted dark:text-slate-400 text-justify"
+        class="max-w-3xl mx-auto mt-4 mb-8 px-4 sm:px-6 text-lg md:text-xl text-muted dark:text-slate-400 leading-relaxed animate-fade-in-up delay-300"
       >
         {post.excerpt}
       </p>
@@ -91,10 +146,23 @@ const { Content } = post;
         )
       }
     </header>
-    <div
-      class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px]"
-    >
-      {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
+    <div class="mx-auto max-w-3xl xl:max-w-7xl xl:grid xl:grid-cols-[1fr_minmax(0,48rem)_1fr] xl:gap-8 mt-8">
+      <div class="hidden xl:block" aria-hidden="true"></div>
+      <div class="min-w-0">
+        <div class="px-6 sm:px-6 mb-6 xl:hidden">
+          <TableOfContents headings={post.headings} variant="inline" />
+        </div>
+        <div
+          class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg prose-headings:scroll-mt-[80px]"
+        >
+          {Content ? <Content components={{ Callout, Quote }} /> : <Fragment set:html={post.content || ''} />}
+        </div>
+      </div>
+      <aside class="hidden xl:block">
+        <div class="sticky top-24">
+          <TableOfContents headings={post.headings} variant="sidebar" />
+        </div>
+      </aside>
     </div>
     <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-8">
       <div class="flex justify-between flex-col sm:flex-row mb-6">
@@ -113,3 +181,123 @@ const { Content } = post;
     </div>
   </article>
 </section>
+
+<script>
+  // Copy attribution: long selections copied from the article automatically
+  // carry the source and license. Short quotes are left untouched, and
+  // reading/selecting is never blocked — this protects attribution without
+  // hurting readers or accessibility.
+  function initCopyAttribution() {
+    const article = document.querySelector('article');
+    if (!article || (article as HTMLElement).dataset.copyAttribution) return;
+    (article as HTMLElement).dataset.copyAttribution = 'true';
+
+    article.addEventListener('copy', (e: Event) => {
+      const selection = document.getSelection();
+      const text = selection?.toString() ?? '';
+      if (text.length < 120) return; // short quotes stay as-is
+
+      // Never append attribution to code — it would break when pasted
+      const anchor = selection?.anchorNode;
+      const el = anchor instanceof Element ? anchor : anchor?.parentElement;
+      if (el?.closest('pre')) return;
+
+      const attribution = `\n\n— ${document.title}\n${location.href}\n© Furkan Eşref Yazıcı · CC BY 4.0 (attribution required)`;
+      const clipboard = (e as ClipboardEvent).clipboardData;
+      if (clipboard) {
+        clipboard.setData('text/plain', text + attribution);
+        e.preventDefault();
+      }
+    });
+  }
+
+  // Copy button on every code block (Shiki renders static <pre>, so we add it here)
+  function initCodeCopy() {
+    document.querySelectorAll<HTMLPreElement>('.prose pre').forEach((pre) => {
+      if (pre.closest('.code-frame')) return;
+      const frame = document.createElement('div');
+      frame.className = 'code-frame';
+      pre.parentNode?.insertBefore(frame, pre);
+      frame.appendChild(pre);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'code-copy';
+      btn.setAttribute('aria-label', 'Copy code');
+      const copyIcon =
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>';
+      const checkIcon =
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
+      btn.innerHTML = copyIcon;
+      btn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(pre.innerText.replace(/\n$/, ''));
+          btn.innerHTML = checkIcon;
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.innerHTML = copyIcon;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch {
+          /* clipboard unavailable — leave the button as-is */
+        }
+      });
+      frame.appendChild(btn);
+    });
+  }
+
+  // Hover previews for citations: peek at the reference without losing your place
+  function initFootnotePreviews() {
+    if (window.matchMedia('(hover: none)').matches) return; // touch: tapping jumps to References
+    document.querySelectorAll<HTMLAnchorElement>('a[data-footnote-ref]').forEach((ref) => {
+      if (ref.dataset.fnPreview) return;
+      ref.dataset.fnPreview = 'true';
+
+      let tip: HTMLDivElement | null = null;
+
+      const show = () => {
+        const id = decodeURIComponent((ref.getAttribute('href') || '').slice(1));
+        const note = document.getElementById(id);
+        if (!note || tip) return;
+
+        const clone = note.cloneNode(true) as HTMLElement;
+        clone.querySelectorAll('[data-footnote-backref]').forEach((a) => a.remove());
+
+        tip = document.createElement('div');
+        tip.className = 'footnote-tooltip';
+        tip.setAttribute('role', 'tooltip');
+        tip.innerHTML = clone.innerHTML;
+        document.body.appendChild(tip);
+
+        const r = ref.getBoundingClientRect();
+        const width = Math.min(360, window.innerWidth - 24);
+        tip.style.width = `${width}px`;
+        let left = r.left + r.width / 2 - width / 2;
+        left = Math.max(12, Math.min(left, window.innerWidth - width - 12));
+        tip.style.left = `${left + window.scrollX}px`;
+        const height = tip.offsetHeight;
+        const above = r.top - height - 10 >= 0;
+        tip.style.top = `${(above ? r.top - height - 10 : r.bottom + 10) + window.scrollY}px`;
+      };
+
+      const hide = () => {
+        tip?.remove();
+        tip = null;
+      };
+
+      ref.addEventListener('mouseenter', show);
+      ref.addEventListener('mouseleave', hide);
+      ref.addEventListener('focus', show);
+      ref.addEventListener('blur', hide);
+    });
+  }
+
+  function initPostEnhancements() {
+    initCopyAttribution();
+    initCodeCopy();
+    initFootnotePreviews();
+  }
+
+  document.addEventListener('DOMContentLoaded', initPostEnhancements);
+  document.addEventListener('astro:page-load', initPostEnhancements);
+</script>

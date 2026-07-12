@@ -1,0 +1,133 @@
+---
+title: Post authoring guide (never published)
+excerpt: Reference for every content feature available in blog posts. Copy syntax from here.
+publishDate: 2026-07-12
+draft: true
+---
+
+{/*
+  This file is a syntax cheatsheet — `draft: true` keeps it off the site.
+  Copy the snippets below into real posts.
+*/}
+
+## Headings & table of contents
+
+Use `##` (h2) and `###` (h3). The TOC in the sidebar (desktop) and the
+"On this page" box (mobile) build themselves from these automatically —
+it appears once a post has 2+ headings.
+
+## Citations
+
+Cite anything inline with a footnote key[^example]. Readers can **hover**
+the [1] marker to preview the reference, or **click** it to jump to the
+References section that appears automatically at the bottom of the post.
+
+Define the reference anywhere in the file (bottom is tidiest):
+
+```md
+Some claim that needs a source[^epr].
+
+[^epr]: Einstein, A., Podolsky, B., Rosen, N. (1935). *Phys. Rev.* 47, 777. [doi:10.1103/PhysRev.47.777](https://doi.org/10.1103/PhysRev.47.777)
+```
+
+Works for papers, videos, blog posts — anything. Use a normal
+`[text](url)` link inside the reference; the `<https://url>` autolink
+syntax does NOT work in MDX files.
+
+## Callouts
+
+No import needed — these are available in every post:
+
+<Callout type="note">
+  Default note. Markdown works inside: **bold**, `code`, [links](/).
+</Callout>
+
+<Callout type="tip" title="Pro tip">
+  Custom titles via the `title` prop.
+</Callout>
+
+<Callout type="warning">
+  Amber, for things that can go wrong.
+</Callout>
+
+<Callout type="important">
+  Violet, for the one thing readers must not miss.
+</Callout>
+
+## Quotes
+
+For short inline quotes, plain markdown `>` blockquotes are fine. For a
+featured quote with attribution:
+
+<Quote author="Richard Feynman" source="Simulating Physics with Computers" href="https://doi.org/10.1007/BF02650179">
+  Nature isn't classical, dammit, and if you want to make a simulation of
+  nature, you'd better make it quantum mechanical.
+</Quote>
+
+`author`, `source` and `href` are all optional.
+
+## Math
+
+Inline: $|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$ — display:
+
+$$
+\hat{H}\,|\psi\rangle = i\hbar \frac{\partial}{\partial t}|\psi\rangle
+$$
+
+Rendered at build time (KaTeX). `aligned`, `pmatrix` etc. all work.
+
+## Code
+
+Fenced blocks get syntax highlighting and a copy button automatically:
+
+```python
+def hadamard(qubit):
+    return H @ qubit  # superposition
+```
+
+## Images, captions, GIFs, video
+
+Static image with a caption — an italic line right after an image
+becomes a centered caption:
+
+```md
+![Bloch sphere](~/assets/images/posts/bloch.png)
+*Figure 1: state vector on the Bloch sphere.*
+```
+
+Animated GIFs: put them in `public/` and reference `/name.gif`
+(the image optimizer may drop animation for GIFs in `src/assets/`).
+Better yet, use a video — far smaller files:
+
+```html
+<video autoplay loop muted playsinline class="rounded-md shadow-lg">
+  <source src="/videos/demo.webm" type="video/webm" />
+</video>
+```
+
+YouTube/CodePen embeds are currently blocked by the CSP in
+`netlify.toml` — ask to open `frame-src` if you need one.
+
+## Translations
+
+To publish a post in more than one language, create one file per language
+and give them the **same `translationKey`**. Each version gets its own
+filename (= its own URL) and its own `lang`:
+
+```yaml
+# quantum-errors.mdx            # quantum-errors-tr.mdx
+title: Quantum error correction   title: Kuantum hata düzeltme
+translationKey: quantum-errors    translationKey: quantum-errors
+                                  lang: tr
+```
+
+`lang` defaults to `en`, so English posts only need the key. Linked
+versions automatically get:
+
+- an "Also available in: Türkçe / English / …" switcher above the title
+- `hreflang` alternate tags in the head (search engines serve the right one)
+- a language badge on blog cards for non-English posts
+- correct `lang` attributes for screen readers and hyphenation
+
+Any BCP-47 code works (`tr`, `de`, `fr`, `ja`…) — the switcher shows each
+language's native name automatically.

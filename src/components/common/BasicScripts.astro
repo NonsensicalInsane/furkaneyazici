@@ -3,6 +3,7 @@ import { UI } from '../../utils/config';
 ---
 
 <script is:inline define:vars={{ defaultTheme: UI.theme }}>
+  (function () {
   if (window.basic_script) {
     return;
   }
@@ -158,4 +159,118 @@ import { UI } from '../../utils/config';
     onLoad();
     onPageShow();
   });
+  })();
+</script>
+
+<script is:inline>
+  // Global scroll-reveal: reveal .scroll-reveal elements as they enter the
+  // viewport. IntersectionObserver-based (no scroll polling), and everything
+  // is revealed immediately for users who prefer reduced motion.
+  (function () {
+    let observer = null;
+
+    function initScrollReveal() {
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
+
+      const elements = document.querySelectorAll('.scroll-reveal:not(.revealed)');
+      if (!elements.length) return;
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+        elements.forEach((el) => el.classList.add('revealed'));
+        return;
+      }
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: '0px 0px -80px 0px', threshold: 0.1 }
+      );
+
+      elements.forEach((el) => observer.observe(el));
+    }
+
+    document.addEventListener('DOMContentLoaded', initScrollReveal);
+    document.addEventListener('astro:page-load', initScrollReveal);
+    document.addEventListener('astro:after-swap', initScrollReveal);
+  })();
+</script>
+
+<script is:inline>
+  // Spotlight hover: track the cursor inside cards via CSS variables.
+  // One delegated listener for the whole document — no per-card handlers.
+  (function () {
+    if (window.spotlight_script) return;
+    window.spotlight_script = true;
+
+    document.addEventListener(
+      'pointermove',
+      (e) => {
+        const card = e.target instanceof Element && e.target.closest('.project-card, .modern-card');
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+      },
+      { passive: true }
+    );
+  })();
+</script>
+
+<script is:inline>
+  // Count-up: numbers in [data-countup] elements count from 0 when they
+  // enter the viewport (once, ~1s). Non-numeric suffixes like "+" are kept.
+  (function () {
+    function animateCount(el) {
+      const raw = el.textContent.trim();
+      const match = raw.match(/^(\d+)(.*)$/);
+      if (!match) return;
+      const target = parseInt(match[1], 10);
+      const suffix = match[2] || '';
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced || target === 0) return; // leave final value as-is
+
+      const duration = 1000;
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+        el.textContent = Math.round(eased * target) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      el.textContent = '0' + suffix;
+      requestAnimationFrame(tick);
+    }
+
+    function initCountUp() {
+      const els = document.querySelectorAll('[data-countup]:not([data-countup-done])');
+      if (!els.length) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.setAttribute('data-countup-done', '');
+              animateCount(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      els.forEach((el) => observer.observe(el));
+    }
+
+    document.addEventListener('DOMContentLoaded', initCountUp);
+    document.addEventListener('astro:page-load', initCountUp);
+    document.addEventListener('astro:after-swap', initCountUp);
+  })();
 </script>

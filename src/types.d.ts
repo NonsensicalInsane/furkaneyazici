@@ -40,6 +40,14 @@ export interface Post {
   Content?: AstroComponentFactory;
   content?: string;
 
+  /** Headings extracted at render time, used for the table of contents. */
+  headings?: Array<{ depth: number; slug: string; text: string }>;
+
+  /** BCP-47 language code of the post (defaults to the site language). */
+  lang?: string;
+  /** Posts sharing this key are translations of each other. */
+  translationKey?: string;
+
   /**  */
   readingTime?: number;
 }

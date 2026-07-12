@@ -1,0 +1,43 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  /** Who said it */
+  author?: string;
+  /** Where it's from (book, paper, talk…) */
+  source?: string;
+  /** Optional link to the source */
+  href?: string;
+}
+
+const { author, source, href } = Astro.props;
+---
+
+<figure class="pull-quote not-prose my-8 relative rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 px-6 py-6 sm:px-8">
+  <Icon
+    name="tabler:quote"
+    class="absolute -top-3 left-5 w-7 h-7 text-primary dark:text-blue-400 bg-white dark:bg-slate-900 rounded-full p-0.5"
+    aria-hidden="true"
+  />
+  <blockquote class="text-lg sm:text-xl leading-relaxed italic text-gray-800 dark:text-slate-200">
+    <slot />
+  </blockquote>
+  {
+    (author || source) && (
+      <figcaption class="mt-4 text-sm text-muted dark:text-slate-400">
+        — {author}
+        {author && source && ', '}
+        {source &&
+          (href ? (
+            <cite class="not-italic">
+              <a href={href} target="_blank" rel="noopener noreferrer" class="text-primary dark:text-blue-400 hover:underline">
+                {source}
+              </a>
+            </cite>
+          ) : (
+            <cite class="not-italic">{source}</cite>
+          ))}
+      </figcaption>
+    )
+  }
+</figure>

@@ -3,11 +3,10 @@ import { fileURLToPath } from "url";
 import { defineConfig } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
 import compress from "@playform/compress";
-import preact from "@astrojs/preact";
 
 import tasks from "./src/utils/tasks";
 import {
@@ -31,9 +30,11 @@ export default defineConfig({
   trailingSlash: SITE.trailingSlash ? "always" : "never",
   output: "static",
 
+  // Prefetch links on hover/viewport for snappier navigation
+  prefetch: true,
+
   // —— Integrations ——
   integrations: [
-    tailwind({ applyBaseStyles: false }),
     sitemap(),
     mdx(),
     icon({
@@ -61,7 +62,6 @@ export default defineConfig({
       Logger: 1,
     }),
     tasks(),
-    preact(),
   ],
 
 
@@ -70,10 +70,18 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin, remarkMath],
     rehypePlugins: [responsiveTablesRehypePlugin, rehypeKatex],
+    remarkRehype: {
+      // GFM footnotes double as an academic citation system: [^key] in the
+      // text becomes a numbered link into this section at the bottom.
+      footnoteLabel: "References",
+      footnoteLabelProperties: { className: [""] },
+      footnoteBackLabel: "Back to text",
+    },
   },
 
   // —— Vite customisation ——
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         "~": path.resolve(__dirname, "./src"),

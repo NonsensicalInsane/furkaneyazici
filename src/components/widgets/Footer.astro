@@ -2,6 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import { SITE } from '../../utils/config';
 import { getHomePermalink } from '../../utils/permalinks';
+import { headerData } from '../../navigation';
 import logoicon from '../../assets/images/icons/logo.png';
 import { Image } from 'astro:assets';
 
@@ -10,6 +11,7 @@ interface Link {
   href?: string;
   ariaLabel?: string;
   icon?: string;
+  target?: string;
 }
 
 export interface Props {
@@ -19,28 +21,53 @@ export interface Props {
 }
 
 const { socialLinks = [], theme = 'light' } = Astro.props;
+
+// Reuse the main navigation as footer quick links (single source of truth)
+const quickLinks = headerData.links ?? [];
+const year = new Date().getFullYear();
 ---
 
 <footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
   <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div>
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-slate-300">
-    <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-4 md:py-6">
-      <div class="col-span-12 lg:col-span-4">
-        <div class="mb-2">
-          <a class="inline-block font-bold text-xl" href={getHomePermalink()}>{SITE?.name}</a>
-        </div>
+    <div class="md:flex md:items-start md:justify-between gap-8 py-8">
+      <!-- Identity -->
+      <div class="mb-6 md:mb-0">
+        <a class="inline-flex items-center gap-2 font-bold text-xl" href={getHomePermalink()}>
+          <Image src={logoicon} class="rounded-sm" alt="FEY monogram" width={28} height={28} />
+          {SITE?.name}
+        </a>
       </div>
-    </div>
-    <div class="md:flex md:items-center md:justify-between py-2 md:py-4">
+
+      <!-- Quick links -->
+      <nav aria-label="Footer navigation" class="mb-6 md:mb-0">
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          {
+            quickLinks.map(({ text, href }) => (
+              <li>
+                <a class="hover:text-primary transition-colors" href={href}>
+                  {text}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a class="hover:text-primary transition-colors" href="/contact">Contact</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Social -->
       {
         socialLinks?.length ? (
-          <ul class="flex mb-4 md:order-1 -ml-2 md:ml-4 md:mb-0 rtl:ml-0 rtl:-mr-2 rtl:md:ml-0 rtl:md:mr-4">
-            {socialLinks.map(({ ariaLabel, href, text, icon }) => (
+          <ul class="flex flex-wrap -ml-2">
+            {socialLinks.map(({ ariaLabel, href, text, icon, target }) => (
               <li>
                 <a
-                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+                  class="text-muted dark:text-gray-400 hover:text-primary dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center transition-colors"
                   aria-label={ariaLabel}
                   href={href}
+                  {...(target ? { target, rel: 'noopener noreferrer' } : {})}
                 >
                   {icon && <Icon name={icon} class="w-5 h-5" />}
                   <Fragment set:html={text} />
@@ -52,16 +79,12 @@ const { socialLinks = [], theme = 'light' } = Astro.props;
           ''
         )
       }
+    </div>
 
-      <div class="text-sm mr-4 dark:text-muted">
-        <span
-          class="w-5 h-5 md:w-6 md:h-6 md:-mt-0.5 bg-cover mr-1.5 rtl:mr-0 rtl:ml-1.5 float-left rtl:float-right rounded-sm"
-          ><Image src={logoicon} class="logo" alt="Logo" width={50} height={50} />
-        </span>
-        Made by <a class="text-blue-600 underline dark:text-muted" href="https://github.com/nonsensicalinsane ">
-          The FEY</a
-        >
-      </div>
+    <div
+      class="py-4 border-t border-gray-200/60 dark:border-slate-800 text-center text-sm text-muted dark:text-slate-400"
+    >
+      © {year} Furkan Eşref Yazıcı
     </div>
   </div>
 </footer>

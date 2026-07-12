@@ -1,15 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ParticleBackground from '../components/effects/ParticleBackground.astro';
+import Layout from '../layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
-import { getHomePermalink } from '../utils/permalinks';
 
 const title = `Error 404`;
 ---
 
 <Layout metadata={{ title }}>
-  <!-- Particle Background -->
-  <ParticleBackground density={20} />
   
   <section class="relative min-h-screen flex items-center justify-center px-6">
     <div class="text-center max-w-2xl mx-auto scroll-reveal">
@@ -78,7 +74,7 @@ const title = `Error 404`;
         </p>
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-800 dark:text-blue-200">
           <Icon name="tabler:bulb" class="w-4 h-4" />
-          <span class="text-sm">Quantum computers can process 2^n states simultaneously!</span>
+          <span class="text-sm">n qubits span a 2<sup>n</sup>-dimensional state space — this page just isn't in it.</span>
         </div>
       </div>
     </div>

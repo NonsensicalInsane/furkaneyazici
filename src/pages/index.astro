@@ -1,89 +1,134 @@
 ---
 import Layout from '../layouts/PageLayout.astro';
-import Header from '../components/widgets/Header.astro';
 import Hero from '../components/widgets/Hero.astro';
 import Content from '../components/widgets/Content.astro';
 import Features3 from '../components/widgets/Features3.astro';
 import ProjectShowcase from '../components/widgets/ProjectShowcase.astro';
-import ParticleBackground from '../components/effects/ParticleBackground.astro';
-// import Testimonials from '~/components/widgets/Testimonials.astro';
 import BlogLatestPosts from '../components/widgets/BlogLatestPosts.astro';
-import { Icon } from 'astro-icon/components';
+import Button from '../components/ui/Button.astro';
 import Features2 from '../components/widgets/Features2.astro';
 import CalltoAction from '../components/widgets/CallToAction.astro';
 import patreon from '../assets/images/icons/patreon.png';
 import { featuredProjects } from '../content/projects/featured';
 import type { FeaturedProject } from '../content/projects/types';
 
+// Homepage sets the full title itself; skip the "%s — Furkan Eşref Yazıcı" template
 const metadata = {
-  title: 'The FEY Website',
+  title: 'Furkan Eşref Yazıcı — Physicist & Developer',
+  ignoreTitleTemplate: true,
 };
 
-// Get only the latest 3 projects for horizontal display
+// Latest 3 projects for the homepage teaser
 const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
+
+// Person schema: tells search engines & AI assistants who this site is about,
+// so they can surface and cite it correctly.
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Furkan Eşref Yazıcı',
+  url: 'https://furkaneyazici.com',
+  jobTitle: 'Physicist & Developer',
+  knowsAbout: ['Physics', 'Machine Learning', 'Deep Learning', 'Quantum Computing'],
+  email: 'mailto:yazici.furkan@proton.me',
+  sameAs: [
+    'https://github.com/nonsensicalinsane',
+    'https://www.linkedin.com/in/furkaneyazici',
+    'https://twitter.com/furkaneyazici',
+    'https://instagram.com/furkaneyazici',
+    'https://www.youtube.com/@furkaneyazici',
+  ],
+};
 ---
 
 <Layout metadata={metadata}>
-  <!-- Particle Background -->
-  <ParticleBackground density={80} />
-  
-  <Fragment slot="header">
-    <Header
-      links={[
-        { text: 'Home', href: '#' },
-        { text: 'About', href: '/about' },
-        { text: 'Projects', href: '/projects' },
-        { text: 'Blog', href: '/blog' },
-      ]}
-      actions={[
-        {
-          text: 'Contact me!',
-          href: '/contact',
-        },
-      ]}
-      isSticky
-      showToggleTheme
-    />
-  </Fragment>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 
-  <!-- Hero2 Widget ******************* -->
+  <!-- Hero: short, direct, with clear next steps -->
 
-  <Hero id="hero" title="Furkan Eşref Yazıcı" tagline="Researcher & Developer">
+  <Hero
+    id="hero"
+    title="Furkan Eşref Yazıcı"
+    tagline="Physicist · Machine Learning · Quantum Computing"
+    actions={[
+      { variant: 'primary', text: 'View my projects', href: '/projects', icon: 'tabler:arrow-right' },
+      { text: 'Get in touch', href: '/contact' },
+    ]}
+  >
     <Fragment slot="subtitle">
-      <div class="animate-fade-in-up">
-        This website showcases my journey into technology and research, reflecting my passion for innovation. Here, I
-        share insights and project outcomes, aiming to foster dialogue and learning with others in the tech community. My
-        goal is to contribute to the ongoing conversation about technology's impact on our future and to continually
-        deepen my own expertise. Additionally, illustrations in this website are created by me, and I am open to
-        collaborations and commissions for your different projects
-      </div>
+      I research deep learning and quantum computing, and turn that research into software, writing, and
+      illustrations.
     </Fragment>
   </Hero>
 
-  <!-- Content Widget **************** -->
+  <!-- Featured projects: the main event, right after the hero.
+       Hidden entirely until there are projects to show. -->
+
+  {
+    latestProjects.length > 0 && (
+      <div class="relative">
+        <ProjectShowcase
+          title="Featured Projects"
+          subtitle="A selection of my recent work — research, software, and everything in between."
+          projects={latestProjects}
+          showFilter={false}
+          columns={3}
+        />
+
+        <div class="text-center mt-2 mb-16">
+          <Button variant="primary" text="More projects" href="/projects" icon="tabler:arrow-right" />
+        </div>
+      </div>
+    )
+  }
+
+  <!-- Skills -->
+
+  <Features3
+    title="<span class='text-gradient'>Skills</span>"
+    subtitle="Where I do my best work."
+    columns={3}
+    defaultIcon="tabler:point-filled"
+    className="scroll-reveal"
+    items={[
+      {
+        title: 'Deep Learning & Data Science',
+        description: 'Models that turn data into insight.',
+        icon: 'tabler:brain',
+      },
+      {
+        title: 'Quantum Computing',
+        description: 'Algorithms beyond the reach of classical computers.',
+        icon: 'tabler:atom',
+      },
+      {
+        title: 'Research',
+        description: 'Where physics meets computation.',
+        icon: 'tabler:book',
+      },
+      {
+        title: 'Software Development',
+        description: 'Tools and applications that power my research.',
+        icon: 'tabler:code',
+      },
+      {
+        title: 'Graphic Design',
+        description: 'Clear, striking visuals — including this site’s illustrations.',
+        icon: 'tabler:brush',
+      },
+      {
+        title: 'Adaptability',
+        description: 'Quick to learn, quick to shift with the field.',
+        icon: 'tabler:refresh',
+      },
+    ]}
+  />
+
+  <!-- About -->
 
   <Content
     id="about"
     columns={3}
-    items={[
-      {
-        icon: 'tabler:brand-github',
-        callToAction: {
-          target: '_blank',
-          text: 'Github',
-          href: 'https://www.github.com/nonsensicalinsane',
-        },
-      },
-
-      {
-        icon: 'tabler:brand-linkedin',
-        callToAction: {
-          target: '_blank',
-          text: 'LinkedIn',
-          href: 'https://www.linkedin.com/in/furkaneyazici',
-        },
-      },
-    ]}
     callToAction={{
       text: 'More about me and my resume!',
       icon: 'tabler:chevron-right',
@@ -98,10 +143,8 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
     <Fragment slot="content">
       <h2 class="text-2xl font-bold tracking-tight text-gradient sm:text-3xl mb-4">About me</h2>
       <p class="text-lg leading-relaxed dark:text-slate-300">
-        Hello, I'm an interdisciplinary researcher passionate about exploring various fields and turning my research
-        into projects. The areas I specialize in mostly revolve around deep learning and quantum computing, particularly
-        their mathematical and theoretical aspects as well as their applications to various other fields. <br /><br /> To learn
-        more about me, click the button below:
+        Interdisciplinary researcher specializing in deep learning and quantum computing — from theory to
+        application. The illustrations on this site are my own; I'm open to collaborations and commissions.
       </p>
     </Fragment>
 
@@ -110,93 +153,12 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
     </Fragment>
   </Content>
 
-  <!-- Steps Widget ****************** -->
-
-  <!-- Features3 Widget ************** -->
-
-  <Features3
-    title="<span class='text-gradient-animated'>Skills</span>"
-    subtitle="I have a diverse skill set that spans across various domains. Here are some of my key areas of expertise."
-    columns={3}
-    defaultIcon="tabler:point-filled"
-    className="scroll-reveal"
-    items={[
-      {
-        title: 'Graphic design',
-        description: 'Proficient in crafting visually appealing designs that convey messages effectively.',
-        icon: 'tabler:brush',
-      },
-      {
-        title: 'Data Science & Deep Learning',
-        description:
-          'My work involves utilizing data analysis and deep learning to unearth insights and solve problems in innovative ways.',
-        icon: 'tabler:brain',
-      },
-      {
-        title: 'Quantum Computing',
-        description:
-          'I am exploring the potential of quantum computing to address challenges that are currently beyond the scope of classical computing methods.',
-        icon: 'tabler:atom',
-      },
-      {
-        title: 'Research',
-        description:
-          'My research interests are broad, spanning across quantum machine learning to other interdisciplinary areas where technology and science converge to offer novel solutions and deeper understanding.',
-        icon: 'tabler:book',
-      },
-      {
-        title: 'Software Development',
-        description:
-          'I develop applications and tools that aid in research and projects related to my fields of interest, using a variety of programming languages to create meaningful contributions.',
-        icon: 'tabler:code',
-      },
-      {
-        title: 'Adaptability',
-        description:
-          'I am adept at adapting to new technologies, tools, and methodologies, allowing me to stay ahead of the curve and remain agile in the face of change.',
-        icon: 'tabler:refresh',
-      },
-    ]}
-  />
-
-  <!-- Content Widget **************** -->
-
-  <!-- Enhanced Project Showcase -->
-  <div class="relative">
-    <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    <ProjectShowcase 
-      title="<span class='text-gradient'>Featured Projects</span>"
-      subtitle="Explore my most recent projects and the creative process behind them."
-      projects={latestProjects}
-      showFilter={false}
-      columns={3}
-    />
-
-    <!-- More Projects Button -->
-    <div class="text-center mt-8">
-      <a 
-        href="/projects"
-        class="inline-flex items-center px-8 py-4 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-900 dark:text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 btn-enhanced"
-      >
-        <Icon name="tabler:folder" class="w-5 h-5 mr-2" />
-        More Projects
-        <Icon name="tabler:arrow-right" class="w-5 h-5 ml-2" />
-      </a>
-    </div>
-  </div>
-
-  <!-- Content Widget **************** -->
-
-  <!-- Testimonials Widget *********** -->
-
-  <!-- CallToAction Widget *********** -->
-
-  <!-- BlogLatestPost Widget **************** -->
+  <!-- Latest blog posts -->
 
   <BlogLatestPosts
     id="blog"
-    title="Explore my insightful articles on my <span class='text-gradient-blue'>blog</span>"
-    information="I share my thoughts, insights, and discoveries on a variety of topics, including quantum computing, machine learning, and more."
+    title="Latest from the <span class='text-gradient-blue'>blog</span>"
+    information="Notes on quantum computing, machine learning, and whatever else I'm exploring."
     linkText="View All Posts"
     count={4}
   >
@@ -205,11 +167,12 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
     </Fragment>
   </BlogLatestPosts>
 
+  <!-- Support -->
 
   <CalltoAction
     id="patreon"
     title="Help me on my journey!"
-    subtitle="If you would like to support me financially in my work, projects, blog posts and YouTube videos. You can support me through the Patreon link below."
+    subtitle="Enjoying the projects, posts and videos? You can support them on Patreon."
     actions={[
       {
         text: 'Support me on Patreon',
@@ -217,13 +180,15 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
         target: '_blank',
       },
     ]}
-    ,
     logo={patreon.src}
   />
+
+  <!-- Contact channels -->
+
   <Features2
-    title="<span class='text-gradient'>I am here to help!</span>"
+    title="<span class='text-gradient'>Let's work together</span>"
     id="contact"
-    subtitle="Reach out to me for collaborations, inquiries, or to simply say hello!"
+    subtitle="Collaborations, inquiries — or just say hi."
     items={[
       {
         title: 'Email',
@@ -245,6 +210,11 @@ const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
         title: 'Github',
         description: '<a href="https://www.github.com/nonsensicalinsane" target="_blank">@nonsensicalinsane</a>',
         icon: 'tabler:brand-github',
+      },
+      {
+        title: 'Instagram',
+        description: '<a href="https://instagram.com/furkaneyazici" target="_blank">@furkaneyazici</a>',
+        icon: 'tabler:brand-instagram',
       },
       {
         title: 'Discord',

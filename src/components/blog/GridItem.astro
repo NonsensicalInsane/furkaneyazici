@@ -1,5 +1,5 @@
 ---
-import { APP_BLOG } from '../../utils/config';
+import { APP_BLOG, I18N } from '../../utils/config';
 import type { Post } from '../../types';
 import { Icon } from 'astro-icon/components';
 
@@ -12,93 +12,131 @@ import { getFormattedDate } from '../../utils/utils';
 
 export interface Props {
   post: Post;
+  /** Full-width horizontal layout for the newest post */
+  isFeatured?: boolean;
 }
 
-const { post } = Astro.props;
+const { post, isFeatured = false } = Astro.props;
 const image = await findImage(post.image);
 const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
+// Badge only for posts not in the site's default language
+const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang.toUpperCase() : undefined;
 ---
 
-<article 
-  class="group bg-white dark:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-slate-800 hover:border-gray-200 dark:hover:border-slate-700 card-hover scroll-reveal"
+<article
+  class:list={[
+    'group bg-white dark:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-slate-800 hover:border-gray-200 dark:hover:border-slate-700 card-hover scroll-reveal',
+    isFeatured && 'md:col-span-2 lg:col-span-3',
+  ]}
   data-blog-post={post.slug}
 >
-  {
-    image && (
-      <div class="relative overflow-hidden">
-        <a href={link || 'javascript:void(0)'} class="block">
-          <Image
-            src={image}
-            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-            widths={[400, 600]}
-            width={600}
-            sizes="(max-width: 768px) 400px, 600px"
-            alt={post.title}
-            aspectRatio="16:9"
-            loading="lazy"
-            decoding="async"
-          />
-        </a>
-        {
-          post.category && (
+  <div class={isFeatured ? 'md:grid md:grid-cols-2' : ''}>
+    {
+      image && (
+        <div class="relative overflow-hidden">
+          <a href={link || 'javascript:void(0)'} class="block h-full">
+            <Image
+              src={image}
+              class:list={[
+                'w-full object-cover group-hover:scale-105 transition-transform duration-300',
+                isFeatured ? 'h-48 sm:h-64 md:h-full' : 'h-48',
+              ]}
+              widths={[400, 600, 900]}
+              width={isFeatured ? 900 : 600}
+              sizes={isFeatured ? '(max-width: 768px) 400px, 900px' : '(max-width: 768px) 400px, 600px'}
+              alt={post.title}
+              aspectRatio={isFeatured ? undefined : '16:9'}
+              loading={isFeatured ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </a>
+          {post.category && (
             <div class="absolute top-4 left-4">
               <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/90 text-white backdrop-blur-sm">
                 {post.category.replaceAll('-', ' ')}
               </span>
             </div>
+          )}
+          {isFeatured && (
+            <div class="absolute top-4 right-4">
+              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-white/90 text-gray-900 backdrop-blur-sm dark:bg-slate-900/90 dark:text-white">
+                <Icon name="tabler:sparkles" class="w-3.5 h-3.5" />
+                Latest
+              </span>
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    <div class:list={[isFeatured ? 'p-6 md:p-8 lg:p-10 flex flex-col justify-center' : 'p-6']}>
+      <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-slate-400 mb-3">
+        <div class="flex items-center gap-1">
+          <Icon name="tabler:clock" class="w-4 h-4" />
+          <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
+        </div>
+        {
+          post.readingTime && (
+            <div class="flex items-center gap-1">
+              <Icon name="tabler:book" class="w-4 h-4" />
+              <span>{post.readingTime} min read</span>
+            </div>
+          )
+        }
+        {
+          langBadge && (
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300">
+              <Icon name="tabler:language" class="w-3.5 h-3.5" />
+              {langBadge}
+            </span>
           )
         }
       </div>
-    )
-  }
-  
-  <div class="p-6">
-    <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-slate-400 mb-3">
-      <div class="flex items-center gap-1">
-        <Icon name="tabler:clock" class="w-4 h-4" />
-        <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
-      </div>
+
+      <h3
+        class:list={[
+          'font-bold leading-tight mb-3 font-heading group-hover:text-primary dark:group-hover:text-blue-400 transition-colors duration-200',
+          isFeatured ? 'text-2xl md:text-3xl' : 'text-xl',
+        ]}
+      >
+        {
+          link ? (
+            <a href={link} class="block">
+              {post.title}
+            </a>
+          ) : (
+            post.title
+          )
+        }
+      </h3>
+
       {
-        post.readingTime && (
-          <div class="flex items-center gap-1">
-            <Icon name="tabler:book" class="w-4 h-4" />
-            <span>{post.readingTime} min read</span>
-          </div>
-        )
-      }
-    </div>
-    
-    <h3 class="text-xl font-bold leading-tight mb-3 font-heading group-hover:text-primary dark:group-hover:text-blue-400 transition-colors duration-200">
-      {
-        link ? (
-          <a href={link} class="block">
-            {post.title}
-          </a>
-        ) : (
-          post.title
-        )
-      }
-    </h3>
-    
-    {post.excerpt && (
-      <p class="text-gray-600 dark:text-slate-300 text-base leading-relaxed mb-4 line-clamp-3">
-        {post.excerpt}
-      </p>
-    )}
-    
-    <div class="flex items-center justify-between">
-      <PostTags tags={post.tags} class="flex-1" />
-      {
-        link && (
-          <a 
-            href={link}
-            class="inline-flex items-center text-primary dark:text-blue-400 hover:text-primary-600 dark:hover:text-blue-300 font-medium text-sm transition-colors duration-200"
+        post.excerpt && (
+          <p
+            class:list={[
+              'text-gray-600 dark:text-slate-300 text-base leading-relaxed mb-4',
+              isFeatured ? 'md:text-lg line-clamp-4' : 'line-clamp-3',
+            ]}
           >
-            Read more
-            <Icon name="tabler:arrow-right" class="w-4 h-4 ml-1" />
-          </a>
+            {post.excerpt}
+          </p>
         )
       }
+
+      <div class="flex items-center justify-between">
+        <PostTags tags={post.tags} class="flex-1" />
+        {
+          link && (
+            <a
+              href={link}
+              class="inline-flex items-center text-primary dark:text-blue-400 hover:text-primary-600 dark:hover:text-blue-300 font-medium text-sm transition-colors duration-200"
+            >
+              Read more
+              <Icon name="tabler:arrow-right" class="w-4 h-4 ml-1" />
+            </a>
+          )
+        }
+      </div>
     </div>
   </div>
 </article>

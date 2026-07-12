@@ -2,13 +2,12 @@ import type { AboutContent } from './types';
 
 export const aboutData: AboutContent = {
   personal: {
-    name: "FEY",
+    name: "Furkan",
     title: "Interdisciplinary Researcher & Quantum Computing Enthusiast",
     subtitle: "Hi, I'm",
     description: [
-      "Hello, I am an interdisciplinary researcher who is passionate about exploring various fields, conducting research in these areas, and endeavoring to transform my studies into projects. In addition to my areas of interest, I am also a computational physicist.",
-      "The specific areas I am specializing in primarily involve the mathematical and theoretical aspects of deep learning and quantum computing, as well as their applications to various other fields.",
-      "Due to my passion for research, I have been involved in numerous research groups during my undergraduate studies to enhance my skills. Additionally, to reach out to a broader audience, I co-founded a community at my university with my friends and organized various events, including a hackathon."
+      "I'm a computational physicist working on deep learning and quantum computing — from the underlying math to real applications.",
+      "During my undergrad I worked in several research groups, and co-founded a university community that organized events including a hackathon."
     ],
     expertise: [
       "🔬 Physics",
@@ -29,8 +28,8 @@ export const aboutData: AboutContent = {
       location: "Ankara, Turkey",
       startDate: "Nov 2021",
       endDate: "Jun 2023",
-      description: "The laboratory's research area centers on intricate, far-from-equilibrium phenomena. I was actively helped on the development of Python code to assess causality resulting from interparticle collisions . Supervisor: Dr. Serim Ilday.",
-      supervisor: "Dr. Serim İlday",
+      description: "Assisted a PhD student's project on causality in interparticle collisions, contributing to its Python tooling, in a lab studying far-from-equilibrium phenomena.",
+      supervisor: "Prof. Dr. Serim İlday",
       icon: "🔬",
       color: "from-blue-500 to-purple-600"
     },
@@ -40,7 +39,7 @@ export const aboutData: AboutContent = {
       location: "Ankara, Turkey",
       startDate: "Feb 2020",
       endDate: "Jun 2022",
-      description: "Contributed to Quantum Convolutional Neural Networks (QCNN) for image detection utilizing various quantum gate algorithms. Also, applied Quantum Machine Learning techniques to address the 'Travelling Salesman' problem within a research team.",
+      description: "Built Quantum Convolutional Neural Networks (QCNN) for image detection and applied quantum machine learning to the Travelling Salesman problem.",
       supervisor: "Prof. M. Bilge Demirköz",
       icon: "⚛️",
       color: "from-purple-500 to-indigo-600"
@@ -55,8 +54,8 @@ export const aboutData: AboutContent = {
       startDate: "Sep 2023",
       endDate: "Present",
       description: [
-        "Developed advanced logistics algorithms utilizing Quantum Computing to optimize cargo with neural networks and helped on routing algorithms. Built and designed website using React for microservice powered by FastAPI.",
-        "Collaborated with investors and partner companies to assist the CEO in fundraising and business development activities."
+        "Developed quantum-powered cargo optimization and routing algorithms; built the React front end for a FastAPI microservice.",
+        "Supported the CEO in fundraising and business development with investors and partner companies."
       ],
       icon: "⚛️",
       color: "from-emerald-500 to-teal-600"
@@ -68,8 +67,7 @@ export const aboutData: AboutContent = {
       startDate: "Sep 2021",
       endDate: "Jan 2023",
       description: [
-        "The aim of the QTurkey (Quantum Turkey) community is to spread quantum technologies and raise awareness through events held in Turkey.",
-        "As the Outreach Team, our aim is to ensure the growth of the QTurkey community, establish domestic and international collaborations, and to keep the QTurkey family active by organizing new events."
+        "Grew the QTurkey community and built domestic and international collaborations through quantum-technology outreach events across Turkey."
       ],
       icon: "🌟",
       color: "from-teal-500 to-cyan-600"
@@ -81,7 +79,7 @@ export const aboutData: AboutContent = {
       startDate: "Jul 2021",
       endDate: "Aug 2021",
       description: [
-        "The project included the website and classification of all courses and related stuffs."
+        "Built QMap — a website cataloguing and classifying quantum education courses."
       ],
       supervisor: "Zeki Can Seskir",
       supervisorUrl: "https://scholar.google.com/citations?user=vbMPLTMAAAAJ&hl=en",
@@ -145,7 +143,7 @@ export const aboutData: AboutContent = {
     {
       title: "IBM Data Science Professional Certificate",
       provider: "IBM - Coursera",
-      description: "I completed the IBM Data Science Professional Certificate, a rigorous program covering data science fundamentals, machine learning, and practical project work. This certificate demonstrates my proficiency in data analysis, Python programming, and the use of industry-standard tools and libraries.",
+      description: "Data science fundamentals, machine learning, and hands-on project work in Python with industry-standard tools.",
       certificateUrl: "https://coursera.org/share/bd44b9059c4517a867fad0664b0e406d",
       capstoneProject: {
         name: "SpaceX Launch Success Analysis",
@@ -157,7 +155,7 @@ export const aboutData: AboutContent = {
     {
       title: "Google Data Analytics Professional Certificate",
       provider: "Google - Coursera",
-      description: "I acquired key skills in data cleaning, analysis, and visualization using spreadsheets, SQL, R programming, and Tableau. I learned to organize and analyze data, create visualizations, and present findings effectively. Developed expertise in spreadsheet usage, data ethics, problem-solving, and decision-making.",
+      description: "Data cleaning, analysis, and visualization with SQL, R, spreadsheets, and Tableau.",
       certificateUrl: "https://coursera.org/share/5d9bc17f9ad0748a5ddd18392041e7f3",
       icon: "📈",
       color: "from-green-500 to-emerald-600"
@@ -166,7 +164,7 @@ export const aboutData: AboutContent = {
       title: "Deep Learning",
       provider: "Neuromatch Academy",
       date: "August 2021",
-      description: "Completed Neuromatch's Deep Learning course, focusing on advanced neural network architectures and applications. Learned to design, train, and implement deep learning models for tasks such as image recognition and natural language processing, utilizing frameworks like TensorFlow and PyTorch.",
+      description: "Advanced neural-network architectures with TensorFlow and PyTorch, applied to vision and NLP tasks.",
       certificateUrl: "https://portal.neuromatchacademy.org/certificate/924f0e9d-1fa4-44a7-8ae5-9e218b707508",
       icon: "🧠",
       color: "from-purple-500 to-indigo-600"
@@ -175,7 +173,7 @@ export const aboutData: AboutContent = {
       title: "Computational Neuroscience",
       provider: "Neuromatch Academy",
       date: "August 2021",
-      description: "Completed the Neuromatch Computational Neuroscience course, focusing on computational techniques for understanding brain function. Gained skills in neural data analysis, modeling of neural systems, and applying machine learning to neuroscience research.",
+      description: "Neural data analysis, modeling of neural systems, and machine learning applied to neuroscience.",
       certificateUrl: "https://portal.neuromatchacademy.org/certificate/d8922efe-9a30-460d-97aa-759f9b2a6e20",
       icon: "🧬",
       color: "from-teal-500 to-blue-600"
@@ -184,7 +182,7 @@ export const aboutData: AboutContent = {
       title: "Qiskit Summer School Quantum Machine Learning",
       provider: "IBM Qiskit",
       date: "August 2021",
-      description: "Completed IBM's Qiskit Quantum Machine Learning course, learning to apply quantum computing in machine learning. Gained skills in quantum algorithm implementation and optimization using Qiskit.",
+      description: "Quantum machine learning with Qiskit — algorithm implementation and optimization.",
       certificateUrl: "https://drive.google.com/file/d/1SJ-ukSxDxv2DZesPCvr86eufqZYWmpJJ/view",
       icon: "⚛️",
       color: "from-orange-500 to-red-600"
@@ -198,9 +196,14 @@ export const aboutData: AboutContent = {
       icon: "🐙"
     },
     {
-      name: "LinkedIn", 
+      name: "LinkedIn",
       url: "https://www.linkedin.com/in/furkaneyazici",
       icon: "💼"
+    },
+    {
+      name: "Instagram",
+      url: "https://instagram.com/furkaneyazici",
+      icon: "📸"
     }
   ]
 };

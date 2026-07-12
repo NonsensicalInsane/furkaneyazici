@@ -1,4 +1,6 @@
-import { z, defineCollection } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
+import { glob } from 'astro/loaders';
 
 const metadataDefinition = () =>
   z
@@ -6,7 +8,7 @@ const metadataDefinition = () =>
       title: z.string().optional(),
       ignoreTitleTemplate: z.boolean().optional(),
 
-      canonical: z.string().url().optional(),
+      canonical: z.url().optional(),
 
       robots: z
         .object({
@@ -46,6 +48,7 @@ const metadataDefinition = () =>
     .optional();
 
 const postCollection = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/post' }),
   schema: z.object({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
@@ -58,6 +61,11 @@ const postCollection = defineCollection({
     category: z.string().optional(),
     tags: z.array(z.string()).optional(),
     author: z.string().optional(),
+
+    // i18n: BCP-47 code of the post's language (defaults to the site language).
+    // Posts sharing the same translationKey are translations of each other.
+    lang: z.string().optional(),
+    translationKey: z.string().optional(),
 
     metadata: metadataDefinition(),
   }),

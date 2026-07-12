@@ -20,36 +20,37 @@ const {
   items && (
     <div
       class={twMerge(
-        `grid mx-auto gap-8 md:gap-y-12 items-stretch ${
+        `grid mx-auto gap-4 sm:gap-6 lg:gap-8 items-stretch ${
           columns === 4
             ? 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'
             : columns === 3
               ? 'lg:grid-cols-3 sm:grid-cols-2'
               : columns === 2
-                ? 'sm:grid-cols-2 '
+                ? // an odd last card spans both columns but keeps sibling width, centered
+                  'sm:grid-cols-2 [&>:last-child:nth-child(odd)]:sm:col-span-2 [&>:last-child:nth-child(odd)]:sm:w-[calc(50%-0.75rem)] [&>:last-child:nth-child(odd)]:sm:mx-auto'
                 : ''
         }`,
         containerClass
       )}
     >
       {items.map(({ title, description, icon, callToAction, classes: itemClasses = {} }) => (
-        <div class="modern-card p-8 hover-lift group h-full">
+        <div class="modern-card p-5 sm:p-6 lg:p-8 hover-lift group h-full">
           <div class={twMerge('flex flex-col h-full justify-between', panelClass, itemClasses?.panel)}>
-            <div class="flex justify-center mb-6">
+            <div class="flex justify-center mb-4 sm:mb-6">
               {(icon || defaultIcon) && (
-                <div class="p-3 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 group-hover:from-blue-400 group-hover:to-purple-500 transition-all duration-300">
+                <div class="p-2.5 sm:p-3 rounded-full brand-gradient transition-transform duration-300 group-hover:scale-110">
                   <Icon
                     name={icon || defaultIcon}
-                    class={twMerge('w-8 h-8 text-white', itemClasses?.icon)}
+                    class={twMerge('w-6 h-6 sm:w-8 sm:h-8 text-white', itemClasses?.icon)}
                   />
                 </div>
               )}
             </div>
             <div class="text-center flex-1 flex flex-col justify-center">
-              {title && <h3 class={twMerge('text-xl font-bold mb-4 text-white group-hover:text-blue-300 transition-colors duration-300', titleClass, itemClasses?.title)}>{title}</h3>}
+              {title && <h3 class={twMerge('text-lg sm:text-xl font-bold mb-2 sm:mb-4 text-white group-hover:text-blue-300 transition-colors duration-300 text-balance', titleClass, itemClasses?.title)}>{title}</h3>}
               {description && (
                 <p
-                  class={twMerge('text-slate-300 leading-relaxed mx-auto max-w-sm flex-1 flex items-center justify-center', descriptionClass, itemClasses?.description)}
+                  class={twMerge('text-sm sm:text-base text-slate-300 leading-relaxed mx-auto max-w-sm text-balance', descriptionClass, itemClasses?.description)}
                   set:html={description}
                 />
               )}

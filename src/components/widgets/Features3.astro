@@ -59,11 +59,9 @@ const {
     columns={columns}
     defaultIcon={defaultIcon}
     classes={{
-      container: 'mt-12',
-      panel: 'max-w-full sm:max-w-md',
-      title: 'text-lg font-semibold',
-      description: 'mt-0.5',
-      icon: 'flex-shrink-0 mt-1 text-primary w-6 h-6',
+      container: 'mt-8 sm:mt-12',
+      // Cap the text column width, but keep it centered inside the card
+      panel: 'mx-auto w-full max-w-md',
       ...((classes?.items as {}) ?? {}),
     }}
   />

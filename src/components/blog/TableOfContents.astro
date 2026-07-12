@@ -1,0 +1,105 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  headings?: Array<{ depth: number; slug: string; text: string }>;
+  /** 'sidebar' renders the sticky desktop nav, 'inline' the mobile <details> box */
+  variant?: 'sidebar' | 'inline';
+}
+
+const { headings = [], variant = 'sidebar' } = Astro.props;
+
+// Only h2/h3 — deeper levels are noise in a TOC
+const items = headings.filter(({ depth }) => depth === 2 || depth === 3);
+---
+
+{
+  items.length >= 2 && variant === 'sidebar' && (
+    <nav class="toc-nav text-sm" aria-label="Table of contents">
+      <p class="flex items-center gap-2 font-semibold text-gray-900 dark:text-white mb-3">
+        <Icon name="tabler:list-search" class="w-4 h-4" />
+        On this page
+      </p>
+      <ul class="space-y-1 border-l border-gray-200 dark:border-slate-700">
+        {items.map(({ depth, slug, text }) => (
+          <li>
+            <a
+              href={`#${slug}`}
+              data-toc-link={slug}
+              class:list={[
+                'block py-1 border-l-2 border-transparent -ml-px text-muted dark:text-slate-400 hover:text-gray-900 dark:hover:text-white transition-colors',
+                depth === 2 ? 'pl-3' : 'pl-6 text-[0.8rem]',
+              ]}
+            >
+              {text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+{
+  items.length >= 2 && variant === 'inline' && (
+    <details class="toc-inline group rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 px-4 py-3">
+      <summary class="flex items-center gap-2 cursor-pointer select-none text-sm font-semibold text-gray-900 dark:text-white">
+        <Icon name="tabler:list-search" class="w-4 h-4" />
+        On this page
+        <Icon name="tabler:chevron-down" class="w-4 h-4 ml-auto transition-transform group-open:rotate-180" />
+      </summary>
+      <ul class="mt-3 space-y-1.5 text-sm">
+        {items.map(({ depth, slug, text }) => (
+          <li class={depth === 3 ? 'pl-4' : ''}>
+            <a href={`#${slug}`} class="text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">
+              {text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  )
+}
+
+<script>
+  // Highlight the TOC entry for the section currently in view
+  function initToc() {
+        const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+        if (!links.length) return;
+
+        const headingEls = Array.from(links)
+          .map((link) => document.getElementById(link.dataset.tocLink || ''))
+          .filter((el): el is HTMLElement => !!el);
+        if (!headingEls.length) return;
+
+        const setActive = (slug: string) => {
+          links.forEach((link) => {
+            const active = link.dataset.tocLink === slug;
+            link.classList.toggle('toc-active', active);
+            if (active) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+          });
+        };
+
+        const visible = new Set<string>();
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            });
+            // Prefer the topmost visible heading; otherwise keep the last one scrolled past
+            const current =
+              headingEls.find((el) => visible.has(el.id)) ??
+              [...headingEls].reverse().find((el) => el.getBoundingClientRect().top < 100);
+            if (current) setActive(current.id);
+          },
+          { rootMargin: '-80px 0px -60% 0px' }
+        );
+        headingEls.forEach((el) => observer.observe(el));
+        document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+      }
+
+  initToc();
+  document.addEventListener('astro:page-load', initToc);
+</script>

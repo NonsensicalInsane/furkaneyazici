@@ -1,2 +1,61 @@
+# Search engines and citing answer-engines: welcome.
 User-agent: *
 Disallow:
+
+# --- AI TRAINING crawlers: content may NOT be used for model training. ---
+# (Search/answer bots that cite sources — OAI-SearchBot, PerplexityBot,
+#  Claude-SearchBot — are intentionally NOT blocked, so the site can still
+#  be surfaced and linked by AI assistants.)
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: cohere-training-data-crawler
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: webzio-extended
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: AI2Bot
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+User-agent: PanguBot
+Disallow: /
+
+Sitemap: https://furkaneyazici.com/sitemap-index.xml

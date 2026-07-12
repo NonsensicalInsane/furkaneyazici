@@ -54,7 +54,10 @@ export default defineConfig({
       },
     }),
     compress({
-      CSS: true,
+      // CSS must stay false: Vite already minifies it, and this compressor's
+      // parser drops Tailwind 4's range-syntax media queries — i.e. ALL
+      // responsive (sm:/md:/lg:) styles — from the output.
+      CSS: false,
       HTML: { "html-minifier-terser": { removeAttributeQuotes: false } },
       Image: false,
       JavaScript: true,

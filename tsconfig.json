@@ -6,5 +6,7 @@
     "paths": {
       "~/*": ["./src/*"]
     }
-  }
+  },
+  // Same as astro/tsconfigs/base, plus vendored third-party scripts
+  "exclude": ["dist", "public/js"]
 }

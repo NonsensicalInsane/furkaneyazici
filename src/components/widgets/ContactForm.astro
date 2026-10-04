@@ -203,11 +203,6 @@ const { className = '', id } = Astro.props as Props;
     const submitText = document.getElementById('submit-text') as HTMLElement;
     
     if (form && messageDiv && submitBtn && submitText) {
-      // DOMContentLoaded and astro:page-load both fire on a full page load;
-      // binding twice would submit every message twice.
-      if (form.dataset.bound === 'true') return;
-      form.dataset.bound = 'true';
-
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -253,7 +248,5 @@ const { className = '', id } = Astro.props as Props;
     }
   }
 
-  // astro:page-load also fires after every client-side navigation
-  document.addEventListener('DOMContentLoaded', initializeContactForm);
-  document.addEventListener('astro:page-load', initializeContactForm);
+  initializeContactForm();
 </script>

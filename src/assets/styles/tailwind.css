@@ -321,6 +321,15 @@
   animation-delay: var(--reveal-delay, 0s);
 }
 
+/* Page transitions: the browser's native cross-document View Transitions
+   (no JavaScript router, so the strict hash-based CSP works). Browsers
+   without support simply navigate normally. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 /* Respect users who prefer less motion: show content, skip theatrics */
 @media (prefers-reduced-motion: reduce) {
   *,

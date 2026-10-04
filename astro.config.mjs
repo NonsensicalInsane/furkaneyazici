@@ -43,8 +43,22 @@ export default defineConfig({
   trailingSlash: SITE.trailingSlash ? "always" : "never",
   output: "static",
 
-  // Prefetch links on hover/viewport for snappier navigation
-  prefetch: true,
+  // Prefetch every internal link on hover for snappy full-page navigation.
+  // (prefetchAll used to be implied by <ClientRouter />, which is gone.)
+  prefetch: { prefetchAll: true, defaultStrategy: "hover" },
+
+  // —— Security ——
+  // Hash-based CSP: Astro adds a <meta http-equiv="content-security-policy">
+  // to every page whose script-src lists 'self' plus a hash of each inline
+  // script on that page — injected scripts don't match, so they don't run.
+  // It combines with the CSP header from netlify.toml (both must pass), which
+  // keeps every other directive. Styles keep 'unsafe-inline' because Shiki
+  // code blocks use inline style attributes.
+  security: {
+    csp: {
+      styleDirective: { resources: ["'self'", "'unsafe-inline'"] },
+    },
+  },
 
   // —— Integrations ——
   integrations: [

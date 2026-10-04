@@ -1,6 +1,6 @@
 ---
 import '../assets/styles/tailwind.css';
-import { I18N } from '../utils/config';
+import { I18N, UI } from '../utils/config';
 
 import CommonMeta from '../components/common/CommonMeta.astro';
 import Favicons from '../components/Favicons.astro';
@@ -9,7 +9,6 @@ import ApplyColorMode from '../components/common/ApplyColorMode.astro';
 import Metadata from '../components/common/Metadata.astro';
 import BasicScripts from '../components/common/BasicScripts.astro';
 import ParticleBackground from '../components/effects/ParticleBackground.astro';
-import { ClientRouter } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '../types';
 
@@ -22,7 +21,8 @@ const { language, textDirection } = I18N;
 ---
 
 <!doctype html>
-<html lang={language} dir={textDirection} class="2xl:text-[20px]">
+<!-- A fixed dark theme is set here, with no script (see ApplyColorMode.astro) -->
+<html lang={language} dir={textDirection} class:list={['2xl:text-[20px]', { dark: UI.theme === 'dark:only' }]}>
   <head>
     <CommonMeta />
     <Favicons />
@@ -33,7 +33,6 @@ const { language, textDirection } = I18N;
     <meta name="robots" content="noai, noimageai" />
     <!-- Page-specific head additions (e.g. hreflang alternates on translated posts) -->
     <slot name="head" />
-    <ClientRouter />
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
@@ -52,21 +51,10 @@ const { language, textDirection } = I18N;
     <BasicScripts />
 
     <!-- GoatCounter analytics: privacy-friendly, cookieless, no consent banner needed.
-         It skips localhost automatically, so dev traffic isn't counted. -->
-    <script
-      is:inline
-      data-goatcounter="https://nonsensicalinsane.goatcounter.com/count"
-      async
-      src="https://gc.zgo.at/count.js"></script>
-    <script is:inline>
-      // Astro's ClientRouter swaps pages without full reloads; count.js only
-      // counts the initial load, so count client-side navigations manually.
-      document.addEventListener('astro:after-swap', () => {
-        if (window.goatcounter && typeof window.goatcounter.count === 'function') {
-          window.goatcounter.count({ path: location.pathname + location.search });
-        }
-      });
-    </script>
+         It skips localhost automatically, so dev traffic isn't counted. The script
+         is self-hosted (public/js/), so the site loads no third-party code. -->
+    <script is:inline data-goatcounter="https://nonsensicalinsane.goatcounter.com/count" async src="/js/goatcounter-count.js"
+    ></script>
 
     <style is:global>
       img {

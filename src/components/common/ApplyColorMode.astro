@@ -1,33 +1,31 @@
 ---
+import { createHash } from 'node:crypto';
 import { UI } from '../../utils/config';
 
-// TODO: This code is temporary
+const theme: string = UI.theme || 'system';
+
+// A fixed theme ("dark:only" / "light:only") needs no script: Layout writes
+// the class onto <html> directly. Otherwise the theme has to be applied before
+// first paint (no light/dark flash), so this stays a synchronous inline script
+// in <head>. Inline scripts aren't hashed by Astro automatically, so the exact
+// text rendered below is hashed here and registered with the page's CSP.
+const isFixed = theme.endsWith(':only');
+
+const code = `(function () {
+  var defaultTheme = ${JSON.stringify(theme)};
+  var stored = null;
+  try { stored = localStorage.theme; } catch (e) {}
+  var dark = stored
+    ? stored === 'dark'
+    : defaultTheme === 'system'
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches
+      : defaultTheme === 'dark';
+  document.documentElement.classList.toggle('dark', dark);
+})();`;
+
+if (!isFixed) {
+  Astro.csp?.insertScriptHash(`sha256-${createHash('sha256').update(code).digest('base64')}`);
+}
 ---
 
-<script is:inline define:vars={{ defaultTheme: UI.theme || 'system' }}>
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    const matches = document.querySelectorAll('[data-aw-toggle-color-scheme] > input');
-
-    if (matches && matches.length) {
-      matches.forEach((elem) => {
-        elem.checked = theme !== 'dark';
-      });
-    }
-  }
-
-  if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
-    applyTheme(defaultTheme.replace(':only', ''));
-  } else if (
-    localStorage.theme === 'dark' ||
-    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    applyTheme('dark');
-  } else {
-    applyTheme('light');
-  }
-</script>
+{!isFixed && <script is:inline set:html={code} />}

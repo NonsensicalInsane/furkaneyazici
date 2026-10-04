@@ -97,9 +97,7 @@ const items = headings.filter(({ depth }) => depth === 2 || depth === 3);
           { rootMargin: '-80px 0px -60% 0px' }
         );
         headingEls.forEach((el) => observer.observe(el));
-        document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
       }
 
   initToc();
-  document.addEventListener('astro:page-load', initToc);
 </script>

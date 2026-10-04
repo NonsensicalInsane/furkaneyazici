@@ -221,11 +221,6 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
     const projectItems = document.querySelectorAll('.project-item');
 
     filterBtns.forEach(btn => {
-      // Init runs on both DOMContentLoaded and astro:page-load
-      const el = btn as HTMLElement;
-      if (el.dataset.bound === 'true') return;
-      el.dataset.bound = 'true';
-
       btn.addEventListener('click', () => {
         const filter = btn.getAttribute('data-filter');
         
@@ -253,7 +248,7 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
     });
   }
 
-  // Project sharing: one delegated listener (this module runs once per visit).
+  // Project sharing: one delegated listener.
   // Values come from data-* attributes, so quotes in a title can't break the
   // code the way they would inside an inline onclick="…" string.
   document.addEventListener('click', (e) => {
@@ -285,7 +280,5 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
     }
   }
 
-  // astro:page-load also fires after every client-side navigation
-  document.addEventListener('DOMContentLoaded', initProjectFiltering);
-  document.addEventListener('astro:page-load', initProjectFiltering);
+  initProjectFiltering();
 </script>

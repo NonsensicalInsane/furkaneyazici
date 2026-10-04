@@ -50,9 +50,7 @@ const indexJson = JSON.stringify(index).replace(/</g, '\\u003c');
     const input = document.getElementById('blog-search') as HTMLInputElement | null;
     const results = document.getElementById('search-results');
     const data = document.getElementById('blog-search-index');
-    // Init runs on first load and after every client-side navigation
-    if (!root || !input || !results || !data || root.dataset.bound === 'true') return;
-    root.dataset.bound = 'true';
+    if (!root || !input || !results || !data) return;
 
     const entries: Entry[] = JSON.parse(data.textContent || '[]');
     const haystacks = entries.map((e) => `${e.title} ${e.excerpt} ${e.tags} ${e.category}`.toLowerCase());
@@ -114,19 +112,11 @@ const indexJson = JSON.stringify(index).replace(/</g, '\\u003c');
       }
     });
 
-    // Close when clicking outside. `document` survives client-side navigation,
-    // so drop this listener before the next page swaps in.
-    const controller = new AbortController();
-    document.addEventListener(
-      'click',
-      (e) => {
-        if (!root.contains(e.target as Node)) close();
-      },
-      { signal: controller.signal }
-    );
-    document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!root.contains(e.target as Node)) close();
+    });
   }
 
   initBlogSearch();
-  document.addEventListener('astro:page-load', initBlogSearch);
 </script>

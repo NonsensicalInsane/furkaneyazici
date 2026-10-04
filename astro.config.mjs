@@ -10,6 +10,7 @@ import icon from "astro-icon";
 import tasks from "./src/utils/tasks";
 import {
   readingTimeRemarkPlugin,
+  mathFlagRemarkPlugin,
   responsiveTablesRehypePlugin,
 } from "./src/utils/frontmatter.mjs";
 import { SITE, APP_BLOG } from "./src/utils/config.ts";
@@ -75,7 +76,7 @@ export default defineConfig({
   // these plugins). @astrojs/mdx picks the same plugins up from here.
   markdown: {
     processor: unified({
-      remarkPlugins: [readingTimeRemarkPlugin, remarkMath],
+      remarkPlugins: [readingTimeRemarkPlugin, remarkMath, mathFlagRemarkPlugin],
       rehypePlugins: [responsiveTablesRehypePlugin, rehypeKatex],
       remarkRehype: {
         // GFM footnotes double as an academic citation system: [^key] in the

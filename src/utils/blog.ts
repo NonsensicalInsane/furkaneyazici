@@ -95,6 +95,7 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     translationKey: translationKey,
 
     readingTime: remarkPluginFrontmatter?.readingTime,
+    hasMath: remarkPluginFrontmatter?.hasMath === true,
   };
 };
 

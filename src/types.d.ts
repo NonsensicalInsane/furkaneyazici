@@ -50,6 +50,8 @@ export interface Post {
 
   /**  */
   readingTime?: number;
+  /** Post renders KaTeX math (set by mathFlagRemarkPlugin) */
+  hasMath?: boolean;
 }
 
 export interface MetaData {

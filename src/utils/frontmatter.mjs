@@ -10,6 +10,17 @@ export function readingTimeRemarkPlugin() {
   };
 }
 
+// Flags posts that contain math (remark-math's `math` / `inlineMath` nodes), so
+// the KaTeX stylesheet and its fonts only load on pages that render formulas.
+export function mathFlagRemarkPlugin() {
+  const hasMath = (node) =>
+    node.type === 'math' || node.type === 'inlineMath' || (node.children || []).some(hasMath);
+
+  return function (tree, file) {
+    file.data.astro.frontmatter.hasMath = hasMath(tree);
+  };
+}
+
 export function responsiveTablesRehypePlugin() {
   return function (tree) {
     if (!tree.children) return;

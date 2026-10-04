@@ -12,6 +12,9 @@ import { getStaticPathsBlogPost, blogPostRobots, findTranslations } from '../../
 import { findImage } from '../../utils/images';
 import type { MetaData } from '../../types';
 import RelatedPosts from '../../components/blog/RelatedPosts.astro';
+// KaTeX's stylesheet (plus ~1 MB of fonts it references) is linked only on
+// posts that actually contain math; see mathFlagRemarkPlugin.
+import katexStylesheet from 'katex/dist/katex.min.css?url';
 
 export const prerender = true;
 
@@ -59,6 +62,7 @@ const metadata = merge(
 <Layout metadata={metadata}>
   <Fragment slot="head">
     {alternates.map(({ lang, href }) => <link rel="alternate" hreflang={lang} href={href} />)}
+    {post.hasMath && <link rel="stylesheet" href={katexStylesheet} />}
   </Fragment>
   <SinglePost post={{ ...post, image: image }} url={url} translations={translations} />
   <ToBlogLink />

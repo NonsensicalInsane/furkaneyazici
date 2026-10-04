@@ -13,7 +13,8 @@ import { Icon } from 'astro-icon/components';
 <script>
   function initBackToTop() {
     const backToTopButton = document.getElementById('back-to-top');
-    if (!backToTopButton) return;
+    if (!backToTopButton || backToTopButton.dataset.bound === 'true') return;
+    backToTopButton.dataset.bound = 'true';
 
     // Show/hide button based on scroll position
     function toggleButton() {
@@ -36,20 +37,19 @@ import { Icon } from 'astro-icon/components';
       });
     }
 
-    // Event listeners
-    window.addEventListener('scroll', toggleButton);
-    if (backToTopButton) {
-      backToTopButton.addEventListener('click', scrollToTop);
-    }
+    // Event listeners. `window` survives client-side navigation, so drop the
+    // scroll listener before the next page swaps in.
+    const controller = new AbortController();
+    window.addEventListener('scroll', toggleButton, { passive: true, signal: controller.signal });
+    document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
+    backToTopButton.addEventListener('click', scrollToTop);
 
     // Initial check
     toggleButton();
   }
 
-  // Initialize when DOM is loaded
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBackToTop);
-  } else {
-    initBackToTop();
-  }
+  // This module runs once per visit; astro:page-load re-runs init after every
+  // client-side navigation (and on the first load too).
+  initBackToTop();
+  document.addEventListener('astro:page-load', initBackToTop);
 </script>

@@ -47,3 +47,7 @@ Desktop.ini
 pnpm-lock.yaml
 yarn.lock
 bun.lockb
+
+# --- Local docs (git doesn't understand a leading './'; files that are
+#     already tracked also need: git rm -r --cached docs) ---
+/docs/

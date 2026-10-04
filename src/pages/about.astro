@@ -4,9 +4,23 @@ import Header from '~/components/widgets/Header.astro';
 import Image from '~/components/common/Image.astro';
 import myImage from '~/assets/images/me.png';
 import aboutData from '~/data/about/index';
+import { headerData } from '~/navigation';
+
+// Same menu as every other page, except "About" opens this page's sections
+const sectionLinks = [
+  { text: 'Research', href: '#research-experience' },
+  { text: 'Work', href: '#work-experience' },
+  { text: 'Education', href: '#education' },
+  { text: 'Certifications', href: '#certifications' },
+];
+const headerLinks = headerData.links.map((link) =>
+  link.href === '/about/' ? { text: link.text, links: sectionLinks } : link
+);
 
 const metadata = {
   title: 'Who am I?',
+  description:
+    'About Furkan Eşref Yazıcı, a computational physicist working on deep learning and quantum computing: research, work experience, education and certifications.',
 };
 
 const { personal, research, work, education, certifications, socialLinks } = aboutData;
@@ -16,50 +30,7 @@ const { personal, research, work, education, certifications, socialLinks } = abo
   
   <!-- Hero Widget ******************* -->
   <Fragment slot="header">
-    <Header
-      links={[
-        {
-          text: 'Home',
-          href: '/',
-        },
-        {
-          text: 'About',
-          links: [
-            {
-              text: 'Research',
-              href: '#research-experience',
-            },
-            {
-              text: 'Work',
-              href: '#work-experience',
-            },
-            {
-              text: 'Education',
-              href: '#education',
-            },
-            {
-              text: 'Certifications',
-              href: '#certifications',
-            },
-          ],
-        },
-        {
-          text: 'Projects',
-          href: '/projects',
-        },
-        {
-          text: 'Blog',
-          href: '/blog',
-        },
-      ]}
-      actions={[
-        {
-          text: 'Contact me!',
-          href: '/contact',
-        },
-      ]}
-      isSticky
-    />
+    <Header links={headerLinks} actions={headerData.actions} isSticky showRssFeed showToggleTheme />
   </Fragment>
   
   <!-- Enhanced Hero Section with Animated Background -->

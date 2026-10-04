@@ -106,14 +106,22 @@ const { density = 100, className = '' } = Astro.props;
           p.x += p.vx;
           p.y += p.vy;
 
-          // Gentle mouse repulsion
-          const dx = this.mouse.x - p.x;
-          const dy = this.mouse.y - p.y;
+          // Gentle mouse repulsion (vector points from the cursor to the particle)
+          const dx = p.x - this.mouse.x;
+          const dy = p.y - this.mouse.y;
           const dist = Math.hypot(dx, dy);
           if (dist > 0 && dist < 100) {
             const force = (100 - dist) / 100;
-            p.vx += (dx / dist) * force * 0.01;
-            p.vy += (dy / dist) * force * 0.01;
+            p.vx += (dx / dist) * force * 0.02;
+            p.vy += (dy / dist) * force * 0.02;
+          }
+
+          // Ease pushed particles back toward cruising speed (initial max ≈ 0.35)
+          // so repeated pushes don't accumulate into ever-faster motion.
+          const speed = Math.hypot(p.vx, p.vy);
+          if (speed > 0.6) {
+            p.vx *= 0.96;
+            p.vy *= 0.96;
           }
 
           // Bounce off edges
@@ -157,6 +165,7 @@ const { density = 100, className = '' } = Astro.props;
 
     let system = null;
     let scrollHandler = null;
+    let visibilityHandler = null;
 
     function teardown() {
       if (system) {
@@ -167,15 +176,24 @@ const { density = 100, className = '' } = Astro.props;
         window.removeEventListener('scroll', scrollHandler);
         scrollHandler = null;
       }
+      if (visibilityHandler) {
+        document.removeEventListener('visibilitychange', visibilityHandler);
+        visibilityHandler = null;
+      }
     }
 
     function init() {
-      teardown();
-      if (reducedMotion.matches) return;
-
       const container = document.getElementById('particle-container');
       const canvas = document.getElementById('particle-canvas');
-      if (!container || !canvas) return;
+      if (reducedMotion.matches || !container || !canvas) {
+        teardown();
+        return;
+      }
+
+      // Init fires more than once per page (DOMContentLoaded + astro:page-load,
+      // after-swap + page-load); keep the running system on the same canvas.
+      if (system && system.canvas === canvas) return;
+      teardown();
 
       system = new ParticleSystem(canvas);
 
@@ -186,15 +204,16 @@ const { density = 100, className = '' } = Astro.props;
         const pastHero = window.scrollY > window.innerHeight * 0.9;
         container.style.opacity = pastHero ? '0.35' : '1';
         if (document.hidden) {
-          system && system.stop();
+          system?.stop();
         } else {
-          system && system.start();
+          system?.start();
         }
       };
 
       scrollHandler = system.debounce(update, 100);
+      visibilityHandler = update;
       window.addEventListener('scroll', scrollHandler, { passive: true });
-      document.addEventListener('visibilitychange', update);
+      document.addEventListener('visibilitychange', visibilityHandler);
       update();
     }
 

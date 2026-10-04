@@ -21,6 +21,7 @@ const currentPage = page.currentPage ?? 1;
 
 const metadata = {
   title: `Category '${category}' ${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
+  description: `Posts about ${category.replaceAll('-', ' ')} by Furkan Eşref Yazıcı.`,
   robots: {
     index: blogCategoryRobots?.index,
     follow: blogCategoryRobots?.follow,

@@ -9,6 +9,30 @@
 # Note: no SPA catch-all redirect here on purpose — this is a static
 # multi-page site and a /* -> /index.html rewrite would break the 404 page.
 
+# Permanent redirects for renamed URLs, so existing links and search results
+# keep working.
+[[redirects]]
+  from = "/helloandwelcome"
+  to = "/hello-and-welcome/"
+  status = 301
+
+[[redirects]]
+  from = "/helloandwelcome/"
+  to = "/hello-and-welcome/"
+  status = 301
+
+# Old CV filename had non-ASCII characters. Listed both decoded and
+# percent-encoded, since Netlify doesn't document which form it matches.
+[[redirects]]
+  from = "/assets/pdf/Furkan_Eşref_Yazıcı_CV.pdf"
+  to = "/assets/pdf/Furkan_Esref_Yazici_CV.pdf"
+  status = 301
+
+[[redirects]]
+  from = "/assets/pdf/Furkan_E%C5%9Fref_Yaz%C4%B1c%C4%B1_CV.pdf"
+  to = "/assets/pdf/Furkan_Esref_Yazici_CV.pdf"
+  status = 301
+
 [[headers]]
   for = "/_astro/*"
   [headers.values]
@@ -17,7 +41,10 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    # No `preload`: the domain isn't on the browser preload list, and joining it
+    # is a long-term commitment (every subdomain HTTPS-only; removal takes months).
+    # Add it back only together with a submission at https://hstspreload.org.
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
@@ -28,6 +55,11 @@
     X-DNS-Prefetch-Control = "off"
     # Non-standard but increasingly respected signal: do not use for AI training
     X-Robots-Tag = "noai, noimageai"
-    # Note: 'unsafe-eval' removed (main site doesn't need it). If the Decap
-    # admin at /decapcms stops working after deploy, re-test there first.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://identity.netlify.com https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://api.github.com https://unpkg.com https://identity.netlify.com https://nonsensicalinsane.goatcounter.com https://gc.zgo.at; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    # The site only loads first-party code plus GoatCounter. Keep CDNs such as
+    # unpkg.com out of script-src: it serves any npm package, so allowing it
+    # would let injected markup load arbitrary code. 'unsafe-inline' stays for
+    # Astro's inline scripts (theme, define:vars).
+    # If an admin UI (e.g. Decap CMS) comes back, it needs its own, looser
+    # policy on its path — set per path in the edge function, not as a second
+    # matching rule here (Netlify doesn't document how those would combine).
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://nonsensicalinsane.goatcounter.com https://gc.zgo.at; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"

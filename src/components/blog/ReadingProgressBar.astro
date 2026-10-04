@@ -54,6 +54,10 @@ const { className = '' } = Astro.props;
       return;
     }
 
+    // Init can be triggered twice per page (DOMContentLoaded + astro:page-load)
+    if (progressBar.dataset.bound === 'true') return;
+    progressBar.dataset.bound = 'true';
+
     // Calculate reading time
     const articleContent = document.querySelector('article .prose, article');
     const wordsPerMinute = 200;
@@ -124,15 +128,17 @@ const { className = '' } = Astro.props;
       });
     }
 
-    // Update on scroll
-    window.addEventListener('scroll', updateProgress);
-    
+    // Update on scroll. `window` survives client-side navigation, so drop the
+    // listener before the next page swaps in instead of piling them up.
+    const controller = new AbortController();
+    window.addEventListener('scroll', updateProgress, { passive: true, signal: controller.signal });
+    document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
+
     // Initialize
     updateProgress();
   }
 
-  // Initialize on different events for Astro page transitions
+  // astro:page-load also fires after every client-side navigation
   document.addEventListener('DOMContentLoaded', initializeReadingProgress);
   document.addEventListener('astro:page-load', initializeReadingProgress);
-  document.addEventListener('astro:after-swap', initializeReadingProgress);
 </script>

@@ -6,7 +6,7 @@ const load = async function () {
   let images: Record<string, () => Promise<unknown>> | undefined = undefined;
   try {
     images = import.meta.glob('~/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}');
-  } catch (e) {
+  } catch {
     // continue regardless of error
   }
   return images;
@@ -70,18 +70,29 @@ export const adaptOpenGraphImages = async (
           };
         }
 
+        // Social platforms render previews at ~1200px wide; larger sources
+        // (e.g. a 3456px post image) only add weight. Keep the aspect ratio.
+        const sourceWidth = image?.width || defaultWidth;
+        const sourceHeight = image?.height || defaultHeight;
+        const scale = Math.min(1, defaultWidth / sourceWidth);
+
         const _image = await getImage({
           src: resolvedImage,
           alt: 'Placeholder alt',
-          width: image?.width || defaultWidth,
-          height: image?.height || defaultHeight,
+          width: Math.round(sourceWidth * scale),
+          height: Math.round(sourceHeight * scale),
+          // JPEG, not Astro's default WebP: LinkedIn and some chat apps don't
+          // render WebP link previews.
+          format: 'jpg',
+          quality: 85,
         });
 
         if (typeof _image === 'object') {
+          const { width, height } = _image.options;
           return {
-            url: 'src' in _image && typeof _image.src === 'string' ? String(new URL(_image.src, astroSite)) : 'pepe',
-            width: 'width' in _image && typeof _image.width === 'number' ? _image.width : undefined,
-            height: 'height' in _image && typeof _image.height === 'number' ? _image.height : undefined,
+            url: String(new URL(_image.src, astroSite)),
+            width: typeof width === 'number' ? width : undefined,
+            height: typeof height === 'number' ? height : undefined,
           };
         }
         return {

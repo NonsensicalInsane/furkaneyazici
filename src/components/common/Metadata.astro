@@ -77,7 +77,7 @@ const seoProps = merge(
 );
 
 // ────────────────────────────────────────────────────────────
-// Ensure required Open Graph keys exist for astro‑seo
+// Ensure required Open Graph keys exist for astro-seo
 // ────────────────────────────────────────────────────────────
 const og = await adaptOpenGraphImages(seoProps.openGraph, Astro.site);
 
@@ -85,9 +85,11 @@ const og = await adaptOpenGraphImages(seoProps.openGraph, Astro.site);
 const ogTitle = seoProps.title || SITE?.name || 'Website';
 const ogType = og?.type || 'website';
 const ogImage = (Array.isArray(og?.images) && og.images.length > 0 && og.images[0]?.url ? og.images[0].url : '/og-default.png');
+const ogImageMeta = Array.isArray(og?.images) ? og.images[0] : undefined;
 const ogUrl = og?.url || canonical;
 
-// Create the properly structured OpenGraph object
+// Shape the OpenGraph object the way astro-seo reads it. Keys it doesn't know
+// (e.g. top-level `site_name`) are silently dropped, so map them explicitly.
 const fixedOG = {
   basic: {
     title: ogTitle,
@@ -95,11 +97,23 @@ const fixedOG = {
     image: ogImage,
     url: ogUrl,
   },
-  // Add any additional properties from the processed og object (excluding the basic ones)
-  ...Object.fromEntries(
-    Object.entries(og || {}).filter(([key]) => !['title', 'type', 'image', 'url'].includes(key))
-  ),
+  optional: {
+    description: seoProps.description,
+    siteName: og?.siteName || seoProps.openGraph?.site_name || SITE?.name,
+  },
+  // Lets crawlers lay out the preview card before fetching the image
+  ...(ogImageMeta?.width && ogImageMeta?.height
+    ? { image: { width: ogImageMeta.width, height: ogImageMeta.height, alt: ogTitle } }
+    : {}),
+};
+
+// config.yaml uses AstroWind's key names (cardType, handle); astro-seo expects
+// card / creator — without this mapping no twitter:card tag is emitted at all.
+const fixedTwitter = {
+  card: seoProps.twitter?.cardType as 'summary' | 'summary_large_image' | undefined,
+  site: seoProps.twitter?.site,
+  creator: seoProps.twitter?.handle,
 };
 ---
 
-<AstroSeo {...seoProps} openGraph={fixedOG} />
+<AstroSeo {...seoProps} openGraph={fixedOG} twitter={fixedTwitter} />

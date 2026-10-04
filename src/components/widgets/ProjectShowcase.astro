@@ -37,15 +37,19 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
   {showFilter && allTechStack.length > 0 && (
     <div class="flex flex-wrap justify-center gap-2 mb-8 scroll-reveal">
       <button 
+        type="button"
         class="filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-primary text-white hover:bg-primary-600"
         data-filter="all"
+        aria-pressed="true"
       >
         All Projects
       </button>
       {allTechStack.map(tech => (
         <button 
+          type="button"
           class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300"
           data-filter={tech.toLowerCase()}
+          aria-pressed="false"
         >
           {tech}
         </button>
@@ -56,7 +60,8 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
   <div class={`grid gap-8 ${columns === 2 ? 'md:grid-cols-2' : columns === 3 ? 'lg:grid-cols-3 md:grid-cols-2' : 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'}`}>
     {projects.map((project, index) => (
       <div 
-        class={`project-card group rounded-xl overflow-hidden scroll-reveal project-item flex flex-col h-full ${(project.techStack || []).map(tech => tech.toLowerCase()).join(' ')}`}
+        class="project-card group rounded-xl overflow-hidden scroll-reveal project-item flex flex-col h-full"
+        data-tech={(project.techStack || []).map((tech) => tech.toLowerCase()).join('|')}
         style={`--reveal-delay: ${index * 0.08}s`}
       >
         <!-- Screenshot / preview (optional) -->
@@ -170,23 +175,32 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
         <!-- Share Options -->
         <div class="px-6 pb-6 pt-0 border-t border-gray-100 dark:border-slate-700">
           <div class="flex justify-center gap-3 pt-4">
-            <button 
+            <button
+              type="button"
               class="share-button p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white"
-              onclick={`shareProject('${project.title}', '${project.callToAction.href}', 'twitter')`}
+              data-project-share="twitter"
+              data-title={project.title}
+              data-url={project.callToAction.href}
               aria-label="Share on Twitter"
             >
               <Icon name="tabler:brand-twitter" class="w-4 h-4" />
             </button>
-            <button 
+            <button
+              type="button"
               class="share-button p-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white"
-              onclick={`shareProject('${project.title}', '${project.callToAction.href}', 'linkedin')`}
+              data-project-share="linkedin"
+              data-title={project.title}
+              data-url={project.callToAction.href}
               aria-label="Share on LinkedIn"
             >
               <Icon name="tabler:brand-linkedin" class="w-4 h-4" />
             </button>
-            <button 
+            <button
+              type="button"
               class="share-button p-2 rounded-lg bg-gray-600 hover:bg-gray-700 text-white"
-              onclick={`shareProject('${project.title}', '${project.callToAction.href}', 'copy')`}
+              data-project-share="copy"
+              data-title={project.title}
+              data-url={project.callToAction.href}
               aria-label="Copy Link"
             >
               <Icon name="tabler:link" class="w-4 h-4" />
@@ -207,21 +221,29 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
     const projectItems = document.querySelectorAll('.project-item');
 
     filterBtns.forEach(btn => {
+      // Init runs on both DOMContentLoaded and astro:page-load
+      const el = btn as HTMLElement;
+      if (el.dataset.bound === 'true') return;
+      el.dataset.bound = 'true';
+
       btn.addEventListener('click', () => {
         const filter = btn.getAttribute('data-filter');
         
         // Update active button
         filterBtns.forEach(b => b.classList.remove('active', 'bg-primary', 'text-white'));
+        filterBtns.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
         filterBtns.forEach(b => b.classList.add('bg-gray-100', 'hover:bg-gray-200', 'dark:bg-slate-700', 'dark:hover:bg-slate-600', 'text-gray-700', 'dark:text-slate-300'));
         
         btn.classList.remove('bg-gray-100', 'hover:bg-gray-200', 'dark:bg-slate-700', 'dark:hover:bg-slate-600', 'text-gray-700', 'dark:text-slate-300');
         btn.classList.add('active', 'bg-primary', 'text-white', 'hover:bg-primary-600');
         
-        // Filter projects
+        // Filter projects. Tech names live in data-tech ("a|b|c") rather than
+        // class names, so multi-word names like "Machine Learning" still match.
         projectItems.forEach(item => {
           const htmlItem = item as HTMLElement;
-          if (filter === 'all' || (filter && item.classList.contains(filter))) {
-            htmlItem.style.display = 'block';
+          const techs = (htmlItem.dataset.tech || '').split('|');
+          if (filter === 'all' || (filter && techs.includes(filter))) {
+            htmlItem.style.display = ''; // back to the card's own flex layout
             htmlItem.style.animation = 'scaleIn 0.3s ease-out forwards';
           } else {
             htmlItem.style.display = 'none';
@@ -231,8 +253,16 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
     });
   }
 
-  // Project sharing
-  (window as any).shareProject = function(title: string, url: string, platform: string) {
+  // Project sharing: one delegated listener (this module runs once per visit).
+  // Values come from data-* attributes, so quotes in a title can't break the
+  // code the way they would inside an inline onclick="…" string.
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element | null)?.closest<HTMLElement>('[data-project-share]');
+    if (!btn) return;
+    shareProject(btn.dataset.title || '', btn.dataset.url || '', btn.dataset.projectShare || '');
+  });
+
+  function shareProject(title: string, url: string, platform: string) {
     const text = `Check out "${title}" by Furkan Eşref Yazıcı`;
     
     switch(platform) {
@@ -253,10 +283,9 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
         });
         break;
     }
-  };
+  }
 
-  // Initialize on different events
+  // astro:page-load also fires after every client-side navigation
   document.addEventListener('DOMContentLoaded', initProjectFiltering);
   document.addEventListener('astro:page-load', initProjectFiltering);
-  document.addEventListener('astro:after-swap', initProjectFiltering);
 </script>

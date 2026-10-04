@@ -9,7 +9,7 @@ import type { FeaturedProject } from './types';
  *    Put files in src/assets/images/projects/ and import them (see template).
  *    Ideal ratio 16:9 (e.g. 1280×720). A short GIF also works.
  *  - `links.demo`: a live demo beats everything — put it first when you have one.
- *  - `links.blog`: link a write-up post ("/your-post-slug") — the card shows a
+ *  - `links.blog`: link a write-up post ("/your-post-slug/") — the card shows a
  *    prominent "Read the write-up →" link. Tell the story: problem → approach → result.
  *  - `links.whitepaper`: use for arXiv / papers on research projects.
  *  - `callToAction`: the big button. Point it at the best destination
@@ -32,7 +32,7 @@ import type { FeaturedProject } from './types';
 //   links: {
 //     github: 'https://github.com/nonsensicalinsane/riskforge',
 //     demo: 'https://riskforge.example.com',
-//     blog: '/riskforge-fraud-scoring',
+//     blog: '/riskforge-fraud-scoring/',
 //   },
 // },
 

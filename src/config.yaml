@@ -2,7 +2,7 @@ site:
   name: Furkan Eşref Yazıcı
   site: 'https://furkaneyazici.com'
   base: '/'
-  trailingSlash: false
+  trailingSlash: true # Netlify serves page/index.html at /page/ — keep canonical URLs identical
 
 # Default SEO metadata
 metadata:

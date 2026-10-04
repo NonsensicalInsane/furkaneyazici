@@ -42,7 +42,7 @@ const tasksIntegration = () => {
               });
             }
           }
-        } catch (err) {
+        } catch {
           /* empty */
         }
       },

@@ -12,7 +12,6 @@ import { getStaticPathsBlogPost, blogPostRobots, findTranslations } from '../../
 import { findImage } from '../../utils/images';
 import type { MetaData } from '../../types';
 import RelatedPosts from '../../components/blog/RelatedPosts.astro';
-import BackToTop from '../../components/blog/BackToTop.astro';
 
 export const prerender = true;
 
@@ -64,5 +63,4 @@ const metadata = merge(
   <SinglePost post={{ ...post, image: image }} url={url} translations={translations} />
   <ToBlogLink />
   <RelatedPosts post={post} />
-  <BackToTop />
 </Layout>

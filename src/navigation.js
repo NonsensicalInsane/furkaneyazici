@@ -3,11 +3,11 @@ import { getAsset } from './utils/permalinks';
 export const headerData = {
   links: [
     { text: 'Home', href: '/' },
-    { text: 'About', href: '/about' },
-    { text: 'Projects', href: '/projects' },
-    { text: 'Blog', href: '/blog' },
+    { text: 'About', href: '/about/' },
+    { text: 'Projects', href: '/projects/' },
+    { text: 'Blog', href: '/blog/' },
   ],
-  actions: [{ text: 'Contact me!', href: '/contact' }],
+  actions: [{ text: 'Contact me!', href: '/contact/' }],
 };
 
 export const footerData = {

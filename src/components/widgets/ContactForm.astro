@@ -178,6 +178,13 @@ const { className = '', id } = Astro.props as Props;
             <span id="submit-text">Send Message</span>
           </button>
 
+          <!-- Privacy notice (KVKK / GDPR): what is stored, where, and why -->
+          <p class="text-xs text-gray-500 dark:text-slate-400">
+            Your name, email address and message are stored with Netlify Forms and used only to reply to you. To have
+            them deleted, email
+            <a href="mailto:yazici.furkan@proton.me" class="underline hover:text-primary">yazici.furkan@proton.me</a>.
+          </p>
+
           <!-- Success/Error Messages -->
           <div id="form-message" class="hidden p-4 rounded-lg" role="status" aria-live="polite"></div>
         </form>
@@ -196,6 +203,11 @@ const { className = '', id } = Astro.props as Props;
     const submitText = document.getElementById('submit-text') as HTMLElement;
     
     if (form && messageDiv && submitBtn && submitText) {
+      // DOMContentLoaded and astro:page-load both fire on a full page load;
+      // binding twice would submit every message twice.
+      if (form.dataset.bound === 'true') return;
+      form.dataset.bound = 'true';
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -222,7 +234,7 @@ const { className = '', id } = Astro.props as Props;
             throw new Error('Network response was not ok');
           }
           
-        } catch (error) {
+        } catch {
           messageDiv.className = 'p-4 rounded-lg bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
           messageDiv.innerHTML = '❌ <strong>Something went wrong.</strong> Please try again or email me directly.';
           messageDiv.classList.remove('hidden');
@@ -241,8 +253,7 @@ const { className = '', id } = Astro.props as Props;
     }
   }
 
-  // Initialize on different events for Astro page transitions
+  // astro:page-load also fires after every client-side navigation
   document.addEventListener('DOMContentLoaded', initializeContactForm);
   document.addEventListener('astro:page-load', initializeContactForm);
-  document.addEventListener('astro:after-swap', initializeContactForm);
 </script>

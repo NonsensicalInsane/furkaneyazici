@@ -11,7 +11,7 @@
 //
 // Note: a scraper that fakes a browser user-agent slips through any
 // UA-based check — full fingerprint-level blocking needs Cloudflare in
-// front (see docs/AI-VISIBILITY.md).
+// front (see docs/AI-VISIBILITY.md — kept locally, not in the repo).
 
 const BLOCKED_UA_PATTERNS = [
   // OpenAI / Common Crawl training

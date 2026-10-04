@@ -32,6 +32,6 @@ Contributions are welcome! If you have suggestions for improvement or notice any
 
 ## License
 
-The content of this website is licensed under [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/), and the source code is licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The content of this website (posts, illustrations, images) is licensed under [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/), and the source code is licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 Thank you for visiting my repository. Explore, learn, and don't hesitate to reach out!

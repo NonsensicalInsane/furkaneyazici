@@ -92,7 +92,7 @@ const featuredImage = featuredPost ? await findImage(featuredPost.image) : null;
                 <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-slate-400 mb-3">
                   <div class="flex items-center gap-1">
                     <Icon name="tabler:clock" class="w-4 h-4" />
-                    <time datetime={String(featuredPost.publishDate)}>
+                    <time datetime={featuredPost.publishDate.toISOString()}>
                       {getFormattedDate(featuredPost.publishDate)}
                     </time>
                   </div>

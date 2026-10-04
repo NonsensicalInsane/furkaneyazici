@@ -12,13 +12,14 @@ const { title, url, excerpt = '', className = '' } = Astro.props;
 const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
 ---
 
-<div class={`flex items-center gap-3 ${className}`}>
+<div class={`flex items-center gap-3 ${className}`} data-share-title={title} data-share-url={url} data-share-text={shareText}>
   <span class="text-sm font-medium text-gray-600 dark:text-slate-400">Share:</span>
   
   <!-- Twitter -->
   <button 
     class="share-button p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white shadow-md hover:shadow-lg"
-    onclick={`sharePost('${title}', '${url}', '${shareText}', 'twitter')`}
+    type="button"
+    data-post-share="twitter"
     aria-label="Share on Twitter"
   >
     <Icon name="tabler:brand-twitter" class="w-4 h-4" />
@@ -27,7 +28,8 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
   <!-- LinkedIn -->
   <button 
     class="share-button p-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white shadow-md hover:shadow-lg"
-    onclick={`sharePost('${title}', '${url}', '${shareText}', 'linkedin')`}
+    type="button"
+    data-post-share="linkedin"
     aria-label="Share on LinkedIn"
   >
     <Icon name="tabler:brand-linkedin" class="w-4 h-4" />
@@ -36,7 +38,8 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
   <!-- Reddit -->
   <button 
     class="share-button p-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white shadow-md hover:shadow-lg"
-    onclick={`sharePost('${title}', '${url}', '${shareText}', 'reddit')`}
+    type="button"
+    data-post-share="reddit"
     aria-label="Share on Reddit"
   >
     <Icon name="tabler:brand-reddit" class="w-4 h-4" />
@@ -45,7 +48,8 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
   <!-- Copy Link -->
   <button 
     class="share-button p-2 rounded-lg bg-gray-600 hover:bg-gray-700 text-white shadow-md hover:shadow-lg"
-    onclick={`sharePost('${title}', '${url}', '${shareText}', 'copy')`}
+    type="button"
+    data-post-share="copy"
     aria-label="Copy Link"
   >
     <Icon name="tabler:link" class="w-4 h-4" />
@@ -54,7 +58,8 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
   <!-- Email -->
   <button 
     class="share-button p-2 rounded-lg bg-green-600 hover:bg-green-700 text-white shadow-md hover:shadow-lg"
-    onclick={`sharePost('${title}', '${url}', '${shareText}', 'email')`}
+    type="button"
+    data-post-share="email"
     aria-label="Share via Email"
   >
     <Icon name="tabler:mail" class="w-4 h-4" />
@@ -62,7 +67,18 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
 </div>
 
 <script>
-  (window as any).sharePost = function(title: string, url: string, text: string, platform: string) {
+  // One delegated listener (this module runs once per visit). Values come from
+  // data-* attributes, so an apostrophe in a title ("I'm", "Let's") can't break
+  // the code the way it would inside an inline onclick="…" string.
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element | null)?.closest<HTMLElement>('[data-post-share]');
+    const box = btn?.closest<HTMLElement>('[data-share-url]');
+    if (!btn || !box) return;
+    const { shareTitle = '', shareUrl = '', shareText = '' } = box.dataset;
+    sharePost(shareTitle, shareUrl, shareText, btn.dataset.postShare || '');
+  });
+
+  function sharePost(title: string, url: string, text: string, platform: string) {
     const fullUrl = new URL(url, window.location.origin).href;
     
     switch(platform) {
@@ -86,7 +102,7 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
         });
         break;
     }
-  };
+  }
 
   function showToast(message: string, type: string = 'success') {
     const toast = document.createElement('div');

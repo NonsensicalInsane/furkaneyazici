@@ -10,16 +10,18 @@ import { upcomingProjects, upcomingProjectsConfig } from '../content/projects/up
 
 const metadata = {
   title: "Furkan's Projects",
+  description:
+    'Projects by Furkan Eşref Yazıcı: research and software in machine learning and quantum computing, plus what is in the works.',
 };
 ---
 
-<Layout {...metadata}>
+<Layout metadata={metadata}>
   
   <Hero
     title="<span class='text-gradient-animated'>Projects</span>"
     subtitle="Here are some of the projects I have worked on. I am always looking for new projects to work on, so if you have an idea, feel free to contact me!"
     callPageName="Contact"
-    callPagePath="/#contact"
+    callPagePath="/contact/"
   />
 
   {

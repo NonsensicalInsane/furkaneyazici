@@ -43,6 +43,7 @@ const jsonLd = {
     url: 'https://furkaneyazici.com/about',
   },
   mainEntityOfPage: { '@type': 'WebPage', '@id': String(url) },
+  license: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
   ...(post.lang ? { inLanguage: post.lang } : {}),
   ...(typeof post.image === 'string'
     ? { image: post.image }
@@ -65,7 +66,7 @@ const jsonLd = {
       >
         <p>
           <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
-          <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
+          <time datetime={post.publishDate.toISOString()} class="inline-block">{getFormattedDate(post.publishDate)}</time>
           {
             post.author && (
               <>
@@ -202,7 +203,7 @@ const jsonLd = {
       const el = anchor instanceof Element ? anchor : anchor?.parentElement;
       if (el?.closest('pre')) return;
 
-      const attribution = `\n\n— ${document.title}\n${location.href}\n© Furkan Eşref Yazıcı · CC BY 4.0 (attribution required)`;
+      const attribution = `\n\n— ${document.title}\n${location.href}\n© Furkan Eşref Yazıcı · CC BY-NC-ND 4.0 (attribution required, non-commercial, no derivatives)`;
       const clipboard = (e as ClipboardEvent).clipboardData;
       if (clipboard) {
         clipboard.setData('text/plain', text + attribution);

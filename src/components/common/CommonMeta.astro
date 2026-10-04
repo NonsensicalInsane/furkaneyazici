@@ -1,5 +1,6 @@
 ---
 import { getAsset } from '../../utils/permalinks';
+import { SITE, APP_BLOG } from '../../utils/config';
 ---
 
 <meta charset="UTF-8" />
@@ -8,3 +9,9 @@ import { getAsset } from '../../utils/permalinks';
 <meta name="theme-color" content="rgb(3 6 23)" />
 
 <link rel="sitemap" href={getAsset('/sitemap-index.xml')} />
+<!-- Feed auto-discovery for readers and browsers -->
+{
+  APP_BLOG.isEnabled && (
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name}’s Blog`} href={getAsset('/rss.xml')} />
+  )
+}

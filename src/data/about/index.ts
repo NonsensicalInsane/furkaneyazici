@@ -18,7 +18,7 @@ export const aboutData: AboutContent = {
       yearsResearch: "3+",
       projects: "1+"
     },
-    resumeUrl: "/assets/pdf/Furkan_Eşref_Yazıcı_CV.pdf"
+    resumeUrl: "/assets/pdf/Furkan_Esref_Yazici_CV.pdf"
   },
 
   research: [

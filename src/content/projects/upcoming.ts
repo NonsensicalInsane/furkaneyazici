@@ -18,7 +18,7 @@ export const upcomingProjects: UpcomingProject[] = [
     links: {
       github: 'https://github.com/nonsensicalinsane/UnifiedBillingIngestor',
       documentation: 'https://docs.unifiedbillingingestor.com',
-      // blog: '/blog/your-future-project-post'
+      // blog: '/your-future-project-post/'
     }
   },
   {
@@ -37,7 +37,7 @@ export const upcomingProjects: UpcomingProject[] = [
     links: {
       github: 'https://github.com/nonsensicalinsane/SalesOpsMiniDWH',
       documentation: 'https://docs.unifiedbillingingestor.com',
-      // blog: '/blog/your-future-project-post'
+      // blog: '/your-future-project-post/'
     }
   },
   {
@@ -56,7 +56,7 @@ export const upcomingProjects: UpcomingProject[] = [
     links: {
       github: 'https://github.com/nonsensicalinsane/SalesOpsMiniDWH',
       documentation: 'https://docs.unifiedbillingingestor.com',
-      // blog: '/blog/your-future-project-post'
+      // blog: '/your-future-project-post/'
     }
   },
   {
@@ -75,7 +75,7 @@ export const upcomingProjects: UpcomingProject[] = [
     links: {
       github: 'https://github.com/nonsensicalinsane/SalesOpsMiniDWH',
       documentation: 'https://docs.unifiedbillingingestor.com',
-      // blog: '/blog/your-future-project-post'
+      // blog: '/your-future-project-post/'
     }
   },
   {
@@ -94,7 +94,7 @@ export const upcomingProjects: UpcomingProject[] = [
     links: {
       github: 'https://github.com/nonsensicalinsane/SalesOpsMiniDWH',
       documentation: 'https://docs.unifiedbillingingestor.com',
-      // blog: '/blog/your-future-project-post'
+      // blog: '/your-future-project-post/'
     }
   }
 
@@ -118,7 +118,7 @@ export const upcomingProjects: UpcomingProject[] = [
     links: {
       github: 'https://github.com/username/future-project',
       documentation: 'https://docs.future-project.com',
-      // blog: '/blog/your-future-project-post'
+      // blog: '/your-future-project-post/'
     }
   }
   */

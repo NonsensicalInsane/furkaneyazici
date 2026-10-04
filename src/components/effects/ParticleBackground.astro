@@ -31,8 +31,9 @@ const { density = 100, className = '' } = Astro.props;
         this.dpr = Math.min(window.devicePixelRatio || 1, 2);
 
         this.onResize = this.debounce(() => {
-          this.resize();
+          this.resize(); // resizing the canvas clears it
           this.createParticles();
+          if (!this.running) this.frame(); // paused: repaint the still frame
         }, 200);
         this.onMouseMove = (e) => {
           this.mouse.x = e.clientX;
@@ -97,6 +98,13 @@ const { density = 100, className = '' } = Astro.props;
 
       animate() {
         if (!this.running) return;
+        this.frame();
+        this.animationId = requestAnimationFrame(() => this.animate());
+      }
+
+      // Advance and draw one frame (also used to paint a still frame when the
+      // page opens already scrolled past the first viewport).
+      frame() {
         const ctx = this.ctx;
         ctx.clearRect(0, 0, this.width, this.height);
 
@@ -152,8 +160,6 @@ const { density = 100, className = '' } = Astro.props;
             }
           }
         }
-
-        this.animationId = requestAnimationFrame(() => this.animate());
       }
 
       destroy() {
@@ -197,13 +203,14 @@ const { density = 100, className = '' } = Astro.props;
 
       system = new ParticleSystem(canvas);
 
-      // Dim (but keep) the particles after the first viewport so they stay
-      // an ambient presence on every page without competing with content.
-      // Only a hidden tab fully pauses the animation.
+      // Past the first viewport the particles dim and freeze on their last
+      // frame: still an ambient presence on every page, but no longer burning
+      // CPU/battery on an animation that's barely visible behind content.
+      // Scrolling back up (or returning to a hidden tab) resumes it.
       const update = () => {
         const pastHero = window.scrollY > window.innerHeight * 0.9;
         container.style.opacity = pastHero ? '0.35' : '1';
-        if (document.hidden) {
+        if (document.hidden || pastHero) {
           system?.stop();
         } else {
           system?.start();
@@ -215,6 +222,7 @@ const { density = 100, className = '' } = Astro.props;
       window.addEventListener('scroll', scrollHandler, { passive: true });
       document.addEventListener('visibilitychange', visibilityHandler);
       update();
+      if (!system.running) system.frame(); // opened mid-page: show a still frame
     }
 
     document.addEventListener('DOMContentLoaded', init);

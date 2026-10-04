@@ -1,15 +1,18 @@
 ---
 export interface Props {
   className?: string;
+  /** Reading time computed at build (the post header's "N min read") */
+  minutes?: number;
 }
 
-const { className = '' } = Astro.props;
+const { className = '', minutes } = Astro.props;
 ---
 
 <!-- Reading Progress Bar at Bottom -->
 <div class={`fixed bottom-0 left-0 w-full z-50 ${className}`}>
   <div 
     id="reading-progress-bar" 
+    data-minutes={minutes}
     class="h-1 bg-gradient-to-r from-primary to-blue-600 transition-all duration-300"
     style="width: 0%"
   ></div>
@@ -27,7 +30,7 @@ const { className = '' } = Astro.props;
     <div>
       <div class="text-sm font-medium text-gray-900 dark:text-white">Reading</div>
       <div class="text-xs text-gray-600 dark:text-slate-400" id="reading-time">
-        <span id="reading-time-left">5 min</span> left
+        <span id="reading-time-left">{minutes ?? 5} min</span> left
       </div>
     </div>
   </div>
@@ -58,14 +61,14 @@ const { className = '' } = Astro.props;
     if (progressBar.dataset.bound === 'true') return;
     progressBar.dataset.bound = 'true';
 
-    // Calculate reading time
-    const articleContent = document.querySelector('article .prose, article');
-    const wordsPerMinute = 200;
-    let totalReadingTime = 5;
-    
-    if (articleContent) {
-      const wordCount = articleContent.textContent?.split(/\s+/).length || 0;
-      totalReadingTime = Math.max(Math.ceil(wordCount / wordsPerMinute), 1);
+    // Use the same estimate as the post header's "N min read" (computed at
+    // build). Counting words here is only a fallback: it also counted the
+    // header, tags and share buttons, so the two numbers disagreed.
+    let totalReadingTime = Number(progressBar.dataset.minutes) || 0;
+    if (!totalReadingTime) {
+      const articleContent = document.querySelector('article .prose') ?? document.querySelector('article');
+      const wordCount = articleContent?.textContent?.split(/\s+/).length || 0;
+      totalReadingTime = Math.max(Math.ceil(wordCount / 200), 1);
     }
 
     function updateProgress() {

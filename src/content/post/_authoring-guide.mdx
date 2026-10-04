@@ -16,23 +16,19 @@ Use `##` (h2) and `###` (h3). The TOC in the sidebar (desktop) and the
 "On this page" box (mobile) build themselves from these automatically —
 it appears once a post has 2+ headings.
 
-## Citations
+## Citations and notes
 
-Cite anything inline with a footnote key[^example]. Readers can **hover**
-the [1] marker to preview the reference, or **click** it to jump to the
-References section that appears automatically at the bottom of the post.
-
-Define the reference anywhere in the file (bottom is tidiest):
+Sources come from the shared BibTeX file `src/content/references.bib`
+(export from Zotero/JabRef; keep `@` out of its comment lines). Cite with
+the key; only cited entries are listed, IEEE style, under "References":
 
 ```md
-Some claim that needs a source[^epr].
-
-[^epr]: Einstein, A., Podolsky, B., Rosen, N. (1935). *Phys. Rev.* 47, 777. [doi:10.1103/PhysRev.47.777](https://doi.org/10.1103/PhysRev.47.777)
+No unitary can copy an unknown state [@wootters1982].
+Several at once: [@nielsen2010; @epr1935]
 ```
 
-Works for papers, videos, blog posts — anything. Use a normal
-`[text](url)` link inside the reference; the `<https://url>` autolink
-syntax does NOT work in MDX files.
+Hovering a `[1]` shows the entry; DOIs become links. Footnotes (`[^key]`)
+are for side remarks and are listed under "Notes".
 
 ## Callouts
 
@@ -85,28 +81,79 @@ def hadamard(qubit):
     return H @ qubit  # superposition
 ```
 
-## Images, captions, GIFs, video
+## Abstract
 
-Static image with a caption — an italic line right after an image
-becomes a centered caption:
+Optional frontmatter, shown in a box above the post and in structured data:
 
-```md
-![Bloch sphere](~/assets/images/posts/bloch.png)
-*Figure 1: state vector on the Bloch sphere.*
+```yaml
+abstract: We show that no unitary can clone an unknown quantum state.
 ```
 
-Animated GIFs: put them in `public/` and reference `/name.gif`
-(the image optimizer may drop animation for GIFs in `src/assets/`).
-Better yet, use a video — far smaller files:
+## Figures, charts and animations
 
-```html
-<video autoplay loop muted playsinline class="rounded-md shadow-lg">
-  <source src="/videos/demo.webm" type="video/webm" />
-</video>
+All are numbered "Figure N" in order; the text inside is the caption
+(markdown and math work). `alt` describes the content for screen readers.
+
+```mdx
+import loss from '~/assets/images/posts/my-post/loss.svg';
+
+<Figure src={loss} alt="Loss falling from 2.3 to 0.4" id="fig:loss">
+  Training loss per epoch.
+</Figure>
+
+<PlotlyChart src="/figures/my-post/bloch.json" alt="…" id="fig:bloch" height={480}>
+  Interactive Bloch sphere.
+</PlotlyChart>
+
+<Animation src="/videos/my-post/h.mp4" poster="/videos/my-post/h.png" alt="…" id="fig:h" autoplay>
+  The Hadamard gate as a rotation.
+</Animation>
 ```
 
-YouTube/CodePen embeds are currently blocked by the CSP in
-`netlify.toml` — ask to open `frame-src` if you need one.
+- **matplotlib:** `plt.style.use("tools/furkaneyazici.mplstyle")`, then
+  `fig.savefig("src/assets/images/posts/<post>/<name>.svg")`: transparent,
+  site colours, vector.
+- **Plotly:** `fig.write_json("public/figures/<post>/<name>.json")`. The
+  site theme replaces the notebook's; Plotly loads only when the chart is
+  near the screen. LaTeX inside Plotly labels isn't rendered.
+- **Manim:** copy `tools/manim.cfg` next to the scene (site background
+  colour), render with `manim -qh scene.py Name` (and `-s` for the poster
+  frame), put both in `public/videos/<post>/`. `autoplay` plays muted and
+  looped while visible, never with reduced motion.
+- YouTube/CodePen embeds are blocked by the CSP in `netlify.toml`; ask
+  before adding one.
+
+## Equations, theorems and references
+
+Only labelled equations are numbered. `<Ref>` prints the number and links
+to it; an unknown label stops the build.
+
+```mdx
+$$
+i\hbar\,\partial_t|\psi\rangle = \hat H|\psi\rangle \label{eq:schrodinger}
+$$
+
+<Definition title="Qubit" id="def:qubit">A unit vector in $\mathbb{C}^2$.</Definition>
+
+<Theorem title="No-cloning" id="thm:no-cloning">No unitary copies every state.</Theorem>
+
+<Proof>Linearity contradicts copying two non-orthogonal states.</Proof>
+
+By <Ref to="thm:no-cloning" /> and <Ref to="eq:schrodinger" /> … (also <Lemma>)
+```
+
+`<Proof>` is collapsed by default and ends with ∎.
+
+## From a Jupyter notebook
+
+```sh
+python scripts/notebook-to-post.py path/to/notebook.ipynb --slug my-post
+```
+
+Creates a draft post: markdown cells (made MDX-safe), code, outputs (SVG/PNG
+→ `<Figure>`, Plotly → `<PlotlyChart>`, text). Cell tags `remove-cell`,
+`remove-input`, `remove-output`, `hide-input` are honoured. Then fill in
+the TODO alt texts, captions and excerpt, and set `draft: false`.
 
 ## Translations
 

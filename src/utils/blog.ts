@@ -119,7 +119,8 @@ const load = async function (): Promise<Array<Post>> {
 
   const results = (await Promise.all(normalizedPosts))
     .sort((a, b) => b.publishDate.valueOf() - a.publishDate.valueOf())
-    .filter((post) => !post.draft);
+    // Drafts are previewable with `npm run dev`, never built for production
+    .filter((post) => !post.draft || import.meta.env.DEV);
 
   return results;
 };

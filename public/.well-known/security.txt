@@ -1,0 +1,7 @@
+# Security contact for furkaneyazici.com (RFC 9116).
+# Renew "Expires" before it passes — an expired file tells researchers the
+# contact may be stale.
+Contact: mailto:yazici.furkan@proton.me
+Expires: 2027-10-01T00:00:00.000Z
+Preferred-Languages: en, tr
+Canonical: https://furkaneyazici.com/.well-known/security.txt

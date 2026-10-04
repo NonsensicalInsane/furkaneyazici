@@ -65,7 +65,7 @@ const featuredImage = featuredPost ? await findImage(featuredPost.image) : null;
             <div class="md:flex">
               {featuredImage && (
                 <div class="md:w-2/5 relative overflow-hidden">
-                  <a href={getPermalink(featuredPost.permalink, 'post')} class="block h-full">
+                  <a href={getPermalink(featuredPost.permalink, 'post')} class="block h-full" tabindex="-1" aria-hidden="true">
                     <Image
                       src={featuredImage}
                       alt={featuredPost.title}

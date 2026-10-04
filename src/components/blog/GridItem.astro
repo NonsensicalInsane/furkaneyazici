@@ -34,7 +34,8 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
     {
       image && (
         <div class="relative overflow-hidden">
-          <a href={link || 'javascript:void(0)'} class="block h-full">
+          {/* Same target as the title link: clickable, but skipped by keyboard and screen readers */}
+          <a href={link || 'javascript:void(0)'} class="block h-full" tabindex="-1" aria-hidden="true">
             <Image
               src={image}
               class:list={[

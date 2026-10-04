@@ -6,7 +6,8 @@ import { Image } from 'astro:assets';
 import meimg from '../assets/images/icons/logo.png';
 ---
 
-<Image src={meimg} class="logo" alt="FEY monogram" width={40} height={40} />
+<!-- Decorative: the site name right next to it already labels the link. Above the fold, so not lazy. -->
+<Image src={meimg} class="logo" alt="" width={40} height={40} loading="eager" />
 <span
   class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-lg sm:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
 >

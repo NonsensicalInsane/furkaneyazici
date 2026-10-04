@@ -1,0 +1,23 @@
+---
+// Shared <figure> wrapper for Figure, PlotlyChart and Animation: the anchor
+// that <Ref> links to and the numbered caption ("Figure 3. …"). The number
+// comes from src/utils/remark-numbering.mjs.
+export interface Props {
+  id?: string;
+  number?: string;
+}
+
+const { id, number } = Astro.props;
+const hasCaption = Astro.slots.has('caption');
+---
+
+<figure id={id} class="rich-figure not-prose">
+  <slot />
+  {
+    (number || hasCaption) && (
+      <figcaption>
+        {number && <span class="rich-figure-label">Figure {number}.</span>} <slot name="caption" />
+      </figcaption>
+    )
+  }
+</figure>

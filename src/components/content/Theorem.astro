@@ -1,0 +1,11 @@
+---
+import Statement from './Statement.astro';
+
+export interface Props {
+  title?: string;
+  id?: string;
+  number?: string;
+}
+---
+
+<Statement kind="theorem" {...Astro.props}><slot /></Statement>

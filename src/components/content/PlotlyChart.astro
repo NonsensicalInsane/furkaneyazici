@@ -1,0 +1,41 @@
+---
+// An interactive Plotly chart exported from a notebook:
+//
+//   fig.write_json("public/figures/my-post/bloch.json")      # in Python
+//   <PlotlyChart src="/figures/my-post/bloch.json" alt="…" id="fig:bloch">
+//     Caption text.
+//   </PlotlyChart>
+//
+// Plotly and the data load only when the chart scrolls into view, and the
+// site's dark theme replaces the notebook's template (src/scripts/plotly-charts.js).
+import FigureFrame from './FigureFrame.astro';
+
+export interface Props {
+  /** Path of the figure JSON under public/, e.g. "/figures/my-post/fig.json" */
+  src: string;
+  /** What the chart shows, for screen readers (the chart itself isn't accessible) */
+  alt: string;
+  /** Label for <Ref to="…" /> */
+  id?: string;
+  /** Set by remark-numbering.mjs */
+  number?: string;
+  /** Height in px; Plotly charts need a fixed height (default 440) */
+  height?: number;
+}
+
+const { src, alt, id, number, height = 440 } = Astro.props;
+---
+
+<FigureFrame id={id} number={number}>
+  <div class="plotly-chart" data-plotly-src={src} role="img" aria-label={alt} style={`height: ${height}px`}>
+    <p class="plotly-chart-status">Loading interactive chart…</p>
+    <noscript><p class="plotly-chart-status">Interactive chart (needs JavaScript): {alt}</p></noscript>
+  </div>
+  <slot slot="caption" />
+</FigureFrame>
+
+<script>
+  import { initPlotlyCharts } from '../../scripts/plotly-charts.js';
+
+  initPlotlyCharts();
+</script>

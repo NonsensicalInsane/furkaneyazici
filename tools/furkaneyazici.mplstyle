@@ -1,0 +1,45 @@
+# Matplotlib style matching furkaneyazici.com's dark theme.
+#
+# In a notebook:
+#   import matplotlib.pyplot as plt
+#   plt.style.use("path/to/tools/furkaneyazici.mplstyle")
+#   fig.savefig("src/assets/images/posts/<post>/<name>.svg")
+#
+# Saves transparent, tightly cropped vector SVGs (text as paths, so math and
+# fonts look identical everywhere). Use with <Figure> in a post.
+
+# Transparent backgrounds: the page colour shows through
+figure.facecolor: none
+axes.facecolor: none
+savefig.facecolor: none
+savefig.transparent: True
+savefig.format: svg
+savefig.bbox: tight
+savefig.pad_inches: 0.05
+svg.fonttype: path
+
+figure.figsize: 7, 4.2
+font.family: sans-serif
+font.sans-serif: Inter, DejaVu Sans, Arial, sans-serif
+font.size: 11
+mathtext.fontset: cm
+
+# Light text and lines for a dark page (Tailwind slate scale)
+text.color: e2e8f0
+axes.labelcolor: e2e8f0
+axes.titlecolor: f1f5f9
+xtick.color: cbd5e1
+ytick.color: cbd5e1
+axes.edgecolor: 475569
+axes.spines.top: False
+axes.spines.right: False
+axes.grid: True
+grid.color: 94a3b8
+grid.alpha: 0.2
+grid.linewidth: 0.8
+legend.frameon: False
+lines.linewidth: 2
+
+# The site's palette (same order as interactive Plotly charts)
+axes.prop_cycle: cycler('color', ['3b82f6', '8b5cf6', '34d399', 'fbbf24', 'f472b6', '22d3ee', 'fb923c', 'a3e635'])
+image.cmap: viridis

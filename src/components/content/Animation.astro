@@ -1,0 +1,58 @@
+---
+// A video figure, e.g. a Manim render, with a numbered caption.
+//
+//   <Animation src="/videos/my-post/hadamard.mp4" poster="/videos/my-post/hadamard.png"
+//              alt="The state vector rotating from |0⟩ to |+⟩" id="fig:hadamard" autoplay>
+//     The Hadamard gate as a rotation of the Bloch sphere.
+//   </Animation>
+//
+// Videos live in public/ and are served from the site itself. With `autoplay`
+// they play muted and looped like a GIF, only while visible, and never for
+// readers who prefer reduced motion (src/scripts/animations.js).
+import FigureFrame from './FigureFrame.astro';
+
+export interface Props {
+  /** MP4 (H.264) path under public/ */
+  src: string;
+  /** Optional WebM version (smaller); browsers pick the first they support */
+  webm?: string;
+  /** Still frame shown before playing, e.g. Manim's `-s` last-frame PNG */
+  poster?: string;
+  /** What the animation shows, for screen readers */
+  alt: string;
+  /** Play muted and looped while visible (like a GIF) */
+  autoplay?: boolean;
+  loop?: boolean;
+  /** Label for <Ref to="…" /> */
+  id?: string;
+  /** Set by remark-numbering.mjs */
+  number?: string;
+}
+
+const { src, webm, poster, alt, autoplay = false, loop = true, id, number } = Astro.props;
+---
+
+<FigureFrame id={id} number={number}>
+  <video
+    class="rich-video"
+    controls
+    playsinline
+    preload="metadata"
+    poster={poster}
+    loop={loop}
+    muted={autoplay}
+    aria-label={alt}
+    data-autoplay={autoplay ? '' : undefined}
+  >
+    {webm && <source src={webm} type="video/webm" />}
+    <source src={src} type="video/mp4" />
+    <p>{alt}</p>
+  </video>
+  <slot slot="caption" />
+</FigureFrame>
+
+<script>
+  import { initAnimations } from '../../scripts/animations.js';
+
+  initAnimations();
+</script>

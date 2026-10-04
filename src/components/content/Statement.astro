@@ -1,0 +1,25 @@
+---
+// Shared box behind <Definition>, <Theorem> and <Lemma>:
+// "Theorem 2 (No-cloning)." followed by the body. Each kind is numbered on
+// its own by src/utils/remark-numbering.mjs. The body keeps the post's prose
+// styles, so markdown, lists and math work inside.
+export interface Props {
+  kind: 'definition' | 'theorem' | 'lemma';
+  /** Optional name, shown in parentheses */
+  title?: string;
+  /** Label for <Ref to="…" /> */
+  id?: string;
+  /** Set by remark-numbering.mjs */
+  number?: string;
+}
+
+const { kind, title, id, number } = Astro.props;
+const name = { definition: 'Definition', theorem: 'Theorem', lemma: 'Lemma' }[kind];
+---
+
+<div id={id} class={`statement statement-${kind}`}>
+  <p class="statement-heading">
+    <strong>{name}{number && ` ${number}`}</strong>{title && <span class="statement-title"> ({title})</span>}.
+  </p>
+  <slot />
+</div>

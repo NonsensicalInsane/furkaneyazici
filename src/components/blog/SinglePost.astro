@@ -8,6 +8,14 @@ import ReadingProgressBar from '../../components/blog/ReadingProgressBar.astro';
 import TableOfContents from '../../components/blog/TableOfContents.astro';
 import Callout from '../../components/blog/Callout.astro';
 import Quote from '../../components/blog/Quote.astro';
+// Rich-content components, available in every post without an import
+import Figure from '../../components/content/Figure.astro';
+import PlotlyChart from '../../components/content/PlotlyChart.astro';
+import Animation from '../../components/content/Animation.astro';
+import Definition from '../../components/content/Definition.astro';
+import Theorem from '../../components/content/Theorem.astro';
+import Lemma from '../../components/content/Lemma.astro';
+import Proof from '../../components/content/Proof.astro';
 
 import { getPermalink } from '../../utils/permalinks';
 import { getFormattedDate } from '../../utils/utils';
@@ -32,6 +40,7 @@ const jsonLd = {
   '@type': 'BlogPosting',
   headline: post.title,
   description: post.excerpt,
+  ...(post.abstract ? { abstract: post.abstract } : {}),
   datePublished: post.publishDate ? new Date(post.publishDate).toISOString() : undefined,
   dateModified: post.updateDate ? new Date(post.updateDate).toISOString() : undefined,
   author: {
@@ -125,6 +134,19 @@ const jsonLd = {
       </p>
 
       {
+        post.abstract && (
+          <section class="post-abstract max-w-3xl mx-auto mb-8 px-4 sm:px-6" aria-labelledby="abstract-heading">
+            <div class="post-abstract-box">
+              <h2 id="abstract-heading" class="post-abstract-heading">
+                Abstract
+              </h2>
+              <p>{post.abstract}</p>
+            </div>
+          </section>
+        )
+      }
+
+      {
         post.image ? (
           <Image
             src={post.image}
@@ -153,7 +175,7 @@ const jsonLd = {
         <div
           class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg prose-headings:scroll-mt-[80px]"
         >
-          {Content ? <Content components={{ Callout, Quote }} /> : <Fragment set:html={post.content || ''} />}
+          {Content ? <Content components={{ Callout, Quote, Figure, PlotlyChart, Animation, Definition, Theorem, Lemma, Proof }} /> : <Fragment set:html={post.content || ''} />}
         </div>
       </div>
       <aside class="hidden xl:block">
@@ -247,7 +269,8 @@ const jsonLd = {
   // Hover previews for citations: peek at the reference without losing your place
   function initFootnotePreviews() {
     if (window.matchMedia('(hover: none)').matches) return; // touch: tapping jumps to References
-    document.querySelectorAll<HTMLAnchorElement>('a[data-footnote-ref]').forEach((ref) => {
+    // Footnote markers and citations ([1] → bibliography entry) alike
+    document.querySelectorAll<HTMLAnchorElement>('a[data-footnote-ref], a[href^="#bib-"]').forEach((ref) => {
       if (ref.dataset.fnPreview) return;
       ref.dataset.fnPreview = 'true';
 

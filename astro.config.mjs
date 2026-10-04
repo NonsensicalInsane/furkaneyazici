@@ -12,12 +12,15 @@ import {
   readingTimeRemarkPlugin,
   mathFlagRemarkPlugin,
   responsiveTablesRehypePlugin,
+  bibliographyRehypePlugin,
 } from "./src/utils/frontmatter.mjs";
+import { numberingRemarkPlugin } from "./src/utils/remark-numbering.mjs";
 import { SITE, APP_BLOG } from "./src/utils/config.ts";
 
 import { unified } from "@astrojs/markdown-remark";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import rehypeCitation from "rehype-citation";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -90,12 +93,23 @@ export default defineConfig({
   // these plugins). @astrojs/mdx picks the same plugins up from here.
   markdown: {
     processor: unified({
-      remarkPlugins: [readingTimeRemarkPlugin, remarkMath, mathFlagRemarkPlugin],
-      rehypePlugins: [responsiveTablesRehypePlugin, rehypeKatex],
+      remarkPlugins: [readingTimeRemarkPlugin, remarkMath, mathFlagRemarkPlugin, numberingRemarkPlugin],
+      rehypePlugins: [
+        responsiveTablesRehypePlugin,
+        // [@key] cites an entry of the shared BibTeX file; only cited entries
+        // are listed at the end of the post. IEEE style ("[1]", as in physics
+        // journals) keeps citations distinct from equation references "(1)".
+        [
+          rehypeCitation,
+          { bibliography: "src/content/references.bib", csl: "src/content/ieee.csl", linkCitations: true },
+        ],
+        bibliographyRehypePlugin,
+        rehypeKatex,
+      ],
       remarkRehype: {
-        // GFM footnotes double as an academic citation system: [^key] in the
-        // text becomes a numbered link into this section at the bottom.
-        footnoteLabel: "References",
+        // GFM footnotes ([^key]) are for side remarks; sources go through
+        // BibTeX citations above, which own the "References" heading.
+        footnoteLabel: "Notes",
         footnoteLabelProperties: { className: [""] },
         footnoteBackLabel: "Back to text",
       },

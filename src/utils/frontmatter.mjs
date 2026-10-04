@@ -21,6 +21,49 @@ export function mathFlagRemarkPlugin() {
   };
 }
 
+// Finishes rehype-citation's bibliography (div#refs): adds a real
+// "References" heading, and turns DOIs into links to https://doi.org/.
+const DOI = /\b(10\.\d{4,9}\/[^\s]+?)(?=[.,;]?(?:\s|$))/g;
+
+function linkDois(node) {
+  if (!node.children) return;
+  node.children = node.children.flatMap((child) => {
+    if (child.type !== 'text') {
+      if (!(child.type === 'element' && child.tagName === 'a')) linkDois(child);
+      return [child];
+    }
+    const parts = [];
+    let last = 0;
+    for (const match of child.value.matchAll(DOI)) {
+      if (match.index > last) parts.push({ type: 'text', value: child.value.slice(last, match.index) });
+      parts.push({
+        type: 'element',
+        tagName: 'a',
+        properties: { href: `https://doi.org/${match[1]}`, rel: ['noopener', 'noreferrer'] },
+        children: [{ type: 'text', value: match[1] }],
+      });
+      last = match.index + match[1].length;
+    }
+    if (!parts.length) return [child];
+    if (last < child.value.length) parts.push({ type: 'text', value: child.value.slice(last) });
+    return parts;
+  });
+}
+
+export function bibliographyRehypePlugin() {
+  return function (tree) {
+    const index = tree.children.findIndex((node) => node.type === 'element' && node.properties?.id === 'refs');
+    if (index === -1) return;
+    linkDois(tree.children[index]);
+    tree.children.splice(index, 0, {
+      type: 'element',
+      tagName: 'h2',
+      properties: { id: 'references' },
+      children: [{ type: 'text', value: 'References' }],
+    });
+  };
+}
+
 export function responsiveTablesRehypePlugin() {
   return function (tree) {
     if (!tree.children) return;

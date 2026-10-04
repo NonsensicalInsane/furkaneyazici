@@ -56,6 +56,8 @@ const postCollection = defineCollection({
 
     title: z.string(),
     excerpt: z.string().optional(),
+    // Short academic-style summary shown in a box above the post
+    abstract: z.string().optional(),
     image: z.string().optional(),
 
     category: z.string().optional(),

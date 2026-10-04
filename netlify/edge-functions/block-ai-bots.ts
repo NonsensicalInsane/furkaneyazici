@@ -79,6 +79,8 @@ export const config = {
     '/robots.txt', // the policy itself stays readable by everyone
     '/_astro/*',
     '/assets/*',
+    '/figures/*', // PlotlyChart data
+    '/videos/*', // Animation files
     '/*.css',
     '/*.js',
     '/*.png',

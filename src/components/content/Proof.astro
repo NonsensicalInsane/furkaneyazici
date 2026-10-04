@@ -1,0 +1,21 @@
+---
+// A collapsible proof, closed by default so readers can skip it, ending in ∎.
+//
+//   <Proof>
+//     Suppose a unitary U copies arbitrary states …
+//   </Proof>
+export interface Props {
+  /** Summary text (default "Proof") */
+  title?: string;
+  /** Start expanded */
+  open?: boolean;
+}
+
+const { title = 'Proof', open = false } = Astro.props;
+---
+
+<details class="proof" open={open}>
+  <summary>{title}</summary>
+  <slot />
+  <p class="proof-qed" aria-label="End of proof">∎</p>
+</details>

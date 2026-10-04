@@ -23,6 +23,8 @@
     "katex": "^0.16.22",
     "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
+    "plotly.js-strict-dist": "^4.1.1",
+    "rehype-citation": "^2.3.2",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "unpic": "^4.1.2"

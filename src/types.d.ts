@@ -20,6 +20,8 @@ export interface Post {
   title: string;
   /** Optional summary of post content. */
   excerpt?: string;
+  /** Academic-style summary shown above the post */
+  abstract?: string;
   /**  */
   image?: ImageMetadata | string;
 

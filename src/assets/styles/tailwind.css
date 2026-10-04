@@ -596,3 +596,172 @@ a {
 .dd *:first-child {
   margin-top: 0;
 }
+
+/* ---------- Rich post content: figures, charts, equations, statements ---------- */
+
+/* Targets of <Ref> links clear the sticky header when jumped to */
+.rich-figure,
+.statement,
+.equation {
+  scroll-margin-top: 90px;
+}
+
+.rich-figure {
+  margin: 2.25rem 0;
+}
+.rich-figure figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--aw-color-text-muted);
+}
+.rich-figure-label {
+  font-weight: 600;
+  color: var(--aw-color-text-default);
+}
+
+.rich-figure-zoom {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: none;
+  cursor: zoom-in;
+}
+.rich-figure-zoom img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.figure-lightbox {
+  max-width: min(96vw, 1400px);
+  max-height: 92vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.figure-lightbox::backdrop {
+  background: rgb(3 6 23 / 0.88);
+}
+.figure-lightbox img {
+  display: block;
+  max-width: 100%;
+  max-height: 92vh;
+  object-fit: contain;
+}
+.figure-lightbox-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: rgb(15 23 42 / 0.9);
+  color: white;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.plotly-chart {
+  width: 100%;
+  border: 1px solid rgb(148 163 184 / 0.15);
+  border-radius: 0.75rem;
+}
+.plotly-chart-status {
+  padding-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--aw-color-text-muted);
+}
+
+.rich-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  background: black;
+}
+
+/* Long equations scroll sideways instead of overflowing on phones */
+.equation {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.statement {
+  margin: 1.75rem 0;
+  padding: 0.25rem 1.25rem;
+  border-left: 4px solid var(--aw-color-primary);
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: rgb(59 130 246 / 0.07);
+}
+.statement-theorem,
+.statement-lemma {
+  border-left-color: var(--aw-color-accent);
+  background: rgb(139 92 246 / 0.08);
+}
+.statement-title {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.proof {
+  margin: 1.25rem 0 1.75rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid rgb(148 163 184 / 0.2);
+  border-radius: 0.5rem;
+}
+.proof summary {
+  cursor: pointer;
+  font-style: italic;
+  font-weight: 600;
+}
+.proof-qed {
+  margin: 0 !important;
+  text-align: right;
+}
+
+.post-abstract-box {
+  padding: 1rem 1.25rem;
+  border: 1px solid rgb(148 163 184 / 0.2);
+  border-radius: 0.75rem;
+  background: rgb(15 23 42 / 0.55);
+}
+.post-abstract-heading {
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aw-color-primary);
+}
+.post-abstract-box p {
+  line-height: 1.7;
+}
+
+/* Bibliography from rehype-citation (IEEE style): "[1]" column + entry */
+#refs {
+  font-size: 0.95rem;
+}
+#refs .csl-entry {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+#refs .csl-left-margin {
+  flex: 0 0 2.25rem;
+  color: var(--aw-color-text-muted);
+}
+#refs .csl-right-inline {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* In a citation's hover preview the reader is already on its "[1]" link */
+.footnote-tooltip .csl-left-margin {
+  display: none;
+}

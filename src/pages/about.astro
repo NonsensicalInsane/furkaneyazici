@@ -357,29 +357,9 @@ const { personal, research, work, education, certifications, socialLinks } = abo
 </Layout>
 
 <style>
-  /* Custom animations for enhanced UX */
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.8s ease-out;
-  }
-
-  .delay-300 {
-    animation-delay: 300ms;
-  }
-
-  .delay-500 {
-    animation-delay: 500ms;
-  }
+  /* Page-specific tweaks only. Keyframes (fade-in-up, float) and the
+     .delay-* helpers come from the global stylesheet; @keyframes names
+     aren't scoped, so redefining them here would affect every page. */
 
   /* Enhanced button hover effects */
   .btn-primary:hover {
@@ -387,16 +367,7 @@ const { personal, research, work, education, certifications, socialLinks } = abo
     box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.3);
   }
 
-  /* Floating animation for stats */
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
+  /* Faster float than the global 6s for the stats */
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }

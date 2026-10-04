@@ -1,8 +1,5 @@
----
-import favIcon from '../assets/images/icons/logo.ico';
-import favIconSvg from '../assets/images/icons/logo.svg';
----
-
-<link rel="shortcut icon" href={favIcon} />
-<link rel="icon" type="image/svg+xml" href={favIconSvg.src} />
-<link rel="mask-icon" href={favIconSvg.src} color="#8D46E7" />
+<!-- All three live at the site root, where browsers and crawlers look by
+     default. favicon.ico is in public/; the PNGs come from src/pages/[icon].png.ts -->
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />

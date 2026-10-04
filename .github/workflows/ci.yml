@@ -1,0 +1,35 @@
+# Runs on every push and pull request: lint (which the Netlify deploy never
+# runs), then the same `npm run build` Netlify uses (astro check + astro build).
+# A red check here means the deploy would fail or the code has lint errors.
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22 # keep in sync with NODE_VERSION in netlify.toml
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint:eslint
+
+      - name: Type check and build
+        run: npm run build

@@ -90,7 +90,7 @@ export const aboutData: AboutContent = {
     {
       title: "Internship, Industrial Automation",
       company: "ALTINAY Technology Group",
-      companyUrl: "http://www.altinay.com/en/home/",
+      companyUrl: "https://altinay.com/en/home/",
       location: "Istanbul, Turkey",
       startDate: "Summer 2017",
       endDate: "Summer 2017",

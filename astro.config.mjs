@@ -119,6 +119,9 @@ export default defineConfig({
   // —— Vite customisation ——
   vite: {
     plugins: [tailwindcss()],
+    // Pre-bundle Plotly at dev startup; otherwise Vite discovers it on the first
+    // chart, optimises it and reloads the page once (production is unaffected).
+    optimizeDeps: { include: ["plotly.js-strict-dist"] },
     resolve: {
       alias: {
         "~": path.resolve(__dirname, "./src"),

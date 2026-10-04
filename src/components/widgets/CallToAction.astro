@@ -12,6 +12,8 @@ interface Props extends Widget {
   callPageName?: string;
   callPagePath?: string;
   logo?: string;
+  /** Alt text for the logo; empty (decorative) when the text around it already names it */
+  logoAlt?: string;
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   classes = {},
   bg = await Astro.slots.render('bg'),
   logo = await Astro.slots.render('logo'),
+  logoAlt = '',
 } = Astro.props as Props;
 ---
 
@@ -48,7 +51,7 @@ const {
     {
       logo && (
         <div class="flex justify-center">
-          <img src={logo} class="w-32 h-32" />
+          <img src={logo} alt={logoAlt} width="128" height="128" class="w-32 h-32" />
         </div>
       )
     }

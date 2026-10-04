@@ -52,6 +52,8 @@ const metadata = {
         </>
       )
     }
+    <!-- Post cards use <h3>; this keeps the outline h1 → h2 → h3 for screen readers -->
+    <h2 class="sr-only">Posts</h2>
     <BlogGrid posts={page.data} featureFirst={currentPage === 1} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
     <!--

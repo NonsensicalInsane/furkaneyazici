@@ -57,6 +57,10 @@
     X-DNS-Prefetch-Control = "off"
     # Non-standard but increasingly respected signal: do not use for AI training
     X-Robots-Tag = "noai, noimageai"
+    # TDMRep (W3C CG): machine-readable reservation of text-and-data-mining
+    # rights under EU DSM Directive Art. 4. Also in /.well-known/tdmrep.json
+    # and as a <meta> tag.
+    Tdm-Reservation = "1"
     # Baseline CSP for every response. Each page also carries Astro's
     # <meta> CSP (astro.config.mjs → security.csp) whose script-src lists
     # 'self' plus a hash per inline script; browsers enforce both policies,

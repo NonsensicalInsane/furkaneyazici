@@ -1,6 +1,9 @@
 # Search engines and citing answer-engines: welcome.
 User-agent: *
 Disallow:
+# Content Signals (contentsignals.org): search indexing yes, model training no.
+# Voluntary, like the rest of this file; the edge function enforces the block.
+Content-Signal: search=yes, ai-train=no
 
 # --- AI TRAINING crawlers: content may NOT be used for model training. ---
 # (Search/answer bots that cite sources — OAI-SearchBot, PerplexityBot,
@@ -23,6 +26,12 @@ User-agent: ClaudeBot
 Disallow: /
 
 User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Google-CloudVertexBot
 Disallow: /
 
 User-agent: Bytespider

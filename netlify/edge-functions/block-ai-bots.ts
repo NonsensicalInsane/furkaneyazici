@@ -23,6 +23,9 @@ const BLOCKED_UA_PATTERNS = [
   // Meta training
   'meta-externalagent',
   'facebookbot',
+  // Amazon (models/Alexa) and Google Vertex AI (crawls for enterprise AI agents)
+  'amazonbot',
+  'google-cloudvertexbot',
   // ByteDance — notorious for ignoring robots.txt
   'bytespider',
   // Data brokers & scrapers feeding training sets
@@ -44,7 +47,14 @@ export default async (request: Request, context: { next: () => Promise<Response>
   if (BLOCKED_UA_PATTERNS.some((pattern) => ua.includes(pattern))) {
     return new Response('403 Forbidden — AI training crawlers are not permitted on this site.', {
       status: 403,
-      headers: { 'content-type': 'text/plain', 'x-robots-tag': 'noai, noimageai' },
+      // netlify.toml headers don't apply to responses generated here
+      headers: {
+        'content-type': 'text/plain; charset=utf-8',
+        'x-content-type-options': 'nosniff',
+        'content-security-policy': "default-src 'none'; frame-ancestors 'none'",
+        'x-robots-tag': 'noai, noimageai',
+        'tdm-reservation': '1',
+      },
     });
   }
 
@@ -53,6 +63,16 @@ export default async (request: Request, context: { next: () => Promise<Response>
 
 export const config = {
   path: '/*',
+  // Per-IP rate limit (a Netlify code-based rule; the free plan allows 2 per
+  // project). 120 requests a minute is far above human browsing, hover
+  // prefetching included, but slows bulk scraping and form flooding; over the
+  // limit Netlify answers 429. It covers what this function runs on: pages
+  // and form POSTs, not the static assets excluded below.
+  rateLimit: {
+    windowLimit: 120,
+    windowSize: 60,
+    aggregateBy: ['ip', 'domain'],
+  },
   // Static assets are skipped: bots want the HTML, and this keeps the
   // edge-invocation count (free-tier quota) low.
   excludedPath: [

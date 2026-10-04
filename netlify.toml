@@ -48,18 +48,24 @@
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # Every powerful browser feature off; the site uses none of them.
+    # (clipboard-write stays allowed: the code-copy and share buttons need it.)
+    Permissions-Policy = "accelerometer=(), autoplay=(), bluetooth=(), browsing-topics=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), payment=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), web-share=(), xr-spatial-tracking=()"
     Cross-Origin-Opener-Policy = "same-origin"
     Cross-Origin-Resource-Policy = "same-origin"
     X-Permitted-Cross-Domain-Policies = "none"
     X-DNS-Prefetch-Control = "off"
     # Non-standard but increasingly respected signal: do not use for AI training
     X-Robots-Tag = "noai, noimageai"
-    # The site only loads first-party code plus GoatCounter. Keep CDNs such as
-    # unpkg.com out of script-src: it serves any npm package, so allowing it
-    # would let injected markup load arbitrary code. 'unsafe-inline' stays for
-    # Astro's inline scripts (theme, define:vars).
-    # If an admin UI (e.g. Decap CMS) comes back, it needs its own, looser
-    # policy on its path — set per path in the edge function, not as a second
-    # matching rule here (Netlify doesn't document how those would combine).
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://nonsensicalinsane.goatcounter.com https://gc.zgo.at; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    # Baseline CSP for every response. Each page also carries Astro's
+    # <meta> CSP (astro.config.mjs → security.csp) whose script-src lists
+    # 'self' plus a hash per inline script; browsers enforce both policies,
+    # so only hashed inline scripts run even though this header keeps
+    # 'unsafe-inline' (a static header can't carry per-page hashes).
+    # Only first-party code is loaded (GoatCounter's script is self-hosted);
+    # images and connections may reach the site itself and the GoatCounter
+    # endpoint only, so injected code has no third-party channel to send to.
+    # If an admin UI (e.g. Decap CMS) comes back, give it its own policy per
+    # path in the edge function, not a second matching rule here (Netlify
+    # doesn't document how those would combine).
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://nonsensicalinsane.goatcounter.com; font-src 'self' data:; connect-src 'self' https://nonsensicalinsane.goatcounter.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"

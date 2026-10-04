@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/mdx": "^7.0.2",
+    "@astrojs/mdx": "^8.0.2",
     "@eslint/js": "^10.0.1",
     "@iconify-json/flat-color-icons": "^1.2.1",
     "@iconify-json/tabler": "^1.2.19",

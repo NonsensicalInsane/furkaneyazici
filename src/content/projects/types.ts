@@ -53,7 +53,7 @@ export interface ProjectSectionConfig {
   title: string;
   subtitle: string;
   heroImage?: {
-    src: string;
+    src: string | ImageMetadata;
     alt: string;
   };
 }

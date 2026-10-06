@@ -13,6 +13,9 @@ export const MOTIFS = [
   'tree', // computer science
   'network', // machine learning
   'scope', // electronics
+  'helix', // biology
+  'microbes', // microbiology
+  'neuron', // neuroscience
   'community', // sociology
   'timeline', // history
   'ripples', // philosophy
@@ -26,6 +29,9 @@ const TOPIC_RULES: Array<[RegExp, Motif]> = [
   [/quantum.?information|kuantum.?bilgi|entangle|dolanik|information.?theory/, 'circuit'],
   [/optic|optik|photon|foton|laser|lazer/, 'waves'],
   [/quantum|kuantum|qubit|kubit/, 'bloch'],
+  [/microbio|mikrobiyo|bacteri|bakteri|virolog|viroloji|microbe|mikrop/, 'microbes'],
+  [/neurosci|norobilim|neurobio|norobiyo|brain|beyin|cognitive|bilissel/, 'neuron'],
+  [/biolog|biyoloji|genetic|genetik|genom|\bdna\b|molecular|molekuler|bioinformatic|biyoinformatik/, 'helix'],
   [/machine.?learning|makine.?ogrenme|deep.?learning|derin.?ogrenme|neural|sinir.?ag|\bml\b|\bai\b|data.?science|veri.?bilim/, 'network'],
   [/computer.?science|bilgisayar|algorithm|algoritma|programming|programlama|software|yazilim|\bcs\b/, 'tree'],
   [/electronic|elektronik|circuit|devre|embedded|gomulu|hardware|donanim|signal|sinyal/, 'scope'],
@@ -205,6 +211,53 @@ const DRAW: Record<Motif, Draw> = {
     let svg = '';
     for (let r = 40; r <= 240; r += 40) svg += ring(CX - dx, CY, r, a, 2, 0.75 - r / 400) + ring(CX + dx, CY, r, b, 2, 0.75 - r / 400);
     return svg + dot(CX - dx, CY, 9, a) + dot(CX + dx, CY, 9, b);
+  },
+  helix: (a, b, rand) => {
+    const k = 0.018 + rand() * 0.008;
+    const p = rand() * Math.PI;
+    const s1 = (x: number) => CY + 110 * Math.sin(k * x + p);
+    const s2 = (x: number) => CY - 110 * Math.sin(k * x + p);
+    let svg = '';
+    for (let x = 300; x <= 900; x += 30) svg += line(x, s1(x), x, s2(x), a, 2, 0.25 + 0.3 * Math.abs(Math.sin(k * x + p)));
+    return svg + path(curve(s1, 300, 900), a, 4) + path(curve(s2, 300, 900), b, 4);
+  },
+  microbes: (a, b, rand) => {
+    let svg = ring(CX, CY, 230, a, 3, 0.5) + ring(CX, CY, 214, a, 1.5, 0.25);
+    const inside = () => {
+      const t = rand() * Math.PI * 2;
+      const r = Math.sqrt(rand()) * 165;
+      return [CX + r * Math.cos(t), CY + r * Math.sin(t)] as const;
+    };
+    for (let i = 0; i < 9; i++) {
+      const [x, y] = inside();
+      svg += dot(x, y, 7 + rand() * 18, i % 3 ? a : b, 0.35 + rand() * 0.4);
+    }
+    for (let i = 0; i < 3; i++) {
+      const [x, y] = inside();
+      svg += `<rect x="${x - 36}" y="${y - 12}" width="72" height="24" rx="12" fill="none" stroke="${b}" stroke-width="2.5" transform="rotate(${rand() * 180} ${x} ${y})"/>`;
+    }
+    return svg;
+  },
+  neuron: (a, b, rand) => {
+    const [sx, sy] = [480, CY];
+    let svg = '';
+    // dendrites: branching to the left
+    for (let i = 0; i < 5; i++) {
+      const t = ((120 + i * 30 + (rand() - 0.5) * 16) * Math.PI) / 180;
+      const len = 90 + rand() * 40;
+      const [x1, y1] = [sx + len * Math.cos(t), sy - len * Math.sin(t)];
+      svg += line(sx, sy, x1, y1, a, 3, 0.8);
+      for (const turn of [-0.45, 0.45]) {
+        const l2 = 45 + rand() * 30;
+        svg += line(x1, y1, x1 + l2 * Math.cos(t + turn), y1 - l2 * Math.sin(t + turn), a, 2, 0.6);
+      }
+    }
+    // axon with myelin sheaths, then terminal branches
+    const ax = (x: number) => sy + 18 * Math.sin((x - sx) / 70);
+    svg += path(curve(ax, sx, 860), 'url(#grad)', 3);
+    for (let x = 560; x < 820; x += 62) svg += `<rect x="${x}" y="${ax(x + 22) - 10}" width="44" height="20" rx="10" fill="#030617" stroke="${b}" stroke-width="2.5"/>`;
+    for (const dy of [-40, 0, 40]) svg += line(860, ax(860), 905, ax(860) + dy, b, 2, 0.8) + dot(905, ax(860) + dy, 7, b);
+    return svg + dot(sx, sy, 34, a, 0.9);
   },
   constellation: (a, b, rand) => {
     const stars = Array.from({ length: 13 }, () => [330 + rand() * 540, 150 + rand() * 330] as const);

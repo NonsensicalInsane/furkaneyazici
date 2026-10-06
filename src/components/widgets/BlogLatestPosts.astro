@@ -9,6 +9,7 @@ import PostTags from '../../components/blog/Tags.astro';
 import { getBlogPermalink, getPermalink } from '../../utils/permalinks';
 import { findLatestPosts } from '../../utils/blog';
 import { findImage } from '../../utils/images';
+import { coverUrl } from '../../utils/covers';
 import { getFormattedDate } from '../../utils/utils';
 import WidgetWrapper from '../../components/ui/WidgetWrapper.astro';
 import type { Widget } from '../../types';
@@ -38,7 +39,7 @@ const {
 const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
 const featuredPost = posts[0];
 const remainingPosts = posts.slice(1, 4); // Show 3 more posts
-const featuredImage = featuredPost ? await findImage(featuredPost.image) : null;
+const featuredImage = featuredPost ? ((await findImage(featuredPost.image)) ?? coverUrl(featuredPost, 'card')) : null;
 ---
 
 {

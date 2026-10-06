@@ -63,11 +63,15 @@ export const adaptOpenGraphImages = async (
   const adaptedImages = await Promise.all(
     images.map(async (image) => {
       if (image?.url) {
-        const resolvedImage = (await findImage(image.url)) as ImageMetadata | undefined;
+        const resolvedImage = (await findImage(image.url)) as ImageMetadata | string | undefined;
         if (!resolvedImage) {
           return {
             url: '',
           };
+        }
+        // A path or URL (e.g. a generated /covers/… image) is used as is
+        if (typeof resolvedImage === 'string') {
+          return { url: String(new URL(resolvedImage, astroSite)), width: image.width, height: image.height };
         }
 
         // Social platforms render previews at ~1200px wide; larger sources

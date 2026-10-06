@@ -10,6 +10,7 @@ import ToBlogLink from '../../components/blog/ToBlogLink.astro';
 import { getCanonical, getPermalink } from '../../utils/permalinks';
 import { getStaticPathsBlogPost, blogPostRobots, findTranslations } from '../../utils/blog';
 import { findImage } from '../../utils/images';
+import { coverUrl, COVER_WIDTH, COVER_HEIGHT } from '../../utils/covers';
 import type { MetaData } from '../../types';
 import RelatedPosts from '../../components/blog/RelatedPosts.astro';
 // KaTeX's stylesheet (plus ~1 MB of fonts it references) is linked only on
@@ -50,9 +51,10 @@ const metadata = merge(
     },
     openGraph: {
       type: 'article',
-      ...(image
-        ? { images: [{ url: image, width: (image as ImageMetadata)?.width, height: (image as ImageMetadata)?.height }] }
-        : {}),
+      // The post's own image, or its generated cover (src/utils/covers.ts)
+      images: image
+        ? [{ url: image, width: (image as ImageMetadata)?.width, height: (image as ImageMetadata)?.height }]
+        : [{ url: coverUrl(post)!, width: COVER_WIDTH, height: COVER_HEIGHT }],
     },
   },
   { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }

@@ -15,6 +15,7 @@ import {
   bibliographyRehypePlugin,
 } from "./src/utils/frontmatter.mjs";
 import { numberingRemarkPlugin } from "./src/utils/remark-numbering.mjs";
+import { devTrailingSlashRedirect } from "./src/utils/dev-trailing-slash.mjs";
 import { SITE, APP_BLOG } from "./src/utils/config.ts";
 
 import { unified } from "@astrojs/markdown-remark";
@@ -118,7 +119,7 @@ export default defineConfig({
 
   // —— Vite customisation ——
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), devTrailingSlashRedirect],
     // Pre-bundle Plotly at dev startup; otherwise Vite discovers it on the first
     // chart, optimises it and reloads the page once (production is unaffected).
     optimizeDeps: { include: ["plotly.js-strict-dist"] },

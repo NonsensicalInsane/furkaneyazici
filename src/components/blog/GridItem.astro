@@ -7,6 +7,7 @@ import Image from '../../components/common/Image.astro';
 import PostTags from '../../components/blog/Tags.astro';
 
 import { findImage } from '../../utils/images';
+import { coverUrl } from '../../utils/covers';
 import { getPermalink } from '../../utils/permalinks';
 import { getFormattedDate } from '../../utils/utils';
 
@@ -17,7 +18,8 @@ export interface Props {
 }
 
 const { post, isFeatured = false } = Astro.props;
-const image = await findImage(post.image);
+// Posts without an image get their generated cover, so every card lines up
+const image = (await findImage(post.image)) ?? coverUrl(post, 'card');
 const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
 // Badge only for posts not in the site's default language
 const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang.toUpperCase() : undefined;
@@ -25,12 +27,12 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
 
 <article
   class:list={[
-    'group bg-white dark:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-slate-800 hover:border-gray-200 dark:hover:border-slate-700 card-hover scroll-reveal',
+    'group h-full flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-slate-800 hover:border-gray-200 dark:hover:border-slate-700 card-hover scroll-reveal',
     isFeatured && 'md:col-span-2 lg:col-span-3',
   ]}
   data-blog-post={post.slug}
 >
-  <div class={isFeatured ? 'md:grid md:grid-cols-2' : ''}>
+  <div class:list={['flex-1 flex flex-col', isFeatured && 'md:grid md:grid-cols-2']}>
     {
       image && (
         <div class="relative overflow-hidden">
@@ -70,7 +72,7 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
       )
     }
 
-    <div class:list={[isFeatured ? 'p-6 md:p-8 lg:p-10 flex flex-col justify-center' : 'p-6']}>
+    <div class:list={[isFeatured ? 'p-6 md:p-8 lg:p-10 flex flex-col justify-center' : 'p-6 flex-1 flex flex-col']}>
       <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-slate-400 mb-3">
         <div class="flex items-center gap-1">
           <Icon name="tabler:clock" class="w-4 h-4" />
@@ -84,6 +86,11 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
             </div>
           )
         }
+        {post.draft && (
+          <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold border border-amber-400/40 text-amber-400">
+            Draft
+          </span>
+        )}
         {
           langBadge && (
             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300">
@@ -124,7 +131,8 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
         )
       }
 
-      <div class="flex items-center justify-between">
+      <!-- mt-auto: tags and "Read more" sit on the card's bottom edge -->
+      <div class="flex items-center justify-between mt-auto pt-2">
         <PostTags tags={post.tags} class="flex-1" />
         {
           link && (

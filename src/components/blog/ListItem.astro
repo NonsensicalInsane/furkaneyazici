@@ -9,6 +9,7 @@ import type { Post } from '../../types';
 
 import { getPermalink } from '../../utils/permalinks';
 import { findImage } from '../../utils/images';
+import { coverUrl } from '../../utils/covers';
 import { getFormattedDate } from '../../utils/utils';
 
 export interface Props {
@@ -16,7 +17,7 @@ export interface Props {
 }
 
 const { post } = Astro.props;
-const image = (await findImage(post.image)) as ImageMetadata | undefined;
+const image = ((await findImage(post.image)) ?? coverUrl(post, 'card')) as ImageMetadata | string | undefined;
 
 const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
 ---

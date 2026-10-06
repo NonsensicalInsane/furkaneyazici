@@ -142,14 +142,19 @@ export const blogTagRobots = APP_BLOG.tag.robots;
 
 export const blogPostsPerPage = APP_BLOG?.postsPerPage;
 
-/** */
-export const fetchPosts = async (): Promise<Array<Post>> => {
+/** Every post that gets a page, including `_`-prefixed reference files (drafts) */
+export const fetchAllPosts = async (): Promise<Array<Post>> => {
   if (!_posts) {
     _posts = await load();
   }
 
   return _posts;
 };
+
+/** Posts for listings, search, RSS and related posts: `_`-prefixed files
+ *  (e.g. the authoring guide) are reachable by URL in dev but never listed. */
+export const fetchPosts = async (): Promise<Array<Post>> =>
+  (await fetchAllPosts()).filter((post) => !post.id.startsWith('_'));
 
 /** */
 export const findPostsBySlugs = async (slugs: Array<string>): Promise<Array<Post>> => {
@@ -199,7 +204,7 @@ export const getStaticPathsBlogList = async ({ paginate }: { paginate: PaginateF
 /** */
 export const getStaticPathsBlogPost = async () => {
   if (!isBlogEnabled || !isBlogPostRouteEnabled) return [];
-  return (await fetchPosts()).flatMap((post) => ({
+  return (await fetchAllPosts()).flatMap((post) => ({
     params: {
       blog: post.permalink,
     },

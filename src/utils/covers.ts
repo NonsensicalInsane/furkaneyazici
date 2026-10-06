@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import satori from 'satori';
 import sharp from 'sharp';
 import type { Post } from '~/types';
+import { cardCoverSvg, motifFor } from './cover-motifs';
 
 // Build-time cover images for posts that have no image of their own: shown on
 // blog cards and used as the post's social preview (og:image). Satori turns the
@@ -59,44 +60,16 @@ const DOTS = [
   [70, 560, 4],
 ];
 
-// Card motif: an abstract Bloch sphere (outline, equator, state vector at a
-// per-post angle), drawn with plain boxes, which is what Satori supports.
-const blochSphere = (a: string, b: string, angle: number) =>
-  // Centred, so it survives the 16:9 crop of narrow cards
-  el({ position: 'absolute', left: 380, top: 95, width: 440, height: 440, display: 'flex' }, [
-    el({ position: 'absolute', left: 0, top: 0, width: 440, height: 440, borderRadius: 220, border: `3px solid ${alpha(a, 0.55)}` }),
-    el({ position: 'absolute', left: 0, top: 170, width: 440, height: 100, borderRadius: '50%', border: `2px solid ${alpha(b, 0.4)}` }),
-    // Satori rotates about the box centre (it ignores transform-origin), so the
-    // vector is centred halfway between the origin and its tip
-    el({
-      position: 'absolute',
-      left: 220 - 95 * Math.sin((angle * Math.PI) / 180) - 2,
-      top: 220 + 95 * Math.cos((angle * Math.PI) / 180) - 95,
-      width: 4,
-      height: 190,
-      transform: `rotate(${angle}deg)`,
-      backgroundImage: `linear-gradient(180deg, ${a}, ${b})`,
-      borderRadius: 2,
-    }),
-    // Origin, and the state at the vector's tip on the sphere (CSS rotate is clockwise)
-    el({ position: 'absolute', left: 213, top: 213, width: 14, height: 14, borderRadius: 7, backgroundColor: alpha(a, 0.9) }),
-    el({
-      position: 'absolute',
-      left: 220 - 190 * Math.sin((angle * Math.PI) / 180) - 14,
-      top: 220 + 190 * Math.cos((angle * Math.PI) / 180) - 14,
-      width: 28,
-      height: 28,
-      borderRadius: 14,
-      backgroundColor: b,
-    }),
-  ]);
-
 export async function renderCover(
-  post: Pick<Post, 'slug' | 'title' | 'category' | 'tags'>,
+  post: Pick<Post, 'slug' | 'title' | 'category' | 'tags' | 'cover'>,
   variant: 'social' | 'card' = 'social'
 ): Promise<Buffer> {
   const h = hash(post.slug);
   const [a, b] = PALETTES[h % PALETTES.length];
+  // Cards: text-free artwork whose motif follows the topic (cover-motifs.ts)
+  if (variant === 'card') {
+    return sharp(Buffer.from(cardCoverSvg(motifFor(post), a, b, h))).jpeg({ quality: 88, mozjpeg: true }).toBuffer();
+  }
   const title = post.title;
   const titleSize = title.length <= 28 ? 78 : title.length <= 50 ? 66 : title.length <= 80 ? 56 : 48;
   const label = (post.category || 'Blog').replaceAll('-', ' ').toUpperCase();
@@ -120,22 +93,18 @@ export async function renderCover(
       ...DOTS.map(([x, y, r]) =>
         el({ position: 'absolute', left: x, top: y, width: r * 2, height: r * 2, borderRadius: r, backgroundColor: alpha(b, 0.7) })
       ),
-      ...(variant === 'card'
-        ? [blochSphere(a, b, 150 + (h % 120))]
-        : [
-            el({ display: 'flex', alignItems: 'center', gap: 20 }, [
-              el({ width: 72, height: 8, borderRadius: 4, backgroundImage: `linear-gradient(90deg, ${a}, ${b})` }),
-              el({ fontSize: 26, fontWeight: 500, letterSpacing: 3, color: '#cbd5e1' }, label),
-            ]),
-            el({ display: 'flex', fontSize: titleSize, fontWeight: 700, lineHeight: 1.12, letterSpacing: -1, maxWidth: 1020 }, title),
-            el({ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: 26, fontWeight: 500 }, [
-              el({ display: 'flex', flexDirection: 'column', gap: 4 }, [
-                el({ color: '#e2e8f0' }, 'Furkan Eşref Yazıcı'),
-                el({ color: '#94a3b8', fontSize: 22 }, 'furkaneyazici.com'),
-              ]),
-              el({ color: alpha(b, 0.95), fontSize: 22 }, tags),
-            ]),
-          ]),
+      el({ display: 'flex', alignItems: 'center', gap: 20 }, [
+        el({ width: 72, height: 8, borderRadius: 4, backgroundImage: `linear-gradient(90deg, ${a}, ${b})` }),
+        el({ fontSize: 26, fontWeight: 500, letterSpacing: 3, color: '#cbd5e1' }, label),
+      ]),
+      el({ display: 'flex', fontSize: titleSize, fontWeight: 700, lineHeight: 1.12, letterSpacing: -1, maxWidth: 1020 }, title),
+      el({ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: 26, fontWeight: 500 }, [
+        el({ display: 'flex', flexDirection: 'column', gap: 4 }, [
+          el({ color: '#e2e8f0' }, 'Furkan Eşref Yazıcı'),
+          el({ color: '#94a3b8', fontSize: 22 }, 'furkaneyazici.com'),
+        ]),
+        el({ color: alpha(b, 0.95), fontSize: 22 }, tags),
+      ]),
     ]
   );
 

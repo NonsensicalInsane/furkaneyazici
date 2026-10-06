@@ -22,6 +22,8 @@ export interface Post {
   excerpt?: string;
   /** Academic-style summary shown above the post */
   abstract?: string;
+  /** Card-cover motif (see src/utils/cover-motifs.ts) */
+  cover?: string;
   /**  */
   image?: ImageMetadata | string;
 

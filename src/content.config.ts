@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { MOTIFS } from './utils/cover-motifs';
 
 const metadataDefinition = () =>
   z
@@ -58,6 +59,8 @@ const postCollection = defineCollection({
     excerpt: z.string().optional(),
     // Short academic-style summary shown in a box above the post
     abstract: z.string().optional(),
+    // Card-cover motif when the post has no image; picked from the category by default
+    cover: z.enum(MOTIFS).optional(),
     image: z.string().optional(),
 
     category: z.string().optional(),

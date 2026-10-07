@@ -20,7 +20,7 @@ import Lemma from '../../components/content/Lemma.astro';
 import Proof from '../../components/content/Proof.astro';
 
 import { getPermalink } from '../../utils/permalinks';
-import { getFormattedDate } from '../../utils/utils';
+import { getFormattedDate, toJsonLd } from '../../utils/utils';
 import { languageName } from '../../utils/blog';
 
 import type { Post } from '../../types';
@@ -61,7 +61,7 @@ const jsonLd = {
 };
 ---
 
-<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<script is:inline type="application/ld+json" set:html={toJsonLd(jsonLd)} />
 
 <section class="py-8 sm:py-16 lg:py-20 mx-auto">
   <!-- Reading Progress Bar -->

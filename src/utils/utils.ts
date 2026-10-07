@@ -52,3 +52,10 @@ export const toUiAmount = (amount: number) => {
 
   return value;
 };
+
+/**
+ * JSON for an inline <script type="application/ld+json">. JSON.stringify leaves
+ * "<" as is, so a "</script>" inside a string (a post title, say) would close the
+ * element early; "\u003c" is the same character to a JSON parser.
+ */
+export const toJsonLd = (data: unknown): string => JSON.stringify(data).replace(/</g, '\\u003c');

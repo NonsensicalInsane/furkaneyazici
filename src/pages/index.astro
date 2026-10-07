@@ -6,6 +6,7 @@ import Content from '../components/widgets/Content.astro';
 import BlogLatestPosts from '../components/widgets/BlogLatestPosts.astro';
 import CallToAction from '../components/widgets/CallToAction.astro';
 import aboutData from '../data/about/index';
+import { toJsonLd } from '../utils/utils';
 
 // Homepage sets the full title itself; skip the "%s — Furkan Eşref Yazıcı" template
 const metadata = {
@@ -38,7 +39,7 @@ const personJsonLd = {
 ---
 
 <Layout metadata={metadata}>
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+  <script is:inline type="application/ld+json" set:html={toJsonLd(personJsonLd)} />
 
   <!-- Hero: who, what, and two ways in -->
 

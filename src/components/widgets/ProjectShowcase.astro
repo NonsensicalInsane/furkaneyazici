@@ -262,10 +262,10 @@ const allTechStack = [...new Set(projects.flatMap(project => project.techStack |
     
     switch(platform) {
       case 'twitter':
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'noopener');
         break;
       case 'linkedin':
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener');
         break;
       case 'copy':
         navigator.clipboard.writeText(url).then(() => {

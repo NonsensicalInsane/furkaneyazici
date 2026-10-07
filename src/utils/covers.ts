@@ -50,7 +50,7 @@ const alpha = (hex: string, a: number) =>
 type Node = { type: string; props: { style?: Record<string, unknown>; children?: unknown } };
 const el = (style: Record<string, unknown>, children?: unknown): Node => ({ type: 'div', props: { style, children } });
 
-// Particle-style dots, echoing the site background (positions in px)
+// Scattered star-like dots (positions in px)
 const DOTS = [
   [1010, 92, 6],
   [1098, 160, 4],

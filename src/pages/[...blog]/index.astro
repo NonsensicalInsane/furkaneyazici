@@ -13,6 +13,7 @@ import { findImage } from '../../utils/images';
 import { coverUrl, COVER_WIDTH, COVER_HEIGHT } from '../../utils/covers';
 import type { MetaData } from '../../types';
 import RelatedPosts from '../../components/blog/RelatedPosts.astro';
+import { readingScaleHeadScript, readingScaleHeadScriptHash } from '../../utils/reading-settings';
 // KaTeX's stylesheet (plus ~1 MB of fonts it references) is linked only on
 // posts that actually contain math; see mathFlagRemarkPlugin.
 import katexStylesheet from 'katex/dist/katex.min.css?url';
@@ -26,6 +27,9 @@ export const getStaticPaths = (async () => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { post } = Astro.props as Props;
+
+// The reader's saved text size is applied by an inline head script; allow it in the CSP
+Astro.csp?.insertScriptHash(readingScaleHeadScriptHash);
 
 const url = getCanonical(getPermalink(post.permalink, 'post'));
 const image = (await findImage(post.image)) as ImageMetadata | string | undefined;
@@ -63,6 +67,7 @@ const metadata = merge(
 
 <Layout metadata={metadata}>
   <Fragment slot="head">
+    <script is:inline set:html={readingScaleHeadScript} />
     {alternates.map(({ lang, href }) => <link rel="alternate" hreflang={lang} href={href} />)}
     {post.hasMath && <link rel="stylesheet" href={katexStylesheet} />}
   </Fragment>

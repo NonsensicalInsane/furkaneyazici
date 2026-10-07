@@ -1,0 +1,79 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<!-- Reading settings for posts: the reader's text size (scripts/reading-settings.js).
+     A native popover, so opening, closing on Escape or an outside click, and focus
+     come from the browser. -->
+<div class="reading-settings">
+  <button
+    type="button"
+    popovertarget="reading-settings-panel"
+    class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-slate-300 transition-colors hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-white"
+  >
+    <Icon name="tabler:typography" class="w-4 h-4" />
+    Text size
+  </button>
+
+  <div
+    id="reading-settings-panel"
+    popover
+    role="dialog"
+    aria-label="Reading settings"
+    class="fixed inset-auto m-0 w-64 rounded-xl border border-white/10 bg-slate-900 p-4 text-slate-200 shadow-2xl"
+  >
+    <div class="flex items-center justify-between">
+      <p class="text-sm font-semibold text-heading">Text size</p>
+      <button type="button" class="text-sm text-blue-400 hover:underline disabled:opacity-40 disabled:no-underline" data-reading-reset>
+        Reset
+      </button>
+    </div>
+    <div class="mt-3 flex items-center justify-between gap-3">
+      <button type="button" class="reading-step" data-reading-step="-1" aria-label="Smaller text">
+        <span class="text-xs font-semibold">A</span>
+      </button>
+      <output class="text-sm font-medium tabular-nums" aria-live="polite" data-reading-value>100%</output>
+      <button type="button" class="reading-step" data-reading-step="1" aria-label="Larger text">
+        <span class="text-lg font-semibold">A</span>
+      </button>
+    </div>
+    <p class="mt-3 text-xs text-slate-400">Saved for every post on this device.</p>
+  </div>
+</div>
+
+<script>
+  import { initReadingSettings } from '../../scripts/reading-settings.js';
+
+  initReadingSettings();
+</script>
+
+<style>
+  .reading-step {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.625rem;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.04);
+    color: rgb(226 232 240);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .reading-step:hover:not(:disabled) {
+    border-color: rgb(96 165 250 / 0.5);
+    background: rgb(59 130 246 / 0.15);
+  }
+  .reading-step:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  /* Browsers without the Popover API would show the panel inline: leave the feature out */
+  @supports not selector(:popover-open) {
+    .reading-settings {
+      display: none;
+    }
+  }
+</style>

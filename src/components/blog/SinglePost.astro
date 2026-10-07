@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components';
 import Image from '../../components/common/Image.astro';
 import PostTags from '../../components/blog/Tags.astro';
 import ShareButtons from '../../components/blog/ShareButtons.astro';
+import ReadingSettings from '../../components/blog/ReadingSettings.astro';
 import ReadingProgressBar from '../../components/blog/ReadingProgressBar.astro';
 import TableOfContents from '../../components/blog/TableOfContents.astro';
 import Callout from '../../components/blog/Callout.astro';
@@ -68,7 +69,7 @@ const jsonLd = {
   <article lang={post.lang}>
     <header class={post.image ? '' : ''}>
       <div
-        class="flex justify-between flex-col sm:flex-row max-w-3xl mx-auto mt-0 mb-2 px-4 sm:px-6 sm:items-center animate-fade-in-up"
+        class="flex justify-between flex-col sm:flex-row gap-3 max-w-3xl mx-auto mt-0 mb-2 px-4 sm:px-6 sm:items-center animate-fade-in-up"
       >
         <p>
           <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
@@ -101,6 +102,7 @@ const jsonLd = {
             )
           }
         </p>
+        <ReadingSettings />
       </div>
 
       {
@@ -180,7 +182,7 @@ const jsonLd = {
           <TableOfContents headings={post.headings} variant="inline" />
         </div>
         <div
-          class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg prose-headings:scroll-mt-[80px]"
+          class="post-body mx-auto px-6 sm:px-6 max-w-3xl prose dark:prose-invert dark:prose-headings:text-slate-300 prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg prose-headings:scroll-mt-[80px]"
         >
           {Content ? <Content components={{ Callout, Quote, Figure, PlotlyChart, Animation, Definition, Theorem, Lemma, Proof }} /> : <Fragment set:html={post.content || ''} />}
         </div>
@@ -205,6 +207,7 @@ const jsonLd = {
           className="justify-center"
         />
       </div>
+
     </div>
   </article>
 </section>

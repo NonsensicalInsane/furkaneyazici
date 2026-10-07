@@ -349,6 +349,19 @@
 
 /* ---------- Blog prose refinements ---------- */
 
+/* Post text: a comfortable default (16px on phones, 17px from tablets up),
+   times the reader's choice from the reading settings (--reading-scale on
+   <html>). Everything inside the prose is sized in em, so it scales along. */
+.post-body.prose {
+  font-size: calc(1rem * var(--reading-scale, 1));
+  line-height: 1.75;
+}
+@media (min-width: 768px) {
+  .post-body.prose {
+    font-size: calc(1.0625rem * var(--reading-scale, 1));
+  }
+}
+
 .prose blockquote {
   border-left-color: var(--aw-color-primary);
 }
@@ -734,6 +747,7 @@ a {
 }
 
 .post-abstract-box {
+  font-size: calc(1rem * var(--reading-scale, 1));
   padding: 1rem 1.25rem;
   border: 1px solid rgb(148 163 184 / 0.2);
   border-radius: 0.75rem;

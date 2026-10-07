@@ -22,7 +22,7 @@ const { language, textDirection } = I18N;
 
 <!doctype html>
 <!-- A fixed dark theme is set here, with no script (see ApplyColorMode.astro) -->
-<html lang={language} dir={textDirection} class:list={['2xl:text-[20px]', { dark: UI.theme === 'dark:only' }]}>
+<html lang={language} dir={textDirection} class:list={[{ dark: UI.theme === 'dark:only' }]}>
   <head>
     <CommonMeta />
     <Favicons />

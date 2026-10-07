@@ -2,7 +2,6 @@
 import { Icon } from 'astro-icon/components';
 import { SITE } from '../../utils/config';
 import { getHomePermalink } from '../../utils/permalinks';
-import { headerData } from '../../navigation';
 import logoicon from '../../assets/images/icons/logo.png';
 import { Image } from 'astro:assets';
 
@@ -22,45 +21,25 @@ export interface Props {
 
 const { socialLinks = [], theme = 'light' } = Astro.props;
 
-// Reuse the main navigation as footer quick links (single source of truth)
-const quickLinks = headerData.links ?? [];
 const year = new Date().getFullYear();
 ---
 
 <footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
   <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div>
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 dark:text-slate-300">
-    <div class="md:flex md:items-start md:justify-between gap-8 py-8">
+    <div class="flex flex-col items-center gap-4 md:flex-row md:justify-between py-8">
       <!-- Identity -->
-      <div class="mb-6 md:mb-0">
+      <div>
         <a class="inline-flex items-center gap-2 font-bold text-xl" href={getHomePermalink()}>
           <Image src={logoicon} class="rounded-sm" alt="" width={28} height={28} />
           {SITE?.name}
         </a>
       </div>
 
-      <!-- Quick links -->
-      <nav aria-label="Footer navigation" class="mb-6 md:mb-0">
-        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-          {
-            quickLinks.map(({ text, href }) => (
-              <li>
-                <a class="hover:text-primary transition-colors" href={href}>
-                  {text}
-                </a>
-              </li>
-            ))
-          }
-          <li>
-            <a class="hover:text-primary transition-colors" href="/contact/">Contact</a>
-          </li>
-        </ul>
-      </nav>
-
       <!-- Social -->
       {
         socialLinks?.length ? (
-          <ul class="flex flex-wrap -ml-2">
+          <ul class="flex flex-wrap justify-center -mx-2">
             {socialLinks.map(({ ariaLabel, href, text, icon, target }) => (
               <li>
                 <a

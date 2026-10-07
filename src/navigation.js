@@ -4,10 +4,9 @@ export const headerData = {
   links: [
     { text: 'Home', href: '/' },
     { text: 'About', href: '/about/' },
-    { text: 'Projects', href: '/projects/' },
     { text: 'Blog', href: '/blog/' },
   ],
-  actions: [{ text: 'Contact me!', href: '/contact/' }],
+  actions: [{ text: 'Contact', href: '/contact/' }],
 };
 
 export const footerData = {
@@ -37,6 +36,12 @@ export const footerData = {
       ariaLabel: 'Upwork',
       icon: 'tabler:brand-upwork',
       href: 'https://www.upwork.com/freelancers/~01ae41556331664a51',
+      target: '_blank',
+    },
+    {
+      ariaLabel: 'Patreon',
+      icon: 'tabler:brand-patreon',
+      href: 'https://www.patreon.com/theFEY',
       target: '_blank',
     },
     {

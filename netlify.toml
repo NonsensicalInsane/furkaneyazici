@@ -33,6 +33,19 @@
   to = "/assets/pdf/Furkan_Esref_Yazici_CV.pdf"
   status = 301
 
+# The Projects page is switched off for now (src/pages/_projects.astro).
+# Temporary (302), so search engines keep the URL; once the page is back,
+# its own file takes precedence and these rules stop applying.
+[[redirects]]
+  from = "/projects"
+  to = "/"
+  status = 302
+
+[[redirects]]
+  from = "/projects/"
+  to = "/"
+  status = 302
+
 [[headers]]
   for = "/_astro/*"
   [headers.values]

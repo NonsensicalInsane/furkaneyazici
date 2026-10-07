@@ -1,0 +1,72 @@
+---
+import Button from '../../components/ui/Button.astro';
+import type { CallToAction } from '../../types';
+
+export interface Props {
+  title: string;
+  tagline?: string;
+  actions?: CallToAction[];
+}
+
+const { title, tagline, actions = [] } = Astro.props;
+---
+
+<!-- Home page hero: text on the left, the orbital artwork (scripts/orbital.js) on the right -->
+<section class="relative md:-mt-[76px] not-prose" id="hero">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 md:pt-[76px]">
+    <div class="grid lg:grid-cols-[1.15fr_1fr] items-center gap-4 lg:gap-10 pt-8 pb-4 md:pt-16 lg:py-20">
+      <div class="text-center lg:text-left">
+        {tagline && <p class="eyebrow animate-fade-in-up">{tagline}</p>}
+        <h1
+          class="mt-4 text-5xl sm:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tighter font-heading text-gradient text-balance animate-fade-in-up delay-150"
+        >
+          {title}
+        </h1>
+        <p
+          class="mt-6 max-w-xl mx-auto lg:mx-0 text-lg sm:text-xl leading-relaxed text-slate-300 text-balance animate-fade-in-up delay-300"
+        >
+          <slot name="subtitle" />
+        </p>
+        {
+          actions.length > 0 && (
+            <div class="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start gap-4 max-w-xs sm:max-w-none mx-auto animate-fade-in-up delay-500">
+              {actions.map((action) => (
+                <Button {...action} />
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <figure class="relative mx-auto w-full max-w-[340px] sm:max-w-[440px] lg:max-w-[560px] animate-fade-in-up delay-300">
+        <div class="orbital-glow" aria-hidden="true"></div>
+        <canvas class="relative block w-full aspect-square cursor-grab active:cursor-grabbing touch-pan-y" data-orbital aria-hidden="true"></canvas>
+        <figcaption class="relative -mt-2 text-center text-xs text-slate-500">
+          Hydrogen’s 4f<sub>xyz</sub> orbital: points sampled from |ψ|², colored by the sign of ψ. Drag to turn it.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initOrbital } from '../../scripts/orbital.js';
+
+  document.querySelectorAll<HTMLCanvasElement>('canvas[data-orbital]').forEach(initOrbital);
+</script>
+
+<style>
+  /* Soft halo behind the cloud so it reads as light, not just dots */
+  .orbital-glow {
+    position: absolute;
+    inset: 12%;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle,
+      rgb(99 102 241 / 0.22) 0%,
+      rgb(59 130 246 / 0.08) 45%,
+      transparent 70%
+    );
+    filter: blur(24px);
+  }
+</style>

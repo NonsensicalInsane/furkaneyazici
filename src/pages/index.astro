@@ -1,25 +1,16 @@
 ---
 import Layout from '../layouts/PageLayout.astro';
-import Hero from '../components/widgets/Hero.astro';
+import HomeHero from '../components/widgets/HomeHero.astro';
+import LinkCards from '../components/widgets/LinkCards.astro';
 import Content from '../components/widgets/Content.astro';
-import Features3 from '../components/widgets/Features3.astro';
-import ProjectShowcase from '../components/widgets/ProjectShowcase.astro';
 import BlogLatestPosts from '../components/widgets/BlogLatestPosts.astro';
-import Button from '../components/ui/Button.astro';
-import Features2 from '../components/widgets/Features2.astro';
-import CalltoAction from '../components/widgets/CallToAction.astro';
-import patreon from '../assets/images/icons/patreon.png';
-import { featuredProjects } from '../content/projects/featured';
-import type { FeaturedProject } from '../content/projects/types';
+import CallToAction from '../components/widgets/CallToAction.astro';
 
 // Homepage sets the full title itself; skip the "%s — Furkan Eşref Yazıcı" template
 const metadata = {
   title: 'Furkan Eşref Yazıcı — Physicist & Developer',
   ignoreTitleTemplate: true,
 };
-
-// Latest 3 projects for the homepage teaser
-const latestProjects: FeaturedProject[] = featuredProjects.slice(0, 3);
 
 // Person schema: tells search engines & AI assistants who this site is about,
 // so they can surface and cite it correctly.
@@ -44,14 +35,13 @@ const personJsonLd = {
 <Layout metadata={metadata}>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 
-  <!-- Hero: short, direct, with clear next steps -->
+  <!-- Hero: who, what, and two ways in -->
 
-  <Hero
-    id="hero"
+  <HomeHero
     title="Furkan Eşref Yazıcı"
     tagline="Physicist · Machine Learning · Quantum Computing"
     actions={[
-      { variant: 'primary', text: 'View my projects', href: '/projects/', icon: 'tabler:arrow-right' },
+      { variant: 'primary', text: 'Read the blog', href: '/blog/', icon: 'tabler:arrow-right' },
       { text: 'Get in touch', href: '/contact/' },
     ]}
   >
@@ -59,174 +49,84 @@ const personJsonLd = {
       I research deep learning and quantum computing, and turn that research into software, writing, and
       illustrations.
     </Fragment>
-  </Hero>
+  </HomeHero>
 
-  <!-- Featured projects: the main event, right after the hero.
-       Hidden entirely until there are projects to show. -->
+  <!-- What I do: each card leads to the proof -->
 
-  {
-    latestProjects.length > 0 && (
-      <div class="relative">
-        <ProjectShowcase
-          title="Featured Projects"
-          subtitle="A selection of my recent work — research, software, and everything in between."
-          projects={latestProjects}
-          showFilter={false}
-          columns={3}
-        />
-
-        <div class="text-center mt-2 mb-16">
-          <Button variant="primary" text="More projects" href="/projects/" icon="tabler:arrow-right" />
-        </div>
-      </div>
-    )
-  }
-
-  <!-- Skills -->
-
-  <Features3
-    title="<span class='text-gradient'>Skills</span>"
-    subtitle="Where I do my best work."
-    columns={3}
-    defaultIcon="tabler:point-filled"
-    className="scroll-reveal"
+  <LinkCards
+    id="what-i-do"
+    tagline="What I do"
+    title="Research, code, and clear explanations"
     items={[
       {
-        title: 'Deep Learning & Data Science',
-        description: 'Models that turn data into insight.',
-        icon: 'tabler:brain',
-      },
-      {
-        title: 'Quantum Computing',
-        description: 'Algorithms beyond the reach of classical computers.',
-        icon: 'tabler:atom',
-      },
-      {
         title: 'Research',
-        description: 'Where physics meets computation.',
-        icon: 'tabler:book',
+        description: 'Deep learning and quantum computing, from the underlying math to working models.',
+        icon: 'tabler:atom',
+        href: '/about/#research-experience',
+        linkText: 'Research experience',
       },
       {
-        title: 'Software Development',
-        description: 'Tools and applications that power my research.',
+        title: 'Software',
+        description: 'Research code that holds up: quantum optimization, machine learning, and the apps around them.',
         icon: 'tabler:code',
+        href: 'https://github.com/nonsensicalinsane',
+        linkText: 'Code on GitHub',
       },
       {
-        title: 'Graphic Design',
-        description: 'Clear, striking visuals — including this site’s illustrations.',
-        icon: 'tabler:brush',
-      },
-      {
-        title: 'Adaptability',
-        description: 'Quick to learn, quick to shift with the field.',
-        icon: 'tabler:refresh',
+        title: 'Writing & illustration',
+        description: 'Hard ideas explained with interactive figures, animations, and my own illustrations.',
+        icon: 'tabler:pencil',
+        href: '/blog/',
+        linkText: 'Read the blog',
       },
     ]}
+  />
+
+  <!-- Latest blog posts -->
+
+  <BlogLatestPosts
+    id="blog"
+    tagline="Blog"
+    title="Latest writing"
+    information="Notes on quantum computing, machine learning, and whatever else I'm exploring."
+    linkText="View all posts"
+    count={3}
   />
 
   <!-- About -->
 
   <Content
     id="about"
-    columns={3}
     callToAction={{
-      text: 'More about me and my resume!',
-      icon: 'tabler:chevron-right',
+      text: 'More about me',
+      icon: 'tabler:arrow-right',
       href: '/about/',
     }}
     image={{
       src: '~/assets/images/me.png',
       alt: 'Furkan Eşref Yazıcı',
-      loading: 'eager',
     }}
   >
     <Fragment slot="content">
-      <h2 class="text-2xl font-bold tracking-tight text-gradient sm:text-3xl mb-4">About me</h2>
-      <p class="text-lg leading-relaxed dark:text-slate-300">
-        Interdisciplinary researcher specializing in deep learning and quantum computing — from theory to
-        application. The illustrations on this site are my own; I'm open to collaborations and commissions.
+      <p class="eyebrow">About me</p>
+      <h2 class="mt-3 mb-5 text-3xl sm:text-4xl font-bold tracking-tighter text-heading">From theory to application</h2>
+      <p class="text-lg leading-relaxed text-slate-300">
+        I'm an interdisciplinary researcher specializing in deep learning and quantum computing. The illustrations on
+        this site are my own; I'm open to collaborations and commissions.
       </p>
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
   </Content>
 
-  <!-- Latest blog posts -->
+  <!-- Contact -->
 
-  <BlogLatestPosts
-    id="blog"
-    title="Latest from the <span class='text-gradient-blue'>blog</span>"
-    information="Notes on quantum computing, machine learning, and whatever else I'm exploring."
-    linkText="View All Posts"
-    count={4}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </BlogLatestPosts>
-
-  <!-- Support -->
-
-  <CalltoAction
-    id="patreon"
-    title="Help me on my journey!"
-    subtitle="Enjoying the projects, posts and videos? You can support them on Patreon."
-    actions={[
-      {
-        text: 'Support me on Patreon',
-        href: 'https://www.patreon.com/theFEY',
-        target: '_blank',
-      },
-    ]}
-    logo={patreon.src}
-    logoAlt="Patreon"
-  />
-
-  <!-- Contact channels -->
-
-  <Features2
-    title="<span class='text-gradient'>Let's work together</span>"
+  <CallToAction
     id="contact"
-    subtitle="Collaborations, inquiries — or just say hi."
-    items={[
-      {
-        title: 'Email',
-        description: '<a href="mailto:yazici.furkan@proton.me"> yazici.furkan@proton.me </a>',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Upwork',
-        description:
-          '<a href="https://www.upwork.com/freelancers/~01ae41556331664a51" target="_blank">Upwork Profile</a>',
-        icon: 'tabler:brand-upwork',
-      },
-      {
-        title: 'LinkedIn',
-        description: '<a href="https://www.linkedin.com/in/furkaneyazici/" target="_blank">LinkedIn Profile</a>',
-        icon: 'tabler:brand-linkedin',
-      },
-      {
-        title: 'Github',
-        description: '<a href="https://www.github.com/nonsensicalinsane" target="_blank">@nonsensicalinsane</a>',
-        icon: 'tabler:brand-github',
-      },
-      {
-        title: 'Instagram',
-        description: '<a href="https://instagram.com/furkaneyazici" target="_blank">@furkaneyazici</a>',
-        icon: 'tabler:brand-instagram',
-      },
-      {
-        title: 'Discord',
-        description: '<a href="https://discord.com/users/758241023440453634" target="_blank">@furkaneyazici</a>',
-        icon: 'tabler:brand-discord',
-      },
-      {
-        title: 'X',
-        description: '<a href="https://twitter.com/furkaneyazici" target="_blank">@furkaneyazici</a>',
-        icon: 'tabler:brand-x',
-      },
+    tagline="Contact"
+    title="Let's work together"
+    subtitle="Research collaborations, freelance projects, or a question about a post: I'd like to hear about it."
+    actions={[
+      { variant: 'primary', text: 'Email me', href: 'mailto:yazici.furkan@proton.me', icon: 'tabler:mail' },
+      { text: 'Contact form', href: '/contact/' },
     ]}
   />
 </Layout>

@@ -1,0 +1,51 @@
+---
+import { Icon } from 'astro-icon/components';
+import Headline from '../ui/Headline.astro';
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+
+interface Card {
+  title: string;
+  description: string;
+  icon: string;
+  href: string;
+  linkText: string;
+}
+
+export interface Props {
+  id?: string;
+  tagline?: string;
+  title?: string;
+  subtitle?: string;
+  items: Card[];
+}
+
+const { id, tagline, title, subtitle, items } = Astro.props;
+const isExternal = (href: string) => /^https?:\/\//.test(href);
+---
+
+<!-- A row of cards that each lead somewhere: icon, title, a sentence, a link -->
+<WidgetWrapper id={id}>
+  <Headline tagline={tagline} title={title} subtitle={subtitle} />
+  <div class="grid gap-6 md:grid-cols-3">
+    {
+      items.map(({ title, description, icon, href, linkText }, index) => (
+        <a
+          href={href}
+          class="modern-card hover-lift group flex flex-col p-6 sm:p-7 scroll-reveal"
+          style={`--reveal-delay: ${index * 0.08}s`}
+          {...(isExternal(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          <span class="icon-tile w-11 h-11">
+            <Icon name={icon} class="w-6 h-6" />
+          </span>
+          <h3 class="mt-5 text-xl font-semibold text-heading">{title}</h3>
+          <p class="mt-2 flex-1 leading-relaxed text-slate-300">{description}</p>
+          <span class="mt-6 inline-flex items-center gap-1 text-sm font-medium text-blue-400 transition-[gap] group-hover:gap-2">
+            {linkText}
+            <Icon name={isExternal(href) ? 'tabler:arrow-up-right' : 'tabler:arrow-right'} class="w-4 h-4" />
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</WidgetWrapper>

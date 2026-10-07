@@ -70,7 +70,13 @@ const config = load(fs.readFileSync('src/config.yaml', 'utf8')) as {
   };
   ui?: unknown;
   analytics?: unknown;
+  newsletter?: NewsletterConfig;
 };
+
+export interface NewsletterConfig {
+  /** Buttondown username; empty means no sign-up form */
+  buttondown?: string;
+}
 
 const DEFAULT_SITE_NAME = 'Furkan Eşref Yazıcı';
 
@@ -184,3 +190,4 @@ export const I18N = getI18N();
 export const METADATA = getMetadata();
 export const APP_BLOG = getAppBlog();
 export const UI = getUI();
+export const NEWSLETTER: NewsletterConfig = { buttondown: config?.newsletter?.buttondown?.trim() || '' };

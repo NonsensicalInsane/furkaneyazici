@@ -66,6 +66,12 @@ analytics:
     googleAnalytics:
       id: null # or "G-XXXXXXXXXX"
 
+# Email sign-up at the end of every post, sent to Buttondown (buttondown.com,
+# free up to 100 subscribers). Put your Buttondown username here to switch it on;
+# while it's empty the form only shows in development, as a preview.
+newsletter:
+  buttondown: ''
+
 # The palette lives in src/components/CustomStyles.astro (single source of truth).
 ui:
   theme: 'dark:only' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

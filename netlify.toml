@@ -83,7 +83,9 @@
     # Only first-party code is loaded (GoatCounter's script is self-hosted);
     # images and connections may reach the site itself and the GoatCounter
     # endpoint only, so injected code has no third-party channel to send to.
+    # Forms may post to the site (contact form, Netlify Forms) and to
+    # Buttondown (the newsletter sign-up under posts).
     # If an admin UI (e.g. Decap CMS) comes back, give it its own policy per
     # path in the edge function, not a second matching rule here (Netlify
     # doesn't document how those would combine).
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://nonsensicalinsane.goatcounter.com; font-src 'self' data:; connect-src 'self' https://nonsensicalinsane.goatcounter.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://nonsensicalinsane.goatcounter.com; font-src 'self' data:; connect-src 'self' https://nonsensicalinsane.goatcounter.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self' https://buttondown.com; frame-ancestors 'none'"

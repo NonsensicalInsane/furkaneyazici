@@ -178,6 +178,14 @@
   opacity: 1;
 }
 
+/* Call-to-action panel (contact, newsletter): a soft glow on the card surface.
+   Not a link as a whole, so no hover effect. */
+.cta-panel {
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgb(99 102 241 / 0.12), transparent 60%),
+    rgb(255 255 255 / 0.03);
+}
+
 .card-hover {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

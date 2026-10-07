@@ -6,9 +6,11 @@ export interface Props {
   title: string;
   tagline?: string;
   actions?: CallToAction[];
+  /** A "Currently …" line under the introduction, e.g. the current job */
+  currently?: { text: string; href?: string };
 }
 
-const { title, tagline, actions = [] } = Astro.props;
+const { title, tagline, actions = [], currently } = Astro.props;
 ---
 
 <!-- Home page hero: text on the left, the orbital artwork (scripts/orbital.js) on the right -->
@@ -27,6 +29,23 @@ const { title, tagline, actions = [] } = Astro.props;
         >
           <slot name="subtitle" />
         </p>
+        {
+          currently && (
+            <p class="mt-5 inline-flex items-center gap-2 text-sm text-slate-400 animate-fade-in-up delay-300">
+              <span class="h-2 w-2 shrink-0 rounded-full bg-emerald-400" aria-hidden="true" />
+              <span>
+                Currently{' '}
+                {currently.href ? (
+                  <a href={currently.href} class="inline-link" target="_blank" rel="noopener noreferrer">
+                    {currently.text}
+                  </a>
+                ) : (
+                  currently.text
+                )}
+              </span>
+            </p>
+          )
+        }
         {
           actions.length > 0 && (
             <div class="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start gap-4 max-w-xs sm:max-w-none mx-auto animate-fade-in-up delay-500">

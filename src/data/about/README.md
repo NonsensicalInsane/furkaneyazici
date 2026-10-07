@@ -53,6 +53,22 @@ work: [
 ]
 ```
 
+#### 2b. Earlier work
+Short or early positions go here instead of `work`: they're listed as compact
+rows (title · company, place · dates) under the work experience.
+```typescript
+earlierWork: [
+  {
+    title: "Job Title",
+    company: "Company Name",
+    companyUrl: "https://company.com", // optional
+    location: "City, Country", // optional
+    startDate: "Summer 2017",
+    endDate: "Summer 2017" // same as startDate → shown once
+  }
+]
+```
+
 #### 3. Education
 ```typescript
 education: [
@@ -72,6 +88,7 @@ education: [
 ```
 
 #### 4. Certifications
+Shown as a compact two-column list (small icon, title, provider · date, description).
 ```typescript
 certifications: [
   {

@@ -5,12 +5,16 @@ import LinkCards from '../components/widgets/LinkCards.astro';
 import Content from '../components/widgets/Content.astro';
 import BlogLatestPosts from '../components/widgets/BlogLatestPosts.astro';
 import CallToAction from '../components/widgets/CallToAction.astro';
+import aboutData from '../data/about/index';
 
 // Homepage sets the full title itself; skip the "%s — Furkan Eşref Yazıcı" template
 const metadata = {
-  title: 'Furkan Eşref Yazıcı — Physicist & Developer',
+  title: 'Furkan Eşref Yazıcı — Physicist & Quantum Software Engineer',
   ignoreTitleTemplate: true,
 };
+
+// The current job, from the About page data: shown under the hero and in the Person schema
+const currentJob = aboutData.work.find((job) => job.endDate === 'Present');
 
 // Person schema: tells search engines & AI assistants who this site is about,
 // so they can surface and cite it correctly.
@@ -19,7 +23,8 @@ const personJsonLd = {
   '@type': 'Person',
   name: 'Furkan Eşref Yazıcı',
   url: 'https://furkaneyazici.com',
-  jobTitle: 'Physicist & Developer',
+  jobTitle: currentJob?.title ?? 'Physicist',
+  ...(currentJob ? { worksFor: { '@type': 'Organization', name: currentJob.company, url: currentJob.companyUrl } } : {}),
   knowsAbout: ['Physics', 'Machine Learning', 'Deep Learning', 'Quantum Computing'],
   email: 'mailto:yazici.furkan@proton.me',
   sameAs: [
@@ -40,6 +45,7 @@ const personJsonLd = {
   <HomeHero
     title="Furkan Eşref Yazıcı"
     tagline="Physicist · Machine Learning · Quantum Computing"
+    currently={currentJob && { text: `${currentJob.title} at ${currentJob.company}`, href: currentJob.companyUrl }}
     actions={[
       { variant: 'primary', text: 'Read the blog', href: '/blog/', icon: 'tabler:arrow-right' },
       { text: 'Get in touch', href: '/contact/' },

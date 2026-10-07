@@ -2,6 +2,8 @@ export interface AboutContent {
   personal: PersonalInfo;
   research: ResearchExperience[];
   work: WorkExperience[];
+  /** Early, short positions: listed compactly under the work experience */
+  earlierWork: EarlierWork[];
   education: Education[];
   certifications: Certification[];
   socialLinks: SocialLink[];
@@ -47,6 +49,15 @@ export interface WorkExperience {
   projectLabel?: string;
   /** Icon name, e.g. "tabler:atom" (https://tabler.io/icons) */
   icon: string;
+}
+
+export interface EarlierWork {
+  title: string;
+  company: string;
+  companyUrl?: string;
+  location?: string;
+  startDate: string;
+  endDate: string;
 }
 
 export interface Education {

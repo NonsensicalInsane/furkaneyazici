@@ -3,7 +3,7 @@ import type { AboutContent } from './types';
 export const aboutData: AboutContent = {
   personal: {
     name: "Furkan",
-    title: "Interdisciplinary Researcher & Quantum Computing Enthusiast",
+    title: "Physicist & Quantum Software Engineer",
     subtitle: "Hi, I'm",
     description: [
       "I'm a computational physicist working on deep learning and quantum computing — from the underlying math to real applications.",
@@ -33,7 +33,7 @@ export const aboutData: AboutContent = {
     },
     {
       title: "Undergraduate Research Assistant",
-      organization: "IVMER The Research and Application",
+      organization: "METU IVMER (Research and Application Center for Space and Accelerator Technologies)",
       location: "Ankara, Turkey",
       startDate: "Feb 2020",
       endDate: "Jun 2022",
@@ -68,7 +68,7 @@ export const aboutData: AboutContent = {
       icon: "tabler:speakerphone"
     },
     {
-      title: "Internship, Coordinator",
+      title: "Coordinator Intern",
       company: "QWorld",
       companyUrl: "https://www.qworld.net",
       startDate: "Jul 2021",
@@ -78,29 +78,30 @@ export const aboutData: AboutContent = {
       ],
       supervisor: "Zeki Can Seskir",
       supervisorUrl: "https://scholar.google.com/citations?user=vbMPLTMAAAAJ&hl=en",
-      projectUrl: "https://github.com/GehadSalemFekry/QMap",
-      projectLabel: "qmap.qworld.net",
+      // qmap.qworld.net is offline; this is the Wayback Machine's copy from May 2022
+      projectUrl: "https://web.archive.org/web/20220524093751/https://qmap.qworld.net/",
+      projectLabel: "qmap.qworld.net (archived)",
       icon: "tabler:map"
-    },
+    }
+  ],
+
+  // Shown as a short list under the work experience
+  earlierWork: [
     {
-      title: "Internship, Industrial Automation",
+      title: "Industrial Automation Intern",
       company: "ALTINAY Technology Group",
       companyUrl: "https://altinay.com/en/home/",
       location: "Istanbul, Turkey",
       startDate: "Summer 2017",
-      endDate: "Summer 2017",
-      description: [],
-      icon: "tabler:settings-automation"
+      endDate: "Summer 2017"
     },
     {
-      title: "Internship, Electrical Maintenance Technician",
+      title: "Electrical Maintenance Technician Intern",
       company: "KANCA",
       companyUrl: "https://www.kanca.com.tr/",
       location: "Istanbul, Turkey",
       startDate: "Summer 2016",
-      endDate: "Summer 2016",
-      description: [],
-      icon: "tabler:bolt"
+      endDate: "Summer 2016"
     }
   ],
 

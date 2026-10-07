@@ -9,7 +9,7 @@ metadata:
   title:
     default: Furkan Eşref Yazıcı
     template: '%s — Furkan Eşref Yazıcı'
-  description: "Furkan Eşref Yazıcı — physicist and developer. I write about machine learning, quantum computing, and software, and showcase my research and projects."
+  description: "Furkan Eşref Yazıcı — physicist and quantum software engineer. I write about machine learning, quantum computing, and software, and share my research."
   robots:
     index: true
     follow: true

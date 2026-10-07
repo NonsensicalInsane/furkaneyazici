@@ -93,6 +93,9 @@ export default defineConfig({
   // remark/rehype pipeline (Astro 7.3+ defaults to Sätteri, which doesn't run
   // these plugins). @astrojs/mdx picks the same plugins up from here.
   markdown: {
+    // Token colours tuned for dark blue backgrounds; the block's own background
+    // comes from the site's card surface (see .astro-code in tailwind.css)
+    shikiConfig: { theme: "tokyo-night" },
     processor: unified({
       remarkPlugins: [readingTimeRemarkPlugin, remarkMath, mathFlagRemarkPlugin, numberingRemarkPlugin],
       rehypePlugins: [

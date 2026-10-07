@@ -33,17 +33,15 @@ const {
 ---
 
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
-  <div
-    class="max-w-3xl mx-auto text-center p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:border-slate-600"
-  >
+  <div class="cta-panel max-w-3xl mx-auto text-center px-6 py-10 sm:px-12 sm:py-12 rounded-2xl border border-white/10">
     <Headline
       title={title}
       subtitle={subtitle}
       tagline={tagline}
       classes={{
         container: 'mb-0 md:mb-0',
-        title: 'text-4xl md:text-4xl font-bold leading-tighter tracking-tighter mb-4 font-heading',
-        subtitle: 'text-xl text-muted dark:text-slate-400',
+        title: 'text-3xl sm:text-4xl font-bold leading-tighter tracking-tighter font-heading',
+        subtitle: 'text-lg sm:text-xl text-slate-300',
       }}
       callPageName={callPageName}
       callPagePath={callPagePath}
@@ -73,3 +71,12 @@ const {
     }
   </div>
 </WidgetWrapper>
+
+<style>
+  /* Not a card (nothing to click on the panel itself), so no hover effect */
+  .cta-panel {
+    background:
+      radial-gradient(120% 100% at 50% 0%, rgb(99 102 241 / 0.12), transparent 60%),
+      rgb(255 255 255 / 0.03);
+  }
+</style>

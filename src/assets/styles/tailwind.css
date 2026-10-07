@@ -15,6 +15,7 @@
   --color-secondary: var(--aw-color-secondary);
   --color-accent: var(--aw-color-accent);
   --color-default: var(--aw-color-text-default);
+  --color-heading: var(--aw-color-text-heading);
   --color-muted: var(--aw-color-text-muted);
   --color-link: var(--aw-color-primary);
 
@@ -43,21 +44,10 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgb(255 255 255 / 0.1);
 }
-@utility glass-dark {
-  background: rgb(0 0 0 / 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgb(255 255 255 / 0.1);
-}
 
 /* Brand gradient text — one gradient, defined in CustomStyles.astro */
 @utility text-gradient {
   background: var(--aw-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-@utility text-gradient-blue {
-  background: linear-gradient(135deg, var(--aw-color-primary) 0%, var(--aw-color-secondary) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -83,6 +73,22 @@
 
 @utility text-balance {
   text-wrap: balance;
+}
+
+/* The small uppercase label above a heading. The one accent-coloured text
+   style for section labels, so every page introduces its sections the same way. */
+@utility eyebrow {
+  @apply text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-blue-400;
+}
+
+/* Links inside running text outside the blog prose: one colour, underline on hover */
+@utility inline-link {
+  @apply text-blue-400 underline-offset-4 hover:underline;
+}
+
+/* Icon tile used by cards and timelines: one shape, one colour, site-wide */
+@utility icon-tile {
+  @apply inline-flex shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 ring-1 ring-inset ring-blue-400/20;
 }
 
 /* ---------- Buttons ---------- */
@@ -128,11 +134,16 @@
   box-shadow: 0 20px 40px rgb(0 0 0 / 0.3);
 }
 
-.modern-card {
+/* The card surface. .modern-card adds hover feedback, so it's for cards that
+   are links; .surface-card is the same look for content that isn't clickable. */
+.modern-card,
+.surface-card {
   background: linear-gradient(135deg, rgb(255 255 255 / 0.08) 0%, rgb(255 255 255 / 0.03) 100%);
   backdrop-filter: blur(10px);
   border: 1px solid rgb(255 255 255 / 0.1);
   border-radius: 16px;
+}
+.modern-card {
   transition: all 0.3s ease;
 }
 .modern-card:hover {
@@ -193,10 +204,23 @@
 }
 
 .share-button {
-  transition: transform 0.2s ease;
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: rgb(255 255 255 / 0.04);
+  color: rgb(203 213 225); /* slate-300 */
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 .share-button:hover {
-  transform: translateY(-2px);
+  border-color: rgb(from var(--aw-color-primary) r g b / 0.5);
+  background: rgb(from var(--aw-color-primary) r g b / 0.15);
+  color: white;
 }
 
 .btn-enhanced {
@@ -268,37 +292,12 @@
     background-position: 100% 50%;
   }
 }
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-@keyframes pulse-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 5px rgb(from var(--aw-color-primary) r g b / 0.5);
-  }
-  50% {
-    box-shadow: 0 0 20px rgb(from var(--aw-color-primary) r g b / 0.7);
-  }
-}
 
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out both;
 }
 .animate-slide-in-right {
   animation: slide-in-right 0.6s ease-out both;
-}
-.float,
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-.pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
 }
 .delay-150 {
   animation-delay: 150ms;
@@ -446,7 +445,16 @@
   margin: 0;
 }
 
-/* ---------- Code blocks: copy button ---------- */
+/* ---------- Code blocks ---------- */
+
+/* Shiki sets the theme's background inline; use the site's surface instead */
+.astro-code {
+  background-color: rgb(15 23 42 / 0.7) !important; /* slate-900 */
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 0.75rem;
+}
+
+/* Copy button */
 
 .code-frame {
   position: relative;

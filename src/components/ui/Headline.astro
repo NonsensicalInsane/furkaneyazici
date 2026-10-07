@@ -23,12 +23,7 @@ const {
 {
   (title || subtitle || tagline || callPageName || callPagePath) && (
     <div class={twMerge('mb-6 sm:mb-8 md:mx-auto md:mb-12 text-center', containerClass)}>
-      {tagline && (
-        <p
-          class="text-sm sm:text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase"
-          set:html={tagline}
-        />
-      )}
+      {tagline && <p class="eyebrow mb-3" set:html={tagline} />}
       {title && (
         <h2
           class={twMerge(
@@ -40,9 +35,11 @@ const {
       )}
 
       {subtitle && <p class={twMerge('mt-4 text-muted text-balance', subtitleClass)} set:html={subtitle} />}
-      <div class="mt-8">
-        {callPageName && callPagePath && <Button href={getPagePermalink(callPagePath)}>{callPageName}</Button>}
-      </div>
+      {callPageName && callPagePath && (
+        <div class="mt-8">
+          <Button href={getPagePermalink(callPagePath)}>{callPageName}</Button>
+        </div>
+      )}
     </div>
   )
 }

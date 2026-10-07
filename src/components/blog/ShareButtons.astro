@@ -12,22 +12,22 @@ const { title, url, excerpt = '', className = '' } = Astro.props;
 const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
 ---
 
-<div class={`flex items-center gap-3 ${className}`} data-share-title={title} data-share-url={url} data-share-text={shareText}>
-  <span class="text-sm font-medium text-gray-600 dark:text-slate-400">Share:</span>
+<div class={`flex items-center gap-2 ${className}`} data-share-title={title} data-share-url={url} data-share-text={shareText}>
+  <span class="text-sm font-medium text-slate-400">Share</span>
   
   <!-- Twitter -->
   <button 
-    class="share-button p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white shadow-md hover:shadow-lg"
+    class="share-button"
     type="button"
     data-post-share="twitter"
-    aria-label="Share on Twitter"
+    aria-label="Share on X"
   >
-    <Icon name="tabler:brand-twitter" class="w-4 h-4" />
+    <Icon name="tabler:brand-x" class="w-4 h-4" />
   </button>
   
   <!-- LinkedIn -->
   <button 
-    class="share-button p-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white shadow-md hover:shadow-lg"
+    class="share-button"
     type="button"
     data-post-share="linkedin"
     aria-label="Share on LinkedIn"
@@ -37,7 +37,7 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
   
   <!-- Reddit -->
   <button 
-    class="share-button p-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white shadow-md hover:shadow-lg"
+    class="share-button"
     type="button"
     data-post-share="reddit"
     aria-label="Share on Reddit"
@@ -47,7 +47,7 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
   
   <!-- Copy Link -->
   <button 
-    class="share-button p-2 rounded-lg bg-gray-600 hover:bg-gray-700 text-white shadow-md hover:shadow-lg"
+    class="share-button"
     type="button"
     data-post-share="copy"
     aria-label="Copy Link"
@@ -57,7 +57,7 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
   
   <!-- Email -->
   <button 
-    class="share-button p-2 rounded-lg bg-green-600 hover:bg-green-700 text-white shadow-md hover:shadow-lg"
+    class="share-button"
     type="button"
     data-post-share="email"
     aria-label="Share via Email"

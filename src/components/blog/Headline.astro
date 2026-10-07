@@ -1,13 +1,18 @@
 ---
-const { title = await Astro.slots.render('default'), subtitle = await Astro.slots.render('subtitle') } = Astro.props;
+// Page heading for the blog listings: optional eyebrow, the h1, a subtitle.
+const {
+  tagline,
+  title = await Astro.slots.render('default'),
+  subtitle = await Astro.slots.render('subtitle'),
+} = Astro.props;
 ---
 
 <header class="mb-10 md:mb-16 text-center max-w-4xl mx-auto">
-  <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-gray-300 bg-clip-text text-transparent" set:html={title} />
+  {tagline && <p class="eyebrow mb-4" set:html={tagline} />}
+  <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading text-heading" set:html={title} />
   {
     subtitle && (
-      <div class="mt-4 md:mt-6 mx-auto text-base sm:text-lg md:text-xl text-gray-600 dark:text-slate-300 font-medium leading-relaxed max-w-3xl text-balance" set:html={subtitle} />
+      <div class="mt-4 md:mt-6 mx-auto text-base sm:text-lg md:text-xl text-slate-300 leading-relaxed max-w-3xl text-balance" set:html={subtitle} />
     )
   }
-  <div class="mt-8 w-24 h-1 bg-gradient-to-r from-primary to-blue-600 mx-auto rounded-full"></div>
 </header>

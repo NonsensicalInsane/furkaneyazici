@@ -1,7 +1,11 @@
 ---
+import { Icon } from 'astro-icon/components';
 import Layout from '~/layouts/PageLayout.astro';
 import Header from '~/components/widgets/Header.astro';
 import Image from '~/components/common/Image.astro';
+import Headline from '~/components/ui/Headline.astro';
+import EntryCard from '~/components/ui/EntryCard.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
 import myImage from '~/assets/images/me.png';
 import aboutData from '~/data/about/index';
 import { headerData } from '~/navigation';
@@ -24,362 +28,249 @@ const metadata = {
 };
 
 const { personal, research, work, education, certifications, socialLinks } = aboutData;
+
+// Key phrases in the introduction are set in bold
+const emphasize = (text: string) =>
+  text.replace(
+    /(interdisciplinary researcher|computational physicist|deep learning|quantum computing)/g,
+    '<strong class="font-semibold text-heading">$1</strong>'
+  );
+// "Summer 2017 – Summer 2017" reads better as "Summer 2017"
+const dates = (start: string, end: string) => (start === end ? start : `${start} – ${end}`);
+const external = { target: '_blank', rel: 'noopener noreferrer' };
 ---
 
 <Layout metadata={metadata}>
-  
-  <!-- Hero Widget ******************* -->
   <Fragment slot="header">
     <Header links={headerLinks} actions={headerData.actions} isSticky showRssFeed showToggleTheme />
   </Fragment>
-  
-  <!-- Enhanced Hero Section with Animated Background -->
+
+  <!-- Intro -->
   <section class="relative md:-mt-[76px] not-prose">
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="pt-0 md:pt-[76px] pointer-events-none"></div>
-      <div class="py-16 md:py-24">
-        <div class="text-center pb-12 md:pb-20 max-w-5xl mx-auto">
-          <div class="space-y-6 scroll-reveal">
-            <h1 class="text-5xl md:text-7xl font-bold leading-tighter tracking-tighter font-heading text-gradient-animated">
-              {personal.subtitle} <span class="text-gradient-blue relative">
-                {personal.name}!
-                <span class="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-blue-400/30 to-purple-400/30 rounded-full blur-sm"></span>
-              </span>
-            </h1>
-            <p class="text-xl md:text-2xl text-muted dark:text-slate-300 max-w-3xl mx-auto">
-              {personal.title}
-            </p>
-            <div class="flex flex-wrap justify-center gap-4 pt-6">
-              {personal.expertise.map((skill) => (
-                <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 text-sm font-medium">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 md:pt-[76px]">
+      <div class="py-14 md:py-20 text-center max-w-4xl mx-auto">
+        <p class="eyebrow animate-fade-in-up">About</p>
+        <h1 class="mt-4 text-5xl md:text-7xl font-bold leading-tighter tracking-tighter font-heading text-heading animate-fade-in-up delay-150">
+          {personal.subtitle} <span class="text-gradient">{personal.name}</span>
+        </h1>
+        <p class="mt-6 text-xl md:text-2xl text-slate-300 text-balance animate-fade-in-up delay-300">{personal.title}</p>
+        <ul class="mt-8 flex flex-wrap justify-center gap-3 animate-fade-in-up delay-500">
+          {
+            personal.expertise.map((skill) => (
+              <li class="px-4 py-1.5 rounded-full border border-blue-400/20 bg-blue-500/10 text-sm font-medium text-blue-200">
+                {skill}
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Enhanced About Section -->
-  <section class="relative py-16 md:py-24" id="about">
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- Content Side -->
-        <div class="space-y-8">
-          <div class="space-y-4">
-            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gradient mb-6">About me</h2>
-            {personal.description.map((paragraph) => (
-              <p class="text-lg leading-relaxed dark:text-slate-300 text-balance" set:html={paragraph.replace(/interdisciplinary researcher/g, '<strong class="text-gradient-blue">interdisciplinary researcher</strong>').replace(/computational physicist/g, '<strong class="text-gradient-blue">computational physicist</strong>').replace(/deep learning/g, '<strong class="text-gradient-blue">deep learning</strong>').replace(/quantum computing/g, '<strong class="text-gradient-blue">quantum computing</strong>')} />
-            ))}
+  <!-- About me -->
+  <section class="relative pb-12 md:pb-20" id="about">
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tighter text-heading">About me</h2>
+          <div class="mt-6 space-y-4 text-lg leading-relaxed text-slate-300">
+            {personal.description.map((paragraph) => <p class="text-balance" set:html={emphasize(paragraph)} />)}
           </div>
-
-          <!-- Social Links with Enhanced Design -->
-          <div class="grid grid-cols-2 gap-4">
-            {socialLinks.map((link) => (
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="modern-card hover-lift p-6 text-center group transition-all duration-300"
-              >
-                <div class="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                  {link.icon}
-                </div>
-                <span class="font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">{link.name}</span>
-              </a>
-            ))}
-          </div>
-
-          <!-- CTA Button -->
-          <div class="pt-4">
-            <a
-              href={personal.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-primary inline-flex items-center space-x-2 text-lg px-8 py-4 group"
-            >
-              <span>Download my resume!</span>
-              <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href={personal.resumeUrl} class="btn-primary" {...external}>
+              Download CV
+              <Icon name="tabler:download" class="w-5 h-5 ml-2" />
             </a>
+            {
+              socialLinks.map((link) => (
+                <a
+                  href={link.url}
+                  class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:border-blue-400/40 hover:bg-blue-500/10"
+                  {...external}
+                >
+                  <Icon name={link.icon} class="w-4 h-4" />
+                  {link.name}
+                </a>
+              ))
+            }
           </div>
         </div>
 
-        <!-- Image Side -->
-        <div class="relative lg:order-last">
-          <div class="relative">
-            <!-- Background decoration -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-3xl transform rotate-3"></div>
-            <div class="absolute inset-0 bg-gradient-to-bl from-indigo-400/20 to-cyan-400/20 rounded-3xl transform -rotate-3"></div>
-            
-            <!-- Main image -->
-            <div class="relative bg-white dark:bg-slate-800 rounded-3xl p-2 shadow-2xl">
-              <Image 
-                src={myImage}
-                alt="Furkan Eşref Yazıcı" 
-                class="w-full rounded-2xl image-glow"
-                loading="eager"
-                width={400}
-                height={400}
-              />
-            </div>
-            
-            <!-- Floating stats -->
-            <div class="absolute -top-6 -right-6 bg-white dark:bg-slate-800 rounded-2xl p-4 text-center animate-float shadow-xl border border-gray-200 dark:border-slate-700">
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" data-countup>{personal.stats.yearsResearch}</div>
-              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Years Research</div>
-            </div>
-            <div class="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 rounded-2xl p-4 text-center animate-float delay-300 shadow-xl border border-gray-200 dark:border-slate-700">
-              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" data-countup>{personal.stats.projects}</div>
-              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Projects</div>
-            </div>
+        <div class="relative mx-auto w-full max-w-md">
+          <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-blue-500/20 to-violet-500/20 blur-2xl" aria-hidden="true">
+          </div>
+          <Image
+            src={myImage}
+            alt="Furkan Eşref Yazıcı"
+            class="relative w-full rounded-3xl border border-white/10"
+            loading="eager"
+            width={448}
+            height={448}
+          />
+          <div class="absolute -top-4 -right-2 sm:-right-4 rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-3 text-center shadow-xl">
+            <div class="text-2xl font-bold text-blue-400" data-countup>{personal.stats.yearsResearch}</div>
+            <div class="text-sm text-slate-300">years of research</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Enhanced Research Experience Section -->
-  <section class="relative py-16 md:py-24" id="research-experience">
-    <div class="absolute inset-0 bg-slate-50/50 dark:bg-slate-900/30"></div>
-    
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-gradient mb-4">Research Experience</h2>
-        <p class="text-xl text-muted dark:text-slate-400 max-w-2xl mx-auto">
-          Exploring the frontiers of physics, quantum computing, and machine learning
-        </p>
-      </div>
-
-      <div class="space-y-8">
-        {research.map((item) => (
-          <div class="modern-card hover-lift p-8 transition-all duration-300">
-            <div class="flex items-start space-x-6">
-              <div class="flex-shrink-0">
-                <div class={`w-16 h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center text-white text-2xl`}>
-                  {item.icon}
-                </div>
-              </div>
-              <div class="flex-1">
-                <h3 class="text-xl font-bold text-gradient-blue mb-2">
-                  {item.title}
-                </h3>
-                <p class="font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  {item.organization} - {item.location}
-                </p>
-                <p class="text-sm text-muted mb-4">{item.startDate} - {item.endDate}</p>
-                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  {item.description}
-                </p>
-                {item.supervisor && (
-                  <p class="text-sm text-blue-600 dark:text-blue-400 mt-2">
-                    <strong>Supervisor:</strong> {item.supervisorUrl ? (
-                      <a href={item.supervisorUrl} target="_blank" class="hover:underline">{item.supervisor}</a>
-                    ) : item.supervisor}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Enhanced Work Experience Section -->
-  <section class="relative py-16 md:py-24" id="work-experience">
-    <div class="absolute inset-0 bg-blue-50/50 dark:bg-blue-900/30"></div>
-    
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-gradient mb-4">Work Experience</h2>
-        <p class="text-xl text-muted dark:text-slate-400 max-w-2xl mx-auto">
-          Professional journey in quantum computing and technology
-        </p>
-      </div>
-
-      <div class="space-y-8">
-        {work.map((item) => (
-          <div class="modern-card hover-lift p-8 transition-all duration-300">
-            <div class="flex items-start space-x-6">
-              <div class="flex-shrink-0">
-                <div class={`w-16 h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center text-white text-2xl`}>
-                  {item.icon}
-                </div>
-              </div>
-              <div class="flex-1">
-                <h3 class="text-xl font-bold text-gradient-blue mb-2">
-                  {item.title}
-                </h3>
-                <p class="font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  {item.companyUrl ? (
-                    <a href={item.companyUrl} target="_blank" class="hover:text-blue-600 dark:hover:text-blue-400">
-                      {item.company}{item.location && ` - ${item.location}`}
+  <!-- Research -->
+  <section class="py-12 md:py-20 scroll-mt-16" id="research-experience">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <Headline
+        title="Research experience"
+        subtitle="Exploring the frontiers of physics, quantum computing, and machine learning"
+      />
+      <div class="space-y-6">
+        {
+          research.map((item) => (
+            <EntryCard
+              icon={item.icon}
+              title={item.title}
+              organization={`${item.organization} · ${item.location}`}
+              dates={dates(item.startDate, item.endDate)}
+            >
+              <p>{item.description}</p>
+              {item.supervisor && (
+                <p class="text-sm text-slate-400">
+                  Supervisor:{' '}
+                  {item.supervisorUrl ? (
+                    <a href={item.supervisorUrl} class="inline-link" {...external}>
+                      {item.supervisor}
                     </a>
                   ) : (
-                    `${item.company}${item.location ? ` - ${item.location}` : ''}`
+                    item.supervisor
                   )}
                 </p>
-                <p class="text-sm text-muted mb-4">{item.startDate} - {item.endDate}</p>
-                {item.description.length > 0 && (
-                  <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {item.description.map((desc) => (
-                      <p class="mb-1">• {desc}</p>
+              )}
+            </EntryCard>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section class="py-12 md:py-20 scroll-mt-16" id="work-experience">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <Headline title="Work experience" subtitle="Professional journey in quantum computing and technology" />
+      <div class="space-y-6">
+        {
+          work.map((item) => (
+            <EntryCard
+              icon={item.icon}
+              title={item.title}
+              organization={item.location ? `${item.company} · ${item.location}` : item.company}
+              organizationUrl={item.companyUrl}
+              dates={dates(item.startDate, item.endDate)}
+            >
+              {item.description.length > 0 && (
+                <ul class="list-disc pl-5 space-y-1 marker:text-blue-400">
+                  {item.description.map((line) => (
+                    <li>{line}</li>
+                  ))}
+                </ul>
+              )}
+              {item.projectUrl && (
+                <p>
+                  Website:{' '}
+                  <a href={item.projectUrl} class="inline-link" {...external}>
+                    {item.projectLabel ?? item.projectUrl}
+                  </a>
+                </p>
+              )}
+              {item.supervisor && (
+                <p class="text-sm text-slate-400">
+                  Supervisor:{' '}
+                  {item.supervisorUrl ? (
+                    <a href={item.supervisorUrl} class="inline-link" {...external}>
+                      {item.supervisor}
+                    </a>
+                  ) : (
+                    item.supervisor
+                  )}
+                </p>
+              )}
+            </EntryCard>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="py-12 md:py-20 scroll-mt-16" id="education">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <Headline title="Education" subtitle="Academic foundation in physics and computational sciences" />
+      <div class="space-y-6">
+        {
+          education.map((item) => (
+            <EntryCard
+              icon={item.icon}
+              title={item.degree}
+              organization={item.institution}
+              dates={dates(item.startDate, item.endDate)}
+            >
+              {item.courses && (
+                <div>
+                  <p class="text-sm font-medium text-slate-400">Concentration and extra courses</p>
+                  <ul class="mt-2 grid sm:grid-cols-2 gap-x-6 gap-y-1 text-sm list-disc pl-5 marker:text-blue-400">
+                    {item.courses.map((course) => (
+                      <li>{course}</li>
                     ))}
-                    {item.projectUrl && (
-                      <p class="mt-2">
-                        The website is: <a href={item.projectUrl} target="_blank" class="text-red-600 dark:text-red-400 hover:underline">qmap.qworld.net</a>
-                      </p>
-                    )}
-                  </div>
-                )}
-                {item.supervisor && (
-                  <p class="text-sm text-blue-600 dark:text-blue-400 mt-2">
-                    <strong>Supervisor:</strong> {item.supervisorUrl ? (
-                      <a href={item.supervisorUrl} target="_blank" class="hover:underline">{item.supervisor}</a>
-                    ) : item.supervisor}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Enhanced Education Section -->
-  <section class="relative py-16 md:py-24" id="education">
-    <div class="absolute inset-0 bg-slate-50/50 dark:bg-slate-900/30"></div>
-    
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-gradient mb-4">Education</h2>
-        <p class="text-xl text-muted dark:text-slate-400 max-w-2xl mx-auto">
-          Academic foundation in physics and computational sciences
-        </p>
-      </div>
-
-      <div class="space-y-8">
-        {education.map((item) => (
-          <div class="modern-card hover-lift p-8 transition-all duration-300">
-            <div class="flex items-start space-x-6">
-              <div class="flex-shrink-0">
-                <div class={`w-16 h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center text-white text-2xl`}>
-                  {item.icon}
+                  </ul>
                 </div>
-              </div>
-              <div class="flex-1">
-                <h3 class="text-xl font-bold text-gradient-blue mb-2">
-                  {item.degree}
-                </h3>
-                <p class="font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  {item.institution}
-                </p>
-                <p class="text-sm text-muted mb-4">{item.startDate} - {item.endDate}</p>
-                {item.courses && (
-                  <div class="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    <p class="mb-2 font-medium">Concentration and extra courses:</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                      {item.courses.map((course) => (
-                        <span class="flex items-center"><span class="text-blue-500 mr-2">•</span>{course}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {item.description && (
-                  <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{item.description}</p>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+              )}
+              {item.description && <p>{item.description}</p>}
+            </EntryCard>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <!-- Enhanced Certifications Section -->
-  <section class="relative py-16 md:py-24" id="certifications">
-    <div class="absolute inset-0 bg-blue-50/50 dark:bg-blue-900/30"></div>
-    
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-gradient mb-4">Certifications</h2>
-        <p class="text-xl text-muted dark:text-slate-400 max-w-2xl mx-auto">
-          Professional development in data science, machine learning, and quantum computing
-        </p>
-      </div>
-
-      <div class="space-y-8">
-        {certifications.map((item) => (
-          <div class="modern-card hover-lift p-8 transition-all duration-300">
-            <div class="flex items-start space-x-6">
-              <div class="flex-shrink-0">
-                <div class={`w-16 h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center text-white text-2xl`}>
-                  {item.icon}
-                </div>
-              </div>
-              <div class="flex-1">
-                <h3 class="text-xl font-bold text-gradient-blue mb-2">
-                  {item.certificateUrl ? (
-                    <a href={item.certificateUrl} target="_blank" class="hover:underline">
-                      {item.title}
-                    </a>
-                  ) : item.title}
-                </h3>
-                <p class="font-medium text-gray-700 dark:text-gray-300 mb-1">{item.provider}</p>
-                {item.date && (
-                  <p class="text-sm text-muted mb-4">{item.date}</p>
-                )}
-                <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
-                  {item.description}
+  <!-- Certifications -->
+  <section class="py-12 md:py-20 scroll-mt-16" id="certifications">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <Headline
+        title="Certifications"
+        subtitle="Professional development in data science, machine learning, and quantum computing"
+      />
+      <div class="space-y-6">
+        {
+          certifications.map((item) => (
+            <EntryCard
+              icon={item.icon}
+              title={item.title}
+              href={item.certificateUrl}
+              organization={item.provider}
+              dates={item.date}
+            >
+              <p>{item.description}</p>
+              {item.capstoneProject && (
+                <p>
+                  Capstone project:{' '}
+                  <a href={item.capstoneProject.url} class="inline-link" {...external}>
+                    {item.capstoneProject.name}
+                  </a>
                 </p>
-                {item.capstoneProject && (
-                  <p class="text-gray-700 dark:text-gray-300">
-                    <strong>Capstone Project:</strong> 
-                    <a href={item.capstoneProject.url} target="_blank" class="text-red-600 dark:text-red-400 hover:underline ml-1">
-                      {item.capstoneProject.name}
-                    </a>
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+              )}
+            </EntryCard>
+          ))
+        }
       </div>
     </div>
   </section>
+
+  <!-- Closing: work together, or support the work -->
+  <CallToAction
+    title="Work with me, or support the work"
+    subtitle="I'm open to research collaborations, freelance projects, and illustration commissions. If you enjoy the posts, you can support them on Patreon."
+    actions={[
+      { variant: 'primary', text: 'Get in touch', href: '/contact/', icon: 'tabler:arrow-right' },
+      { text: 'Support on Patreon', href: 'https://www.patreon.com/theFEY', target: '_blank', icon: 'tabler:arrow-up-right' },
+    ]}
+  />
 </Layout>
-
-<style>
-  /* Page-specific tweaks only. Keyframes (fade-in-up, float) and the
-     .delay-* helpers come from the global stylesheet; @keyframes names
-     aren't scoped, so redefining them here would affect every page. */
-
-  /* Enhanced button hover effects */
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.3);
-  }
-
-  /* Faster float than the global 6s for the stats */
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  /* Enhanced card hover effects */
-  .modern-card:hover {
-    transform: translateY(-4px) scale(1.02);
-  }
-
-  /* Smooth image hover effects */
-  .image-glow:hover {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-  }
-</style>

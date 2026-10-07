@@ -10,13 +10,12 @@ export const aboutData: AboutContent = {
       "During my undergrad I worked in several research groups, and co-founded a university community that organized events including a hackathon."
     ],
     expertise: [
-      "🔬 Physics",
-      "🧠 Deep Learning", 
-      "⚛️ Quantum Computing"
+      "Physics",
+      "Deep Learning", 
+      "Quantum Computing"
     ],
     stats: {
-      yearsResearch: "3+",
-      projects: "1+"
+      yearsResearch: "3+"
     },
     resumeUrl: "/assets/pdf/Furkan_Esref_Yazici_CV.pdf"
   },
@@ -30,8 +29,7 @@ export const aboutData: AboutContent = {
       endDate: "Jun 2023",
       description: "Assisted a PhD student's project on causality in interparticle collisions, contributing to its Python tooling, in a lab studying far-from-equilibrium phenomena.",
       supervisor: "Prof. Dr. Serim İlday",
-      icon: "🔬",
-      color: "from-blue-500 to-purple-600"
+      icon: "tabler:microscope"
     },
     {
       title: "Undergraduate Research Assistant",
@@ -41,8 +39,7 @@ export const aboutData: AboutContent = {
       endDate: "Jun 2022",
       description: "Built Quantum Convolutional Neural Networks (QCNN) for image detection and applied quantum machine learning to the Travelling Salesman problem.",
       supervisor: "Prof. M. Bilge Demirköz",
-      icon: "⚛️",
-      color: "from-purple-500 to-indigo-600"
+      icon: "tabler:atom"
     }
   ],
 
@@ -57,8 +54,7 @@ export const aboutData: AboutContent = {
         "Developed quantum-powered cargo optimization and routing algorithms; built the React front end for a FastAPI microservice.",
         "Supported the CEO in fundraising and business development with investors and partner companies."
       ],
-      icon: "⚛️",
-      color: "from-emerald-500 to-teal-600"
+      icon: "tabler:code"
     },
     {
       title: "Outreach Coordinator",
@@ -69,8 +65,7 @@ export const aboutData: AboutContent = {
       description: [
         "Grew the QTurkey community and built domestic and international collaborations through quantum-technology outreach events across Turkey."
       ],
-      icon: "🌟",
-      color: "from-teal-500 to-cyan-600"
+      icon: "tabler:speakerphone"
     },
     {
       title: "Internship, Coordinator",
@@ -84,8 +79,8 @@ export const aboutData: AboutContent = {
       supervisor: "Zeki Can Seskir",
       supervisorUrl: "https://scholar.google.com/citations?user=vbMPLTMAAAAJ&hl=en",
       projectUrl: "https://github.com/GehadSalemFekry/QMap",
-      icon: "🌍",
-      color: "from-cyan-500 to-blue-600"
+      projectLabel: "qmap.qworld.net",
+      icon: "tabler:map"
     },
     {
       title: "Internship, Industrial Automation",
@@ -95,8 +90,7 @@ export const aboutData: AboutContent = {
       startDate: "Summer 2017",
       endDate: "Summer 2017",
       description: [],
-      icon: "⚙️",
-      color: "from-blue-500 to-indigo-600"
+      icon: "tabler:settings-automation"
     },
     {
       title: "Internship, Electrical Maintenance Technician",
@@ -106,8 +100,7 @@ export const aboutData: AboutContent = {
       startDate: "Summer 2016",
       endDate: "Summer 2016",
       description: [],
-      icon: "🔧",
-      color: "from-indigo-500 to-purple-600"
+      icon: "tabler:bolt"
     }
   ],
 
@@ -126,16 +119,14 @@ export const aboutData: AboutContent = {
         "BIOL 106: Biology",
         "BIOL 317: Molecular Biology"
       ],
-      icon: "🎓",
-      color: "from-violet-500 to-purple-600"
+      icon: "tabler:school"
     },
     {
       degree: "Technical School - Industrial Automation",
       institution: "ENKA Anatolian High School",
       startDate: "2014",
       endDate: "2018",
-      icon: "🏫",
-      color: "from-purple-500 to-pink-600"
+      icon: "tabler:building"
     }
   ],
 
@@ -149,16 +140,14 @@ export const aboutData: AboutContent = {
         name: "SpaceX Launch Success Analysis",
         url: "https://github.com/NonsensicalInsane/IBMDataScienceCourse"
       },
-      icon: "📊",
-      color: "from-blue-500 to-cyan-600"
+      icon: "tabler:chart-bar"
     },
     {
       title: "Google Data Analytics Professional Certificate",
       provider: "Google - Coursera",
       description: "Data cleaning, analysis, and visualization with SQL, R, spreadsheets, and Tableau.",
       certificateUrl: "https://coursera.org/share/5d9bc17f9ad0748a5ddd18392041e7f3",
-      icon: "📈",
-      color: "from-green-500 to-emerald-600"
+      icon: "tabler:chart-line"
     },
     {
       title: "Deep Learning",
@@ -166,8 +155,7 @@ export const aboutData: AboutContent = {
       date: "August 2021",
       description: "Advanced neural-network architectures with TensorFlow and PyTorch, applied to vision and NLP tasks.",
       certificateUrl: "https://portal.neuromatchacademy.org/certificate/924f0e9d-1fa4-44a7-8ae5-9e218b707508",
-      icon: "🧠",
-      color: "from-purple-500 to-indigo-600"
+      icon: "tabler:brain"
     },
     {
       title: "Computational Neuroscience",
@@ -175,8 +163,7 @@ export const aboutData: AboutContent = {
       date: "August 2021",
       description: "Neural data analysis, modeling of neural systems, and machine learning applied to neuroscience.",
       certificateUrl: "https://portal.neuromatchacademy.org/certificate/d8922efe-9a30-460d-97aa-759f9b2a6e20",
-      icon: "🧬",
-      color: "from-teal-500 to-blue-600"
+      icon: "tabler:activity"
     },
     {
       title: "Qiskit Summer School Quantum Machine Learning",
@@ -184,8 +171,7 @@ export const aboutData: AboutContent = {
       date: "August 2021",
       description: "Quantum machine learning with Qiskit — algorithm implementation and optimization.",
       certificateUrl: "https://drive.google.com/file/d/1SJ-ukSxDxv2DZesPCvr86eufqZYWmpJJ/view",
-      icon: "⚛️",
-      color: "from-orange-500 to-red-600"
+      icon: "tabler:atom-2"
     }
   ],
 
@@ -193,17 +179,17 @@ export const aboutData: AboutContent = {
     {
       name: "GitHub",
       url: "https://www.github.com/nonsensicalinsane",
-      icon: "🐙"
+      icon: "tabler:brand-github"
     },
     {
       name: "LinkedIn",
       url: "https://www.linkedin.com/in/furkaneyazici",
-      icon: "💼"
+      icon: "tabler:brand-linkedin"
     },
     {
       name: "Instagram",
       url: "https://instagram.com/furkaneyazici",
-      icon: "📸"
+      icon: "tabler:brand-instagram"
     }
   ]
 };

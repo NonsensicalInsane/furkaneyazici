@@ -15,7 +15,6 @@ export interface PersonalInfo {
   expertise: string[];
   stats: {
     yearsResearch: string;
-    projects: string;
   };
   resumeUrl: string;
 }
@@ -29,8 +28,8 @@ export interface ResearchExperience {
   description: string;
   supervisor?: string;
   supervisorUrl?: string;
+  /** Icon name, e.g. "tabler:atom" (https://tabler.io/icons) */
   icon: string;
-  color: string;
 }
 
 export interface WorkExperience {
@@ -44,8 +43,10 @@ export interface WorkExperience {
   supervisor?: string;
   supervisorUrl?: string;
   projectUrl?: string;
+  /** Link text for projectUrl (defaults to the URL) */
+  projectLabel?: string;
+  /** Icon name, e.g. "tabler:atom" (https://tabler.io/icons) */
   icon: string;
-  color: string;
 }
 
 export interface Education {
@@ -55,8 +56,8 @@ export interface Education {
   endDate: string;
   courses?: string[];
   description?: string;
+  /** Icon name, e.g. "tabler:atom" (https://tabler.io/icons) */
   icon: string;
-  color: string;
 }
 
 export interface Certification {
@@ -69,13 +70,13 @@ export interface Certification {
     name: string;
     url: string;
   };
+  /** Icon name, e.g. "tabler:atom" (https://tabler.io/icons) */
   icon: string;
-  color: string;
 }
 
 export interface SocialLink {
   name: string;
   url: string;
+  /** Icon name, e.g. "tabler:brand-github" */
   icon: string;
-  color?: string;
 }

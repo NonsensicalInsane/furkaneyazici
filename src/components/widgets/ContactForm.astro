@@ -6,92 +6,45 @@ export interface Props {
 }
 
 const { className = '', id } = Astro.props as Props;
+
+const channels = [
+  { name: 'Email', handle: 'yazici.furkan@proton.me', icon: 'tabler:mail', href: 'mailto:yazici.furkan@proton.me' },
+  { name: 'LinkedIn', handle: '@furkaneyazici', icon: 'tabler:brand-linkedin', href: 'https://linkedin.com/in/furkaneyazici' },
+  { name: 'GitHub', handle: '@nonsensicalinsane', icon: 'tabler:brand-github', href: 'https://github.com/nonsensicalinsane' },
+  { name: 'Instagram', handle: '@furkaneyazici', icon: 'tabler:brand-instagram', href: 'https://instagram.com/furkaneyazici' },
+  { name: 'Discord', handle: '@furkaneyazici', icon: 'tabler:brand-discord', href: 'https://discord.com/users/758241023440453634' },
+  { name: 'X', handle: '@furkaneyazici', icon: 'tabler:brand-x', href: 'https://twitter.com/furkaneyazici' },
+];
 ---
 
-<section class={`py-16 px-6 ${className}`} id={id}>
+<section class={`pb-16 px-6 ${className}`} id={id}>
   <div class="max-w-4xl mx-auto">
-    <div class="text-center mb-12 scroll-reveal">
-      <p class="text-lg text-gray-600 dark:text-slate-300 max-w-2xl mx-auto">
-        Have a project idea, research collaboration, or just want to say hello? I'd love to hear from you!
-      </p>
-    </div>
-
     <div class="grid lg:grid-cols-2 gap-12">
-      <!-- Contact Info -->
+      <!-- Other channels: each row is one link -->
       <div class="scroll-reveal">
-        <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Let's Connect</h2>
-        
-        <div class="space-y-6">
-          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
-              <Icon name="tabler:mail" class="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 dark:text-white">Email</h3>
-              <a href="mailto:yazici.furkan@proton.me" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
-                yazici.furkan@proton.me
-              </a>
-            </div>
-          </div>
+        <h2 class="text-xl font-semibold mb-6 text-heading">Elsewhere</h2>
 
-          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
-              <Icon name="tabler:brand-linkedin" class="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 dark:text-white">LinkedIn</h3>
-              <a href="https://linkedin.com/in/furkaneyazici" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
-                @furkaneyazici
-              </a>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
-              <Icon name="tabler:brand-github" class="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 dark:text-white">GitHub</h3>
-              <a href="https://github.com/nonsensicalinsane" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
-                @nonsensicalinsane
-              </a>
-            </div>
-            
-          </div>
-          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
-              <Icon name="tabler:brand-instagram" class="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 dark:text-white">Instagram</h3>
-              <a href="https://instagram.com/furkaneyazici" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
-                @furkaneyazici
-              </a>
-            </div>
-          </div>
-          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
-              <Icon name="tabler:brand-discord" class="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 dark:text-white">Discord</h3>
-              <a href="https://discord.com/users/758241023440453634" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
-                @furkaneyazici
-              </a>
-            </div>
-          </div>
-          <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover scroll-reveal">
-            <div class="w-12 h-12 brand-gradient rounded-full flex items-center justify-center">
-              <Icon name="tabler:brand-x" class="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 dark:text-white">X</h3>
-              <a href="https://twitter.com/furkaneyazici" target="_blank" class="text-blue-600 hover:text-blue-700 dark:text-blue-400">
-                @furkaneyazici
-              </a>
-            </div>
-          </div>
-        </div>
+        <ul class="space-y-3">
+          {
+            channels.map(({ name, handle, icon, href }) => (
+              <li>
+                <a
+                  href={href}
+                  class="modern-card flex items-center gap-4 p-4"
+                  {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <span class="icon-tile w-11 h-11">
+                    <Icon name={icon} class="w-6 h-6" />
+                  </span>
+                  <span>
+                    <span class="block font-semibold text-heading">{name}</span>
+                    <span class="block text-sm text-blue-400">{handle}</span>
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
 
       <!-- Contact Form -->

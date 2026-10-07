@@ -26,8 +26,7 @@ research: [
     description: "Description of your research work...",
     supervisor: "Dr. Supervisor Name", // optional
     supervisorUrl: "https://supervisor-profile.com", // optional
-    icon: "🔬", // emoji icon
-    color: "from-blue-500 to-purple-600" // Tailwind gradient
+    icon: "tabler:microscope" // see Icons below
   }
 ]
 ```
@@ -49,8 +48,7 @@ work: [
     supervisor: "Supervisor Name", // optional
     supervisorUrl: "https://supervisor-profile.com", // optional
     projectUrl: "https://project-url.com", // optional
-    icon: "⚛️", // emoji icon
-    color: "from-emerald-500 to-teal-600" // Tailwind gradient
+    icon: "tabler:code" // see Icons below
   }
 ]
 ```
@@ -68,8 +66,7 @@ education: [
       "Course 2: Course Name"
     ],
     description: "Additional description", // optional
-    icon: "🎓", // emoji icon
-    color: "from-violet-500 to-purple-600" // Tailwind gradient
+    icon: "tabler:school" // see Icons below
   }
 ]
 ```
@@ -87,8 +84,7 @@ certifications: [
       name: "Project Name",
       url: "https://project-url.com"
     },
-    icon: "📊", // emoji icon
-    color: "from-blue-500 to-cyan-600" // Tailwind gradient
+    icon: "tabler:chart-bar" // see Icons below
   }
 ]
 ```
@@ -105,13 +101,12 @@ personal: {
     "Third paragraph..."
   ],
   expertise: [
-    "🔬 Your Skill",
-    "🧠 Another Skill", 
-    "⚛️ Third Skill"
+    "Your Skill",
+    "Another Skill",
+    "Third Skill"
   ],
   stats: {
-    yearsResearch: "5+",
-    projects: "10+"
+    yearsResearch: "5+"
   },
   resumeUrl: "/path/to/your/resume.pdf"
 }
@@ -123,8 +118,7 @@ socialLinks: [
   {
     name: "Platform Name",
     url: "https://your-profile.com",
-    icon: "🐙", // emoji icon
-    color: "optional-color" // optional
+    icon: "tabler:brand-github"
   }
 ]
 ```
@@ -132,22 +126,18 @@ socialLinks: [
 ## Styling Guidelines
 
 ### Icons
-Use emoji icons for visual consistency. Recommended icons:
-- 🔬 Research/Science
-- ⚛️ Quantum/Physics
-- 🧠 AI/ML/Neuroscience
-- 💼 Professional/Business
-- 🎓 Education
-- 📊 Data Science
-- 🌟 Leadership/Community
-- ⚙️ Engineering/Technical
-
-### Colors
-Use Tailwind CSS gradient classes for consistent theming:
-- Research: `from-blue-500 to-purple-600`, `from-purple-500 to-indigo-600`
-- Work: `from-emerald-500 to-teal-600`, `from-teal-500 to-cyan-600`
-- Education: `from-violet-500 to-purple-600`, `from-purple-500 to-pink-600`
-- Certifications: `from-blue-500 to-cyan-600`, `from-green-500 to-emerald-600`
+Every entry takes an icon name from [Tabler Icons](https://tabler.io/icons),
+written `tabler:<name>`. They all render in the same accent colour, so the
+page stays consistent; emoji don't fit the icon set and are best left out.
+Some that fit:
+- `tabler:microscope`: research/science
+- `tabler:atom`, `tabler:atom-2`: quantum/physics
+- `tabler:brain`: AI/ML/neuroscience
+- `tabler:code`: software
+- `tabler:school`: education
+- `tabler:chart-bar`: data science
+- `tabler:speakerphone`: outreach/community
+- `tabler:settings-automation`: engineering
 
 ## Benefits
 

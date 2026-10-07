@@ -30,7 +30,7 @@ const { className = '', minutes } = Astro.props;
     <div>
       <div class="text-sm font-medium text-gray-900 dark:text-white">Reading</div>
       <div class="text-xs text-gray-600 dark:text-slate-400" id="reading-time">
-        <span id="reading-time-left">{minutes ?? 5} min</span> left
+        <span id="reading-time-left">{minutes ?? 5} min left</span>
       </div>
     </div>
   </div>
@@ -90,7 +90,7 @@ const { className = '', minutes } = Astro.props;
       // Calculate time left
       const timeLeft = Math.max(Math.round(totalReadingTime * (1 - progress / 100)), 0);
       if (readingTimeLeft) {
-        readingTimeLeft.textContent = timeLeft === 0 ? 'Done!' : `${timeLeft} min`;
+        readingTimeLeft.textContent = timeLeft === 0 ? 'Done!' : `${timeLeft} min left`;
       }
       
       // Show/hide elements based on scroll

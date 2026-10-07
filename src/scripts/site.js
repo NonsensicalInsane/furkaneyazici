@@ -40,6 +40,12 @@ function initHeader() {
   window.matchMedia('(max-width: 767px)').addEventListener('change', () => setMenuOpen(false));
 
   document.querySelector('#header nav')?.addEventListener('click', () => setMenuOpen(false));
+  document.addEventListener('keydown', (event) => {
+    const toggle = document.querySelector('[data-aw-toggle-menu]');
+    if (event.key !== 'Escape' || !toggle?.classList.contains('expanded')) return;
+    setMenuOpen(false);
+    toggle.focus();
+  });
   document.querySelectorAll('[data-aw-toggle-menu]').forEach((button) => {
     button.addEventListener('click', () => setMenuOpen(!button.classList.contains('expanded')));
   });

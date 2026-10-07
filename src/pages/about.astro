@@ -241,7 +241,7 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
               organization={item.institution}
               dates={dates(item.startDate, item.endDate)}
             >
-              {item.courses && (
+              {item.courses && item.courses.length > 0 && (
                 <div>
                   <p class="text-sm font-medium text-slate-400">Concentration and extra courses</p>
                   <ul class="mt-2 grid sm:grid-cols-2 gap-x-6 gap-y-1 text-sm list-disc pl-5 marker:text-blue-400">

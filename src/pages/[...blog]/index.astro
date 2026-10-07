@@ -72,6 +72,8 @@ const metadata = merge(
     {post.hasMath && <link rel="stylesheet" href={katexStylesheet} />}
   </Fragment>
   <SinglePost post={{ ...post, image: image }} url={url} translations={translations} />
-  <ToBlogLink />
-  <RelatedPosts post={post} />
+  <div class="print:hidden">
+    <ToBlogLink />
+    <RelatedPosts post={post} />
+  </div>
 </Layout>

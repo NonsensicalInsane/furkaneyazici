@@ -179,7 +179,7 @@ const jsonLd = {
     <div class="mx-auto max-w-3xl xl:max-w-7xl xl:grid xl:grid-cols-[1fr_minmax(0,48rem)_1fr] xl:gap-8 mt-8">
       <div class="hidden xl:block" aria-hidden="true"></div>
       <div class="min-w-0">
-        <div class="px-6 sm:px-6 mb-6 xl:hidden">
+        <div class="px-6 sm:px-6 mb-6 xl:hidden print:hidden">
           <TableOfContents headings={post.headings} variant="inline" />
         </div>
         <div
@@ -188,7 +188,7 @@ const jsonLd = {
           {Content ? <Content components={{ Callout, Quote, Figure, PlotlyChart, Animation, Definition, Theorem, Lemma, Proof }} /> : <Fragment set:html={post.content || ''} />}
         </div>
       </div>
-      <aside class="hidden xl:block">
+      <aside class="hidden xl:block print:hidden">
         <div class="sticky top-24">
           <TableOfContents headings={post.headings} variant="sidebar" />
         </div>
@@ -200,7 +200,7 @@ const jsonLd = {
       </div>
       
       <!-- Enhanced Share Buttons -->
-      <div class="border-t border-gray-200 dark:border-slate-700 pt-6">
+      <div class="border-t border-gray-200 dark:border-slate-700 pt-6 print:hidden">
         <ShareButtons 
           title={post.title}
           url={String(url)}

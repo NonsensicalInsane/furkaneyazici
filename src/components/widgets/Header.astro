@@ -54,7 +54,7 @@ const isCurrent = (href?: string) => href !== undefined && trimSlash(href) === c
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky, dark: isDark },
-    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
+    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out print:hidden',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -88,7 +88,7 @@ const isCurrent = (href?: string) => href !== undefined && trimSlash(href) === c
             <li class={links?.length ? 'dropdown' : ''}>
               {links?.length ? (
                 <>
-                  <button class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center">
+                  <button type="button" class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center" aria-haspopup="true">
                     {text}{' '}
                     <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
                   </button>

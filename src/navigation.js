@@ -11,7 +11,7 @@ export const headerData = {
 
 export const footerData = {
   socialLinks: [
-    { ariaLabel: 'X', icon: 'tabler:brand-x', href: 'https://twitter.com/furkaneyazici', target: '_blank' },
+    { ariaLabel: 'X', icon: 'tabler:brand-x', href: 'https://x.com/furkaneyazici', target: '_blank' },
     {
       ariaLabel: 'Instagram',
       icon: 'tabler:brand-instagram',

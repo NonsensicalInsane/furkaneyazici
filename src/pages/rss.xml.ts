@@ -1,6 +1,6 @@
 import { getRssString } from '@astrojs/rss';
 
-import { SITE, METADATA, APP_BLOG } from '../utils/config';
+import { SITE, METADATA, APP_BLOG, I18N } from '../utils/config';
 import { fetchPosts } from '../utils/blog';
 import { getPermalink } from '../utils/permalinks';
 
@@ -27,6 +27,11 @@ export const GET = async () => {
     })),
 
     trailingSlash: SITE.trailingSlash,
+    xmlns: { atom: 'http://www.w3.org/2005/Atom' },
+    customData: [
+      `<language>${I18N.language}</language>`,
+      `<atom:link href="${new URL('rss.xml', import.meta.env.SITE)}" rel="self" type="application/rss+xml" />`,
+    ].join(''),
   });
 
   return new Response(rss, {

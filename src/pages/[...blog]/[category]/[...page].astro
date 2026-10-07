@@ -18,9 +18,11 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths> & { category: string
 const { page, category } = Astro.props as Props;
 
 const currentPage = page.currentPage ?? 1;
+// "quantum-computing" → "Quantum Computing"
+const categoryName = category.replaceAll('-', ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
 const metadata = {
-  title: `Category '${category}' ${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
+  title: `${categoryName} posts${currentPage > 1 ? ` — page ${currentPage}` : ''}`,
   description: `Posts about ${category.replaceAll('-', ' ')} by Furkan Eşref Yazıcı.`,
   robots: {
     index: blogCategoryRobots?.index,

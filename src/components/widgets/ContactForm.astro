@@ -13,7 +13,7 @@ const channels = [
   { name: 'GitHub', handle: '@nonsensicalinsane', icon: 'tabler:brand-github', href: 'https://github.com/nonsensicalinsane' },
   { name: 'Instagram', handle: '@furkaneyazici', icon: 'tabler:brand-instagram', href: 'https://instagram.com/furkaneyazici' },
   { name: 'Discord', handle: '@furkaneyazici', icon: 'tabler:brand-discord', href: 'https://discord.com/users/758241023440453634' },
-  { name: 'X', handle: '@furkaneyazici', icon: 'tabler:brand-x', href: 'https://twitter.com/furkaneyazici' },
+  { name: 'X', handle: '@furkaneyazici', icon: 'tabler:brand-x', href: 'https://x.com/furkaneyazici' },
 ];
 ---
 
@@ -60,7 +60,7 @@ const channels = [
           <!-- Netlify Forms: form name + honeypot (spam trap, hidden from humans) -->
           <input type="hidden" name="form-name" value="contact" />
           <p class="hidden" aria-hidden="true">
-            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+            <label>Don't fill this out if you're human: <input type="text" name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">

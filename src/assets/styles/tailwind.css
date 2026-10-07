@@ -327,6 +327,12 @@
   animation: fade-in-up 0.6s ease-out both;
   animation-delay: var(--reveal-delay, 0s);
 }
+/* Without JavaScript nothing would ever add .revealed */
+@media (scripting: none) {
+  .scroll-reveal {
+    opacity: 1;
+  }
+}
 
 /* Page transitions: the browser's native cross-document View Transitions
    (no JavaScript router, so the strict hash-based CSP works). Browsers
@@ -610,7 +616,8 @@ a {
   padding: 0 5px;
 }
 
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
   display: block;
 }
 
@@ -804,3 +811,42 @@ a {
 .footnote-tooltip .csl-left-margin {
   display: none;
 }
+
+/* ---------- Print ---------- */
+
+/* The dark theme's light text would be near-invisible on paper: print black on
+   white. Header, footer, share and newsletter carry print:hidden. */
+@media print {
+  *,
+  ::before,
+  ::after {
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important; /* gradient text */
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  .scroll-reveal {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  /* Spell out where links go */
+  .prose a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+  pre,
+  figure,
+  table,
+  .statement,
+  .proof,
+  .post-abstract-box {
+    break-inside: avoid;
+  }
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+}
+

@@ -9,7 +9,7 @@ const { className = '', minutes } = Astro.props;
 ---
 
 <!-- Reading Progress Bar at Bottom -->
-<div class={`fixed bottom-0 left-0 w-full z-50 ${className}`}>
+<div class={`fixed bottom-0 left-0 w-full z-50 print:hidden ${className}`}>
   <div 
     id="reading-progress-bar" 
     data-minutes={minutes}
@@ -21,7 +21,7 @@ const { className = '', minutes } = Astro.props;
 <!-- Floating Progress Info -->
 <div 
   id="reading-info"
-  class="fixed bottom-6 right-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 p-4 transition-all duration-300 opacity-0 transform translate-y-4 z-40"
+  class="fixed bottom-6 right-6 print:hidden bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 p-4 transition-all duration-300 opacity-0 transform translate-y-4 z-40"
 >
   <div class="flex items-center gap-3">
     <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
@@ -38,8 +38,9 @@ const { className = '', minutes } = Astro.props;
 
 <!-- Back to Top Button -->
 <button
+  type="button"
   id="back-to-top"
-  class="fixed bottom-6 left-6 w-12 h-12 bg-primary hover:bg-primary-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 transform translate-y-4 z-40 flex items-center justify-center"
+  class="fixed bottom-6 left-6 print:hidden w-12 h-12 bg-primary hover:bg-primary-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 transform translate-y-4 z-40 flex items-center justify-center"
   aria-label="Back to top"
 >
   ↑

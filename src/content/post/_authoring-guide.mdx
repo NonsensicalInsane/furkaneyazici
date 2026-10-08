@@ -16,6 +16,38 @@ Use `##` (h2) and `###` (h3). The TOC in the sidebar (desktop) and the
 "On this page" box (mobile) build themselves from these automatically —
 it appears once a post has 2+ headings.
 
+## Level, prerequisites and series
+
+Front matter, all optional:
+
+```yaml
+level: intermediate              # intro | intermediate | advanced
+prerequisites:                   # shown as "Before you read"
+  - linear algebra               # plain text
+  - /what-is-a-qubit/            # a post's URL → linked by its title
+series: Quantum computing from scratch
+seriesPart: 2                    # order within the series (else publish date)
+```
+
+The level also shows on the post's card. Posts with the same `series` get a
+"Part 2 of 5" box under the title (it opens into the list of parts) and
+previous/next links at the end. An unknown post URL in `prerequisites` stops
+the build.
+
+## Terms with definitions
+
+`<Term>` underlines a word; hovering, focusing or tapping it shows a short
+definition. Shared definitions live in `src/data/glossary.ts` (add an entry
+once, use it anywhere); a one-off one goes in `def`:
+
+```mdx
+A <Term id="qubit" /> can be in a <Term id="superposition">superposition</Term>.
+Its state lives on the <Term id="bloch-sphere" />.
+We use the <Term def="A 2×2 unitary that maps |0⟩ to |+⟩">Hadamard gate</Term> often.
+```
+
+Definitions are plain text. An `id` that isn't in the glossary stops the build.
+
 ## Citations and notes
 
 Sources come from the shared BibTeX file `src/content/references.bib`
@@ -28,7 +60,10 @@ Several at once: [@nielsen2010; @epr1935]
 ```
 
 Hovering a `[1]` shows the entry; DOIs become links. Footnotes (`[^key]`)
-are for side remarks and are listed under "Notes".
+are for side remarks and are listed under "Notes". On wide screens (1280px+)
+they also appear as sidenotes in the left margin, level with the line that
+cites them, so readers don't have to jump to the end. Nothing to do: write
+ordinary footnotes. Keep them to a sentence or two so they fit the margin.
 
 ## Callouts
 
@@ -91,15 +126,11 @@ abstract: We show that no unitary can clone an unknown quantum state.
 
 ## Cover image
 
-Posts without an `image` get generated covers: a titled one for link
-previews and a text-free one for blog cards, whose motif follows the
-category (or tags), in English or Turkish: quantum computing → Bloch sphere,
-quantum optimisation → energy landscape, quantum information → circuit,
-optics → waves, physics → orbits, maths → plot, computer science → tree,
-ML → neural network, electronics → oscilloscope, biology → DNA helix,
-microbiology → petri dish, neuroscience → neuron, sociology → network of
-communities, history → timeline, philosophy → ripples, anything else →
-constellation. Override with e.g. `cover: network` in the frontmatter.
+`image: ~/assets/images/posts/my-post/cover.png` in the front matter is shown
+on the card and above the post. Without one, the card is text only
+(`cardCovers: false` in `src/config.yaml`; `true` draws a generated cover
+whose motif follows the category instead). Link previews (WhatsApp, LinkedIn,
+X…) always get a generated image with the title, unless the post has its own.
 
 ## Figures, charts and animations
 
@@ -190,3 +221,17 @@ versions automatically get:
 
 Any BCP-47 code works (`tr`, `de`, `fr`, `ja`…) — the switcher shows each
 language's native name automatically.
+
+## Before publishing
+
+```sh
+npm run check:posts              # every post
+npm run check:posts -- my-post   # one post
+```
+
+Lists what the build doesn't catch: missing alt texts and captions, leftover
+TODOs from the notebook converter, files that don't exist, unknown glossary
+terms, clashing series parts, oversized images or videos, excerpt length.
+Errors fail it for published posts (CI runs it on every push); in drafts
+they're listed so you can fix them before setting `draft: false`.
+

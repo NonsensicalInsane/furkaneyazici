@@ -6,20 +6,27 @@ publishDate: 2026-10-04
 draft: true
 tags: [demo, quantum-computing]
 category: Quantum Computing
+level: intermediate
+prerequisites:
+  - complex numbers
+  - basic linear algebra
+series: The qubit, visually
+seriesPart: 1
 ---
 
 import rabi from '~/assets/images/posts/demo-rich-content/rabi.svg';
 
 ## States
 
-A general qubit state is
+A general <Term id="qubit" /> state is
 
 $$
 |\psi\rangle = \cos\frac{\theta}{2}\,|0\rangle + e^{i\varphi}\sin\frac{\theta}{2}\,|1\rangle \label{eq:qubit}
 $$
 
 where measuring gives $|0\rangle$ with probability $\cos^2(\theta/2)$, as <Ref to="fig:probabilities" /> shows.
-The angles in <Ref to="eq:qubit" /> place the state on the Bloch sphere [@nielsen2010].
+The angles in <Ref to="eq:qubit" /> place the state on the <Term id="bloch-sphere" /> [@nielsen2010].[^phase]
+Any such state is a <Term id="superposition">superposition</Term> of the two basis states.
 
 <Definition title="Qubit" id="def:qubit">
   A **qubit** is a unit vector in $\mathbb{C}^2$, up to a global phase.
@@ -35,13 +42,13 @@ The angles in <Ref to="eq:qubit" /> place the state on the Bloch sphere [@nielse
 
 ## Dynamics
 
-Under a resonant drive the excited-state population oscillates (<Ref to="fig:rabi" />). Click the figure to enlarge it.
+Under a resonant drive the excited-state population oscillates (<Ref to="fig:rabi" />).[^rabi] Click the figure to enlarge it.
 
 <Figure src={rabi} alt="Excited-state probability oscillating in time for two drive strengths" id="fig:rabi">
   Rabi oscillations, $P(|1\rangle) = \sin^2(\Omega t/2)$, made with matplotlib.
 </Figure>
 
-The Hadamard gate takes $|0\rangle$ to $|+\rangle$, a quarter turn (<Ref to="fig:hadamard" />):
+The <Term def="A one-qubit gate that maps |0⟩ to |+⟩ and |1⟩ to |−⟩; it is its own inverse.">Hadamard gate</Term> takes $|0\rangle$ to $|+\rangle$, a quarter turn (<Ref to="fig:hadamard" />):
 
 <Animation src="/videos/demo-rich-content/hadamard.mp4" poster="/videos/demo-rich-content/hadamard.png" alt="An arrow rotating from |0> to |+> on a circle" id="fig:hadamard" autoplay>
   The Hadamard gate as a rotation, rendered with Manim.
@@ -73,4 +80,6 @@ print(H @ np.array([1, 0]))  # |+⟩
   <Ref to="thm:no-cloning" /> is why quantum error correction can't simply keep backup copies of a qubit.[^qec]
 </Callout>
 
+[^phase]: The global phase $e^{i\gamma}$ drops out of every measurement, which is why two angles are enough.
+[^rabi]: Named after Isidor Rabi, who measured nuclear magnetic moments this way in 1938.
 [^qec]: It spreads the information over entangled qubits instead.

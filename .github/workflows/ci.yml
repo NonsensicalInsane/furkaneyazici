@@ -1,5 +1,6 @@
-# Runs on every push and pull request: lint (which the Netlify deploy never
-# runs), then the same `npm run build` Netlify uses (astro check + astro build).
+# Runs on every push and pull request: lint and the post checks (which the
+# Netlify deploy never runs), then the same `npm run build` Netlify uses
+# (astro check + astro build).
 # A red check here means the deploy would fail or the code has lint errors.
 name: CI
 
@@ -32,6 +33,9 @@ jobs:
 
       - name: Lint
         run: npm run lint:eslint
+
+      - name: Check posts (alt texts, leftover TODOs, missing files)
+        run: npm run check:posts
 
       - name: Type check and build
         run: npm run build

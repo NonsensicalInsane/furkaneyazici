@@ -1,6 +1,8 @@
 # Search engines and citing answer-engines: welcome.
 User-agent: *
-Disallow:
+# Off limits to every crawler. Anything that fetches it anyway has ignored this
+# file, and the edge function blocks it (netlify/edge-functions/block-ai-bots.ts).
+Disallow: /internal/
 # Content Signals (contentsignals.org): search indexing yes, model training no.
 # Voluntary, like the rest of this file; the edge function enforces the block.
 Content-Signal: search=yes, ai-train=no

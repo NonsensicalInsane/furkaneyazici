@@ -37,6 +37,8 @@ export interface Props {
 
 const { post, url, translations = [] } = Astro.props;
 const { Content } = post;
+// <Term> in the post's body reads this to pick the definition's language
+Astro.locals.postLang = post.lang;
 
 // Structured data: helps search engines & AI answer engines feature the
 // article (rich results, citations) without them needing to guess.
@@ -350,6 +352,7 @@ const jsonLd = {
       const show = () =>
         showTip(term, (t) => {
           t.classList.add('term-tooltip');
+          if (term.dataset.termLang) t.lang = term.dataset.termLang;
           t.textContent = term.dataset.term || '';
         });
       term.addEventListener('mouseenter', show);

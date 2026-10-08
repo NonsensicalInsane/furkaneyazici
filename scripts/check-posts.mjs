@@ -148,6 +148,9 @@ for (const post of posts.filter((p) => files.includes(p.file))) {
     const id = attr(m[0], 'id');
     const def = attr(m[0], 'def');
     if (id && !glossary[id]) error(`<Term id="${id}">: not in src/data/glossary.ts`, lineOf(post, m.index));
+    if (id && glossary[id] && data.lang && data.lang !== 'en' && !glossary[id].translations?.[data.lang]) {
+      warn(`<Term id="${id}">: no "${data.lang}" translation in the glossary, so the English definition is shown`, lineOf(post, m.index));
+    }
     if (!id && !def) error('<Term> needs id="…" (glossary) or def="…"', lineOf(post, m.index));
   }
 

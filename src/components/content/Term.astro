@@ -1,5 +1,8 @@
 ---
 import { glossary } from '../../data/glossary';
+import { I18N } from '../../utils/config';
+
+const SITE_LANGUAGE = I18N.language || 'en';
 
 export interface Props {
   /** Key in src/data/glossary.ts */
@@ -10,17 +13,24 @@ export interface Props {
 
 // A term with its definition one hover, focus or tap away (the tooltip comes
 // from SinglePost's script). The text inside <Term> is what the reader sees;
-// without it, the glossary's own spelling is used.
+// without it, the glossary's own spelling is used. In a post in another
+// language, the glossary's translation for it is used when there is one.
 const { id, def } = Astro.props;
 const entry = id ? glossary[id] : undefined;
 if (id && !entry) throw new Error(`<Term id="${id}">: no such entry in src/data/glossary.ts`);
-const definition = def ?? entry?.definition;
+
+const postLang = Astro.locals.postLang ?? SITE_LANGUAGE;
+const localized = postLang !== SITE_LANGUAGE ? entry?.translations?.[postLang] : undefined;
+const definition = def ?? localized?.definition ?? entry?.definition;
 if (!definition) throw new Error('<Term> needs an id from src/data/glossary.ts or a def="…"');
+// An English definition inside, say, a Turkish post is marked as English
+// (screen-reader pronunciation, hyphenation)
+const definitionLang = !def && !localized && postLang !== SITE_LANGUAGE ? SITE_LANGUAGE : undefined;
 
 const text = Astro.slots.has('default') ? ((await Astro.slots.render('default')) ?? '').trim() : '';
 const descriptionId = `term-${Math.random().toString(36).slice(2, 10)}`;
 ---
 
-<button type="button" class="term" data-term={definition} aria-describedby={descriptionId}
-  >{text ? <Fragment set:html={text} /> : entry?.term}</button
-><span id={descriptionId} hidden>{definition}</span>
+<button type="button" class="term" data-term={definition} data-term-lang={definitionLang} aria-describedby={descriptionId}
+  >{text ? <Fragment set:html={text} /> : (localized?.term ?? entry?.term)}</button
+><span id={descriptionId} lang={definitionLang} hidden>{definition}</span>

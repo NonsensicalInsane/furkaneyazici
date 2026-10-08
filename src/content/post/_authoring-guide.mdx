@@ -29,7 +29,7 @@ series: Quantum computing from scratch
 seriesPart: 2                    # order within the series (else publish date)
 ```
 
-The level also shows on the post's card. Posts with the same `series` get a
+The level also shows on the post's card, with its own icon: a seedling (intro), a plant (intermediate), a tree (advanced). Posts with the same `series` get a
 "Part 2 of 5" box under the title (it opens into the list of parts) and
 previous/next links at the end. An unknown post URL in `prerequisites` stops
 the build.
@@ -47,6 +47,23 @@ We use the <Term def="A 2×2 unitary that maps |0⟩ to |+⟩">Hadamard gate</Te
 ```
 
 Definitions are plain text. An `id` that isn't in the glossary stops the build.
+
+In a post in another language (`lang: tr`), `<Term id="qubit" />` uses the
+entry's translation from the glossary, both the word and the definition:
+
+```ts
+qubit: {
+  term: 'qubit',
+  definition: 'The basic unit of quantum information…',
+  translations: {
+    tr: { term: 'kübit', definition: 'Kuantum bilgisinin temel birimi…' },
+    ja: { term: '量子ビット', definition: '量子情報の基本単位…' },
+  },
+},
+```
+
+Without a translation the English definition is shown (marked as English for
+screen readers), and `npm run check:posts` lists it.
 
 ## Citations and notes
 

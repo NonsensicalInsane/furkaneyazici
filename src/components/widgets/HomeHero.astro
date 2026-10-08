@@ -5,12 +5,14 @@ import type { CallToAction } from '../../types';
 export interface Props {
   title: string;
   tagline?: string;
+  /** Shorter tagline for phones, where the full one would wrap onto two lines */
+  taglineShort?: string;
   actions?: CallToAction[];
   /** A "Currently …" line under the introduction, e.g. the current job */
   currently?: { text: string; href?: string };
 }
 
-const { title, tagline, actions = [], currently } = Astro.props;
+const { title, tagline, taglineShort, actions = [], currently } = Astro.props;
 ---
 
 <!-- Home page hero: text on the left, the orbital artwork (scripts/orbital.js) on the right -->
@@ -18,7 +20,20 @@ const { title, tagline, actions = [], currently } = Astro.props;
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 md:pt-[76px]">
     <div class="grid lg:grid-cols-[1.15fr_1fr] items-center gap-4 lg:gap-10 pt-8 pb-4 md:pt-16 lg:py-20">
       <div class="text-center lg:text-left">
-        {tagline && <p class="eyebrow animate-fade-in-up">{tagline}</p>}
+        {
+          tagline && (
+            <p class="eyebrow animate-fade-in-up">
+              {taglineShort ? (
+                <>
+                  <span class="sm:hidden">{taglineShort}</span>
+                  <span class="hidden sm:inline">{tagline}</span>
+                </>
+              ) : (
+                tagline
+              )}
+            </p>
+          )
+        }
         <h1
           class="mt-4 text-5xl sm:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tighter font-heading text-gradient text-balance animate-fade-in-up delay-150"
         >

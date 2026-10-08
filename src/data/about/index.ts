@@ -36,7 +36,7 @@ export const aboutData: AboutContent = {
       organization: "METU IVMER (Research and Application Center for Space and Accelerator Technologies)",
       location: "Ankara, Turkey",
       startDate: "Feb 2020",
-      endDate: "Jun 2022",
+      endDate: "Jun 2021",
       description: "Built Quantum Convolutional Neural Networks (QCNN) for image detection and applied quantum machine learning to the Travelling Salesman problem.",
       supervisor: "Prof. M. Bilge Demirköz",
       icon: "tabler:atom"
@@ -47,8 +47,8 @@ export const aboutData: AboutContent = {
     {
       title: "Quantum Software Engineer",
       company: "Qavis",
-      companyUrl: "https://www.qoordinate.tech",
-      startDate: "Sep 2023",
+      companyUrl: "https://www.qavis.co",
+      startDate: "Jun 2024",
       endDate: "Present",
       description: [
         "Developed quantum-powered cargo optimization and routing algorithms; built the React front end for a FastAPI microservice.",
@@ -106,6 +106,16 @@ export const aboutData: AboutContent = {
   ],
 
   education: [
+        {
+      degree: "Master of Science in Physics",
+      institution: "Gebze Technical University",
+      startDate: "2026",
+      endDate: "Present",
+      courses: [
+
+      ],
+      icon: "tabler:school"
+    },
     {
       degree: "Bachelor of Science in Physics",
       institution: "Middle East Technical University",

@@ -1,0 +1,76 @@
+---
+title: The qubit, visually
+excerpt: A short demo of figures, interactive charts, animations, theorems and citations in a post.
+abstract: A qubit's state is a point on the Bloch sphere. We look at it with a static figure, two interactive charts and an animation, then prove that it cannot be copied.
+publishDate: 2026-10-04
+draft: true
+tags: [demo, quantum-computing]
+category: Quantum Computing
+---
+
+import rabi from '~/assets/images/posts/demo-rich-content/rabi.svg';
+
+## States
+
+A general qubit state is
+
+$$
+|\psi\rangle = \cos\frac{\theta}{2}\,|0\rangle + e^{i\varphi}\sin\frac{\theta}{2}\,|1\rangle \label{eq:qubit}
+$$
+
+where measuring gives $|0\rangle$ with probability $\cos^2(\theta/2)$, as <Ref to="fig:probabilities" /> shows.
+The angles in <Ref to="eq:qubit" /> place the state on the Bloch sphere [@nielsen2010].
+
+<Definition title="Qubit" id="def:qubit">
+  A **qubit** is a unit vector in $\mathbb{C}^2$, up to a global phase.
+</Definition>
+
+<PlotlyChart src="/figures/demo-rich-content/probabilities.json" alt="Probabilities of measuring 0 and 1 as theta goes from 0 to pi" id="fig:probabilities">
+  Measurement probabilities versus $\theta$. Hover for values, drag to zoom.
+</PlotlyChart>
+
+<PlotlyChart src="/figures/demo-rich-content/bloch.json" alt="Bloch sphere with a path from |0> to |+>" id="fig:bloch" height={480}>
+  The path from $|0\rangle$ to $|+\rangle$ on the Bloch sphere. Drag to rotate.
+</PlotlyChart>
+
+## Dynamics
+
+Under a resonant drive the excited-state population oscillates (<Ref to="fig:rabi" />). Click the figure to enlarge it.
+
+<Figure src={rabi} alt="Excited-state probability oscillating in time for two drive strengths" id="fig:rabi">
+  Rabi oscillations, $P(|1\rangle) = \sin^2(\Omega t/2)$, made with matplotlib.
+</Figure>
+
+The Hadamard gate takes $|0\rangle$ to $|+\rangle$, a quarter turn (<Ref to="fig:hadamard" />):
+
+<Animation src="/videos/demo-rich-content/hadamard.mp4" poster="/videos/demo-rich-content/hadamard.png" alt="An arrow rotating from |0> to |+> on a circle" id="fig:hadamard" autoplay>
+  The Hadamard gate as a rotation, rendered with Manim.
+</Animation>
+
+```python
+import numpy as np
+
+H = np.array([[1, 1], [1, -1]]) / np.sqrt(2)
+print(H @ np.array([1, 0]))  # |+⟩
+```
+
+## No cloning
+
+<Lemma id="lem:inner">
+  Unitary maps preserve inner products.
+</Lemma>
+
+<Theorem title="No-cloning" id="thm:no-cloning">
+  No unitary $U$ satisfies $U|\psi\rangle|0\rangle = |\psi\rangle|\psi\rangle$ for every state $|\psi\rangle$ [@wootters1982].
+</Theorem>
+
+<Proof>
+  Copying $|\psi\rangle$ and $|\phi\rangle$ would give $\langle\psi|\phi\rangle = \langle\psi|\phi\rangle^2$ by <Ref to="lem:inner" />,
+  so the overlap is 0 or 1: only identical or orthogonal states could be copied.
+</Proof>
+
+<Callout type="tip" title="Why it matters">
+  <Ref to="thm:no-cloning" /> is why quantum error correction can't simply keep backup copies of a qubit.[^qec]
+</Callout>
+
+[^qec]: It spreads the information over entangled qubits instead.

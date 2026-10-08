@@ -8,7 +8,7 @@ import PostTags from '../../components/blog/Tags.astro';
 
 import { findImage } from '../../utils/images';
 import { coverUrl } from '../../utils/covers';
-import { LEVEL_LABELS } from '../../utils/blog';
+import { LEVELS } from '../../utils/blog';
 import { getPermalink } from '../../utils/permalinks';
 import { getFormattedDate } from '../../utils/utils';
 
@@ -107,8 +107,8 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
         }
         {post.level && (
           <span class="inline-flex items-center gap-1">
-            <Icon name="tabler:chart-bar" class="w-4 h-4" />
-            {LEVEL_LABELS[post.level]}
+            <Icon name={LEVELS[post.level].icon} class={`w-4 h-4 ${LEVELS[post.level].color}`} />
+            {LEVELS[post.level].label}
           </span>
         )}
         {post.draft && (

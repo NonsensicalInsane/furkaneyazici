@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import type { Post } from '../../types';
-import { fetchPosts, LEVEL_LABELS } from '../../utils/blog';
+import { fetchPosts, LEVELS } from '../../utils/blog';
 import { getPermalink, trimSlash } from '../../utils/permalinks';
 
 export interface Props {
@@ -27,11 +27,11 @@ const items = prerequisites.map((item) => {
       <dl class="flex flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm sm:flex-row sm:flex-wrap sm:gap-x-6">
         {post.level && (
           <div class="flex items-center gap-2">
-            <dt class="inline-flex items-center gap-1.5 text-slate-400">
-              <Icon name="tabler:chart-bar" class="w-4 h-4 text-blue-400" />
-              Level
-            </dt>
-            <dd class="font-semibold text-heading">{LEVEL_LABELS[post.level]}</dd>
+            <dt class="text-slate-400">Level</dt>
+            <dd class="inline-flex items-center gap-1.5 font-semibold text-heading">
+              <Icon name={LEVELS[post.level].icon} class={`w-4 h-4 ${LEVELS[post.level].color}`} />
+              {LEVELS[post.level].label}
+            </dd>
           </div>
         )}
         {items.length > 0 && (

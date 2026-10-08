@@ -1,4 +1,5 @@
 ---
+import { ui } from '../../i18n/ui';
 // Shared box behind <Definition>, <Theorem> and <Lemma>:
 // "Theorem 2 (No-cloning)." followed by the body. Each kind is numbered on
 // its own by src/utils/remark-numbering.mjs. The body keeps the post's prose
@@ -14,12 +15,12 @@ export interface Props {
 }
 
 const { kind, title, id, number } = Astro.props;
-const name = { definition: 'Definition', theorem: 'Theorem', lemma: 'Lemma' }[kind];
+const t = ui(Astro.locals.postLang);
 ---
 
 <div id={id} class={`statement statement-${kind}`}>
   <p class="statement-heading">
-    <strong>{name}{number && ` ${number}`}</strong>{title && <span class="statement-title"> ({title})</span>}.
+    <strong>{number ? t.numbered(kind, number) : t.statementName[kind]}</strong>{title && <span class="statement-title"> ({title})</span>}{t.labelEnd}
   </p>
   <slot />
 </div>

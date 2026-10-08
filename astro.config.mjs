@@ -13,6 +13,7 @@ import {
   mathFlagRemarkPlugin,
   responsiveTablesRehypePlugin,
   bibliographyRehypePlugin,
+  footnotesLanguageRehypePlugin,
 } from "./src/utils/frontmatter.mjs";
 import { numberingRemarkPlugin } from "./src/utils/remark-numbering.mjs";
 import { devTrailingSlashRedirect } from "./src/utils/dev-trailing-slash.mjs";
@@ -108,6 +109,7 @@ export default defineConfig({
           { bibliography: "src/content/references.bib", csl: "src/content/ieee.csl", linkCitations: true },
         ],
         bibliographyRehypePlugin,
+        footnotesLanguageRehypePlugin,
         rehypeKatex,
       ],
       remarkRehype: {

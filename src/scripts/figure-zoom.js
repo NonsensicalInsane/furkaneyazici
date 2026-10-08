@@ -1,3 +1,5 @@
+import { uiText } from './ui-strings.js';
+
 // Click-to-enlarge for <Figure>: one native <dialog> per page (focus trapping,
 // Esc to close and the backdrop come with the element), created on first use.
 export function initFigureZoom() {
@@ -10,12 +12,12 @@ export function initFigureZoom() {
   const create = () => {
     dialog = document.createElement('dialog');
     dialog.className = 'figure-lightbox';
-    dialog.setAttribute('aria-label', 'Enlarged figure');
+    dialog.setAttribute('aria-label', uiText('enlargedFigure', 'Enlarged figure'));
 
     const close = document.createElement('button');
     close.type = 'button';
     close.className = 'figure-lightbox-close';
-    close.setAttribute('aria-label', 'Close');
+    close.setAttribute('aria-label', uiText('close', 'Close'));
     close.textContent = '×';
     close.addEventListener('click', () => dialog.close());
 

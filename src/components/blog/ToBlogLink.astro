@@ -2,9 +2,11 @@
 import { Icon } from 'astro-icon/components';
 import { getBlogPermalink } from '../../utils/permalinks';
 import { I18N } from '../../utils/config';
+import { ui } from '../../i18n/ui';
 import Button from '../../components/ui/Button.astro';
 
 const { textDirection } = I18N;
+const t = ui(Astro.locals.postLang);
 ---
 
 <div class="mx-auto px-6 sm:px-6 max-w-3xl pt-8 md:pt-4 pb-12 md:pb-20">
@@ -15,6 +17,6 @@ const { textDirection } = I18N;
       ) : (
         <Icon name="tabler:chevron-left" class="w-5 h-5 mr-1 -ml-1.5 rtl:-mr-1.5 rtl:ml-1" />
       )
-    } Back to Blog
+    } {t.backToBlog}
   </Button>
 </div>

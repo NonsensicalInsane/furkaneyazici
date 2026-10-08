@@ -317,9 +317,9 @@ export const findSeriesPosts = async (post: Post): Promise<Array<Post>> => {
     );
 };
 
-/** How each `level` is shown: a growing plant, and a colour per step */
+/** How each `level` is drawn: a growing plant, a colour per step (names: src/i18n/ui.ts) */
 export const LEVELS = {
-  intro: { label: 'Introductory', icon: 'tabler:seedling', color: 'text-emerald-400' },
-  intermediate: { label: 'Intermediate', icon: 'tabler:plant-2', color: 'text-sky-400' },
-  advanced: { label: 'Advanced', icon: 'tabler:tree', color: 'text-violet-400' },
+  intro: { icon: 'tabler:seedling', color: 'text-emerald-400' },
+  intermediate: { icon: 'tabler:plant-2', color: 'text-sky-400' },
+  advanced: { icon: 'tabler:tree', color: 'text-violet-400' },
 } as const;

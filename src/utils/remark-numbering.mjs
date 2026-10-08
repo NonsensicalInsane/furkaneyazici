@@ -13,6 +13,8 @@
 //   $$ … \label{eq:schrodinger} $$          only labelled equations are numbered
 //   <Ref to="eq:schrodinger" />             → "(1)", linked to the equation
 
+import { ui } from '../i18n/ui.ts';
+
 const KIND_BY_COMPONENT = {
   Figure: 'figure',
   PlotlyChart: 'figure',
@@ -21,7 +23,6 @@ const KIND_BY_COMPONENT = {
   Theorem: 'theorem',
   Lemma: 'lemma',
 };
-const LABEL = { figure: 'Figure', definition: 'Definition', theorem: 'Theorem', lemma: 'Lemma' };
 
 const isJsx = (node) => node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement';
 const getAttr = (node, name) => node.attributes?.find((a) => a.type === 'mdxJsxAttribute' && a.name === name)?.value;
@@ -48,6 +49,7 @@ function walk(node, visit, parent = null, index = null) {
 export function numberingRemarkPlugin() {
   return (tree, file) => {
     const where = file.path ? ` in ${file.path}` : '';
+    const t = ui(file.data.astro?.frontmatter?.lang);
     const counters = {};
     const targets = new Map();
     const next = (kind) => (counters[kind] = (counters[kind] || 0) + 1);
@@ -89,7 +91,8 @@ export function numberingRemarkPlugin() {
         const known = [...targets.keys()].join(', ') || 'none';
         throw new Error(`<Ref to="${label}"> doesn't match any label${where} (known: ${known})`);
       }
-      const text = target.kind === 'equation' ? `(${target.number})` : `${LABEL[target.kind]} ${target.number}`;
+      // "Figure 2" in the post's language ("Şekil 2" for lang: tr)
+      const text = target.kind === 'equation' ? `(${target.number})` : t.numbered(target.kind, target.number);
       parent.children[index] = {
         type: 'link',
         url: `#${anchorFor(label)}`,

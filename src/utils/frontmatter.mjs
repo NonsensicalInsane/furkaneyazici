@@ -1,5 +1,6 @@
 import getReadingTime from 'reading-time';
 import { toString } from 'mdast-util-to-string';
+import { ui } from '../i18n/ui.ts';
 
 export function readingTimeRemarkPlugin() {
   return function (tree, file) {
@@ -51,7 +52,7 @@ function linkDois(node) {
 }
 
 export function bibliographyRehypePlugin() {
-  return function (tree) {
+  return function (tree, file) {
     const index = tree.children.findIndex((node) => node.type === 'element' && node.properties?.id === 'refs');
     if (index === -1) return;
     linkDois(tree.children[index]);
@@ -59,8 +60,27 @@ export function bibliographyRehypePlugin() {
       type: 'element',
       tagName: 'h2',
       properties: { id: 'references' },
-      children: [{ type: 'text', value: 'References' }],
+      children: [{ type: 'text', value: ui(file.data.astro?.frontmatter?.lang).references }],
     });
+  };
+}
+
+// The footnotes section in the post's language: remark-rehype's label
+// ("Notes") and back-link text ("Back to text") are set once for all posts in
+// astro.config.mjs.
+export function footnotesLanguageRehypePlugin() {
+  return function (tree, file) {
+    const t = ui(file.data.astro?.frontmatter?.lang);
+    const visit = (node) => {
+      if (node.type === 'element') {
+        if (node.tagName === 'h2' && node.properties?.id === 'footnote-label') {
+          node.children = [{ type: 'text', value: t.notes }];
+        }
+        if (node.properties?.dataFootnoteBackref !== undefined) node.properties.ariaLabel = t.backToText;
+      }
+      node.children?.forEach(visit);
+    };
+    visit(tree);
   };
 }
 

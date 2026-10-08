@@ -23,7 +23,8 @@ import Proof from '../../components/content/Proof.astro';
 import Term from '../../components/content/Term.astro';
 
 import { getPermalink } from '../../utils/permalinks';
-import { getFormattedDate, toJsonLd } from '../../utils/utils';
+import { toJsonLd } from '../../utils/utils';
+import { ui } from '../../i18n/ui';
 import { languageName } from '../../utils/blog';
 
 import type { Post } from '../../types';
@@ -37,8 +38,11 @@ export interface Props {
 
 const { post, url, translations = [] } = Astro.props;
 const { Content } = post;
-// <Term> in the post's body reads this to pick the definition's language
+// <Term>, figures, statements and callouts in the body read this to pick
+// their language (src/i18n/ui.ts)
 Astro.locals.postLang = post.lang;
+const t = ui(post.lang);
+const date = t.formatDate(post.publishDate);
 
 // Structured data: helps search engines & AI answer engines feature the
 // article (rich results, citations) without them needing to guess.
@@ -67,6 +71,8 @@ const jsonLd = {
 ---
 
 <script is:inline type="application/ld+json" set:html={toJsonLd(jsonLd)} />
+<!-- Interface text the page's scripts write (src/scripts/ui-strings.js); data, not code -->
+<script is:inline type="application/json" id="post-ui-strings" set:html={toJsonLd(t.client)} />
 
 <section class="py-8 sm:py-16 lg:py-20 mx-auto">
   <!-- Reading Progress Bar -->
@@ -79,7 +85,7 @@ const jsonLd = {
       >
         <p>
           <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
-          <time datetime={post.publishDate.toISOString()} class="inline-block">{getFormattedDate(post.publishDate)}</time>
+          <time datetime={post.publishDate.toISOString()} class="inline-block">{date}</time>
           {
             post.author && (
               <>
@@ -103,7 +109,7 @@ const jsonLd = {
           {
             post.readingTime && (
               <>
-                &nbsp;· <span>{post.readingTime}</span> min read
+                &nbsp;· <span>{t.minRead(post.readingTime)}</span>
               </>
             )
           }
@@ -115,7 +121,7 @@ const jsonLd = {
         translations.length > 0 && (
           <div class="flex flex-wrap items-center gap-2 max-w-3xl mx-auto mb-3 px-4 sm:px-6 text-sm animate-fade-in-up">
             <Icon name="tabler:language" class="w-4 h-4 text-muted dark:text-slate-400" />
-            <span class="text-muted dark:text-slate-400">Also available in:</span>
+            <span class="text-muted dark:text-slate-400">{t.alsoAvailableIn}</span>
             {translations.map((t) => (
               <a
                 href={getPermalink(t.permalink, 'post')}
@@ -133,7 +139,7 @@ const jsonLd = {
       {
         post.draft && (
           <p class="max-w-3xl mx-auto mb-3 px-4 sm:px-6 text-sm font-semibold text-amber-400">
-            Draft: only visible in development, not published.
+            {t.draftNotice}
           </p>
         )
       }
@@ -156,7 +162,7 @@ const jsonLd = {
           <section class="post-abstract max-w-3xl mx-auto mb-8 px-4 sm:px-6" aria-labelledby="abstract-heading">
             <div class="post-abstract-box">
               <h2 id="abstract-heading" class="post-abstract-heading">
-                Abstract
+                {t.abstract}
               </h2>
               <p>{post.abstract}</p>
             </div>
@@ -225,6 +231,8 @@ const jsonLd = {
 </section>
 
 <script>
+  import { uiText } from '../../scripts/ui-strings.js';
+
   // Copy attribution: long selections copied from the article automatically
   // carry the source and license. Short quotes are left untouched, and
   // reading/selecting is never blocked — this protects attribution without
@@ -244,7 +252,8 @@ const jsonLd = {
       const el = anchor instanceof Element ? anchor : anchor?.parentElement;
       if (el?.closest('pre')) return;
 
-      const attribution = `\n\n— ${document.title}\n${location.href}\n© Furkan Eşref Yazıcı · CC BY-NC-ND 4.0 (attribution required, non-commercial, no derivatives)`;
+      const license = uiText('license', 'attribution required, non-commercial, no derivatives');
+      const attribution = `\n\n— ${document.title}\n${location.href}\n© Furkan Eşref Yazıcı · CC BY-NC-ND 4.0 (${license})`;
       const clipboard = (e as ClipboardEvent).clipboardData;
       if (clipboard) {
         clipboard.setData('text/plain', text + attribution);
@@ -265,7 +274,7 @@ const jsonLd = {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'code-copy';
-      btn.setAttribute('aria-label', 'Copy code');
+      btn.setAttribute('aria-label', uiText('copyCode', 'Copy code'));
       const copyIcon =
         '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>';
       const checkIcon =

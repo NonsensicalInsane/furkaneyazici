@@ -3,6 +3,8 @@
 // Uses Plotly's "strict" bundle: the regular one relies on eval-style code
 // that the site's Content-Security-Policy blocks.
 
+import { uiText } from './ui-strings.js';
+
 const text = 'rgb(226, 232, 240)';
 const grid = 'rgba(148, 163, 184, 0.2)';
 const axis = { gridcolor: grid, zerolinecolor: grid, linecolor: grid, tickcolor: grid, automargin: true };
@@ -56,7 +58,7 @@ async function render(el) {
     el.replaceChildren();
     await Plotly.newPlot(el, figure.data || [], { ...layout, template: SITE_TEMPLATE, autosize: true }, CONFIG);
   } catch (error) {
-    if (status) status.textContent = 'The interactive chart could not be loaded.';
+    if (status) status.textContent = uiText('chartFailed', 'The interactive chart could not be loaded.');
     console.error('PlotlyChart:', error);
   }
 }

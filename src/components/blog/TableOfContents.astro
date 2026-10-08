@@ -1,4 +1,5 @@
 ---
+import { ui } from '../../i18n/ui';
 import { Icon } from 'astro-icon/components';
 
 export interface Props {
@@ -8,6 +9,7 @@ export interface Props {
 }
 
 const { headings = [], variant = 'sidebar' } = Astro.props;
+const t = ui(Astro.locals.postLang);
 
 // Only h2/h3 — deeper levels are noise in a TOC
 const items = headings.filter(({ depth }) => depth === 2 || depth === 3);
@@ -15,10 +17,10 @@ const items = headings.filter(({ depth }) => depth === 2 || depth === 3);
 
 {
   items.length >= 2 && variant === 'sidebar' && (
-    <nav class="toc-nav text-sm" aria-label="Table of contents">
+    <nav class="toc-nav text-sm" aria-label={t.tableOfContents}>
       <p class="flex items-center gap-2 font-semibold text-gray-900 dark:text-white mb-3">
         <Icon name="tabler:list-search" class="w-4 h-4" />
-        On this page
+        {t.onThisPage}
       </p>
       <ul class="space-y-1 border-l border-gray-200 dark:border-slate-700">
         {items.map(({ depth, slug, text }) => (
@@ -45,7 +47,7 @@ const items = headings.filter(({ depth }) => depth === 2 || depth === 3);
     <details class="toc-inline group rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 px-4 py-3">
       <summary class="flex items-center gap-2 cursor-pointer select-none text-sm font-semibold text-gray-900 dark:text-white">
         <Icon name="tabler:list-search" class="w-4 h-4" />
-        On this page
+        {t.onThisPage}
         <Icon name="tabler:chevron-down" class="w-4 h-4 ml-auto transition-transform group-open:rotate-180" />
       </summary>
       <ul class="mt-3 space-y-1.5 text-sm">

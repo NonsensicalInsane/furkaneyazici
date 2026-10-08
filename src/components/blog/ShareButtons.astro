@@ -1,5 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { ui } from '../../i18n/ui';
 
 export interface Props {
   title: string;
@@ -10,17 +11,18 @@ export interface Props {
 
 const { title, url, excerpt = '', className = '' } = Astro.props;
 const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
+const t = ui(Astro.locals.postLang);
 ---
 
 <div class={`flex items-center gap-2 ${className}`} data-share-title={title} data-share-url={url} data-share-text={shareText}>
-  <span class="text-sm font-medium text-slate-400">Share</span>
+  <span class="text-sm font-medium text-slate-400">{t.share}</span>
   
   <!-- Twitter -->
   <button 
     class="share-button"
     type="button"
     data-post-share="twitter"
-    aria-label="Share on X"
+    aria-label={t.shareOn('X')}
   >
     <Icon name="tabler:brand-x" class="w-4 h-4" />
   </button>
@@ -30,7 +32,7 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
     class="share-button"
     type="button"
     data-post-share="linkedin"
-    aria-label="Share on LinkedIn"
+    aria-label={t.shareOn('LinkedIn')}
   >
     <Icon name="tabler:brand-linkedin" class="w-4 h-4" />
   </button>
@@ -40,7 +42,7 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
     class="share-button"
     type="button"
     data-post-share="reddit"
-    aria-label="Share on Reddit"
+    aria-label={t.shareOn('Reddit')}
   >
     <Icon name="tabler:brand-reddit" class="w-4 h-4" />
   </button>
@@ -50,7 +52,7 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
     class="share-button"
     type="button"
     data-post-share="copy"
-    aria-label="Copy Link"
+    aria-label={t.copyLink}
   >
     <Icon name="tabler:link" class="w-4 h-4" />
   </button>
@@ -60,13 +62,15 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
     class="share-button"
     type="button"
     data-post-share="email"
-    aria-label="Share via Email"
+    aria-label={t.shareByEmail}
   >
     <Icon name="tabler:mail" class="w-4 h-4" />
   </button>
 </div>
 
 <script>
+  import { uiText } from '../../scripts/ui-strings.js';
+
   // One delegated listener. Values come from
   // data-* attributes, so an apostrophe in a title ("I'm", "Let's") can't break
   // the code the way it would inside an inline onclick="…" string.
@@ -96,9 +100,9 @@ const shareText = excerpt || `Check out "${title}" by Furkan Eşref Yazıcı`;
         break;
       case 'copy':
         navigator.clipboard.writeText(fullUrl).then(() => {
-          showToast('Link copied to clipboard!', 'success');
+          showToast(uiText('linkCopied', 'Link copied to clipboard!'), 'success');
         }).catch(() => {
-          showToast('Failed to copy link', 'error');
+          showToast(uiText('linkCopyFailed', 'Failed to copy link'), 'error');
         });
         break;
     }

@@ -1,4 +1,5 @@
 ---
+import { ui } from '../../i18n/ui';
 // An interactive Plotly chart exported from a notebook:
 //
 //   fig.write_json("public/figures/my-post/bloch.json")      # in Python
@@ -24,12 +25,13 @@ export interface Props {
 }
 
 const { src, alt, id, number, height = 440 } = Astro.props;
+const t = ui(Astro.locals.postLang);
 ---
 
 <FigureFrame id={id} number={number}>
   <div class="plotly-chart" data-plotly-src={src} role="group" aria-label={alt} style={`height: ${height}px`}>
-    <p class="plotly-chart-status">Loading interactive chart…</p>
-    <noscript><p class="plotly-chart-status">Interactive chart (needs JavaScript): {alt}</p></noscript>
+    <p class="plotly-chart-status">{t.loadingChart}</p>
+    <noscript><p class="plotly-chart-status">{t.chartNeedsJs}: {alt}</p></noscript>
   </div>
   <slot slot="caption" />
 </FigureFrame>

@@ -28,6 +28,10 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { post } = Astro.props as Props;
 
+// Interface text on this page follows the post's language (src/i18n/ui.ts),
+// also for the parts after SinglePost (related posts, back link)
+Astro.locals.postLang = post.lang;
+
 // The reader's saved text size is applied by an inline head script; allow it in the CSP
 Astro.csp?.insertScriptHash(readingScaleHeadScriptHash);
 
@@ -72,7 +76,7 @@ const metadata = merge(
     {post.hasMath && <link rel="stylesheet" href={katexStylesheet} />}
   </Fragment>
   <SinglePost post={{ ...post, image: image }} url={url} translations={translations} />
-  <div class="print:hidden">
+  <div class="print:hidden" lang={post.lang}>
     <ToBlogLink />
     <RelatedPosts post={post} />
   </div>

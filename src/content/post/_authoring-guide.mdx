@@ -239,6 +239,15 @@ versions automatically get:
 Any BCP-47 code works (`tr`, `de`, `fr`, `ja`…) — the switcher shows each
 language's native name automatically.
 
+The text the site adds around a post follows its `lang` too: date, reading
+time, "Level", the series box, table of contents, "Figure 2" / "Theorem 1"
+(also in `<Ref>` links), Proof, callout titles, Notes, References, share and
+newsletter, related posts, and what the page's scripts write ("3 min left",
+"Link copied"). English, Turkish and Japanese are in `src/i18n/ui.ts`; for
+another language, copy the `en` block there and translate it (until then the
+English text is used). Glossary terms have their own translations (see
+"Terms with definitions").
+
 ## Before publishing
 
 ```sh

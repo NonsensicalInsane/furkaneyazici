@@ -1,4 +1,5 @@
 ---
+import { ui } from '../../i18n/ui';
 export interface Props {
   className?: string;
   /** Reading time computed at build (the post header's "N min read") */
@@ -6,6 +7,7 @@ export interface Props {
 }
 
 const { className = '', minutes } = Astro.props;
+const t = ui(Astro.locals.postLang);
 ---
 
 <!-- Reading Progress Bar at Bottom -->
@@ -28,9 +30,9 @@ const { className = '', minutes } = Astro.props;
       <span id="progress-percentage" class="text-white font-bold text-xs">0%</span>
     </div>
     <div>
-      <div class="text-sm font-medium text-gray-900 dark:text-white">Reading</div>
+      <div class="text-sm font-medium text-gray-900 dark:text-white">{t.reading}</div>
       <div class="text-xs text-gray-600 dark:text-slate-400" id="reading-time">
-        <span id="reading-time-left">{minutes ?? 5} min left</span>
+        <span id="reading-time-left">{t.minLeft(minutes ?? 5)}</span>
       </div>
     </div>
   </div>
@@ -41,12 +43,14 @@ const { className = '', minutes } = Astro.props;
   type="button"
   id="back-to-top"
   class="fixed bottom-6 left-6 print:hidden w-12 h-12 bg-primary hover:bg-primary-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 transform translate-y-4 z-40 flex items-center justify-center"
-  aria-label="Back to top"
+  aria-label={t.backToTop}
 >
   ↑
 </button>
 
 <script>
+  import { uiText } from '../../scripts/ui-strings.js';
+
   function initializeReadingProgress() {
     const progressBar = document.getElementById('reading-progress-bar');
     const readingInfo = document.getElementById('reading-info');
@@ -91,7 +95,8 @@ const { className = '', minutes } = Astro.props;
       // Calculate time left
       const timeLeft = Math.max(Math.round(totalReadingTime * (1 - progress / 100)), 0);
       if (readingTimeLeft) {
-        readingTimeLeft.textContent = timeLeft === 0 ? 'Done!' : `${timeLeft} min left`;
+        readingTimeLeft.textContent =
+          timeLeft === 0 ? uiText('done', 'Done!') : uiText('minLeft', '{n} min left').replace('{n}', String(timeLeft));
       }
       
       // Show/hide elements based on scroll

@@ -1,4 +1,5 @@
 ---
+import { ui } from '../../i18n/ui';
 // Shared <figure> wrapper for Figure, PlotlyChart and Animation: the anchor
 // that <Ref> links to and the numbered caption ("Figure 3. …"). The number
 // comes from src/utils/remark-numbering.mjs.
@@ -9,6 +10,7 @@ export interface Props {
 
 const { id, number } = Astro.props;
 const hasCaption = Astro.slots.has('caption');
+const t = ui(Astro.locals.postLang);
 ---
 
 <figure id={id} class="rich-figure not-prose">
@@ -16,7 +18,7 @@ const hasCaption = Astro.slots.has('caption');
   {
     (number || hasCaption) && (
       <figcaption>
-        {number && <span class="rich-figure-label">Figure {number}.</span>} <slot name="caption" />
+        {number && <span class="rich-figure-label">{t.numbered('figure', number)}{t.labelEnd}</span>} <slot name="caption" />
       </figcaption>
     )
   }

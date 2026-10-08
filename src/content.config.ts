@@ -65,6 +65,15 @@ const postCollection = defineCollection({
 
     category: z.string().optional(),
     tags: z.array(z.string()).optional(),
+
+    // Series: posts with the same series name are linked as parts, in
+    // seriesPart order (publish date when it's missing)
+    series: z.string().optional(),
+    seriesPart: z.number().int().positive().optional(),
+    // Who the post is for, shown above it and on its card
+    level: z.enum(['intro', 'intermediate', 'advanced']).optional(),
+    // What to know first: plain text, or a post's URL ("/what-is-a-qubit/") to link it
+    prerequisites: z.array(z.string()).optional(),
     author: z.string().optional(),
 
     // i18n: BCP-47 code of the post's language (defaults to the site language).

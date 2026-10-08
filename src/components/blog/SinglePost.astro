@@ -6,6 +6,8 @@ import PostTags from '../../components/blog/Tags.astro';
 import ShareButtons from '../../components/blog/ShareButtons.astro';
 import ReadingSettings from '../../components/blog/ReadingSettings.astro';
 import Newsletter from '../../components/blog/Newsletter.astro';
+import SeriesNav from '../../components/blog/SeriesNav.astro';
+import PostContext from '../../components/blog/PostContext.astro';
 import ReadingProgressBar from '../../components/blog/ReadingProgressBar.astro';
 import TableOfContents from '../../components/blog/TableOfContents.astro';
 import Callout from '../../components/blog/Callout.astro';
@@ -18,6 +20,7 @@ import Definition from '../../components/content/Definition.astro';
 import Theorem from '../../components/content/Theorem.astro';
 import Lemma from '../../components/content/Lemma.astro';
 import Proof from '../../components/content/Proof.astro';
+import Term from '../../components/content/Term.astro';
 
 import { getPermalink } from '../../utils/permalinks';
 import { getFormattedDate, toJsonLd } from '../../utils/utils';
@@ -143,6 +146,9 @@ const jsonLd = {
         {post.excerpt}
       </p>
 
+      <SeriesNav post={post} variant="top" />
+      <PostContext post={post} />
+
       {
         post.abstract && (
           <section class="post-abstract max-w-3xl mx-auto mb-8 px-4 sm:px-6" aria-labelledby="abstract-heading">
@@ -177,7 +183,8 @@ const jsonLd = {
       }
     </header>
     <div class="mx-auto max-w-3xl xl:max-w-7xl xl:grid xl:grid-cols-[1fr_minmax(0,48rem)_1fr] xl:gap-8 mt-8">
-      <div class="hidden xl:block" aria-hidden="true"></div>
+      <!-- Left margin: footnotes appear here as sidenotes on wide screens (script below) -->
+      <div class="hidden xl:block relative" aria-hidden="true" data-sidenotes></div>
       <div class="min-w-0">
         <div class="px-6 sm:px-6 mb-6 xl:hidden print:hidden">
           <TableOfContents headings={post.headings} variant="inline" />
@@ -185,7 +192,7 @@ const jsonLd = {
         <div
           class="post-body mx-auto px-6 sm:px-6 max-w-3xl prose dark:prose-invert dark:prose-headings:text-slate-300 prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg prose-headings:scroll-mt-[80px]"
         >
-          {Content ? <Content components={{ Callout, Quote, Figure, PlotlyChart, Animation, Definition, Theorem, Lemma, Proof }} /> : <Fragment set:html={post.content || ''} />}
+          {Content ? <Content components={{ Callout, Quote, Figure, PlotlyChart, Animation, Definition, Theorem, Lemma, Proof, Term }} /> : <Fragment set:html={post.content || ''} />}
         </div>
       </div>
       <aside class="hidden xl:block print:hidden">
@@ -195,7 +202,8 @@ const jsonLd = {
       </aside>
     </div>
     <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-8">
-      <div class="flex justify-between flex-col sm:flex-row mb-6">
+      <SeriesNav post={post} variant="bottom" />
+      <div class="flex justify-between flex-col sm:flex-row mb-6 mt-8">
         <PostTags tags={post.tags} class="mr-5 rtl:mr-0 rtl:ml-5" />
       </div>
       
@@ -278,6 +286,34 @@ const jsonLd = {
     });
   }
 
+  // One floating tooltip, shared by citation previews and glossary terms
+  let tip: HTMLDivElement | null = null;
+
+  function showTip(anchor: Element, fill: (tip: HTMLDivElement) => void) {
+    hideTip();
+    tip = document.createElement('div');
+    tip.className = 'footnote-tooltip';
+    tip.setAttribute('role', 'tooltip');
+    fill(tip);
+    // Inside <main>, so the tooltip belongs to the page's landmarks
+    (document.querySelector('main') ?? document.body).appendChild(tip);
+
+    const r = anchor.getBoundingClientRect();
+    const width = Math.min(360, window.innerWidth - 24);
+    tip.style.width = `${width}px`;
+    let left = r.left + r.width / 2 - width / 2;
+    left = Math.max(12, Math.min(left, window.innerWidth - width - 12));
+    tip.style.left = `${left + window.scrollX}px`;
+    const height = tip.offsetHeight;
+    const above = r.top - height - 10 >= 0;
+    tip.style.top = `${(above ? r.top - height - 10 : r.bottom + 10) + window.scrollY}px`;
+  }
+
+  function hideTip() {
+    tip?.remove();
+    tip = null;
+  }
+
   // Hover previews for citations: peek at the reference without losing your place
   function initFootnotePreviews() {
     if (window.matchMedia('(hover: none)').matches) return; // touch: tapping jumps to References
@@ -286,49 +322,106 @@ const jsonLd = {
       if (ref.dataset.fnPreview) return;
       ref.dataset.fnPreview = 'true';
 
-      let tip: HTMLDivElement | null = null;
-
       const show = () => {
+        // A footnote already shown beside the text as a sidenote needs no tooltip
+        if (ref.matches('[data-footnote-ref]') && document.documentElement.classList.contains('has-sidenotes')) return;
         const id = decodeURIComponent((ref.getAttribute('href') || '').slice(1));
         const note = document.getElementById(id);
-        if (!note || tip) return;
-
+        if (!note) return;
         const clone = note.cloneNode(true) as HTMLElement;
         clone.querySelectorAll('[data-footnote-backref]').forEach((a) => a.remove());
-
-        tip = document.createElement('div');
-        tip.className = 'footnote-tooltip';
-        tip.setAttribute('role', 'tooltip');
-        tip.innerHTML = clone.innerHTML;
-        document.body.appendChild(tip);
-
-        const r = ref.getBoundingClientRect();
-        const width = Math.min(360, window.innerWidth - 24);
-        tip.style.width = `${width}px`;
-        let left = r.left + r.width / 2 - width / 2;
-        left = Math.max(12, Math.min(left, window.innerWidth - width - 12));
-        tip.style.left = `${left + window.scrollX}px`;
-        const height = tip.offsetHeight;
-        const above = r.top - height - 10 >= 0;
-        tip.style.top = `${(above ? r.top - height - 10 : r.bottom + 10) + window.scrollY}px`;
-      };
-
-      const hide = () => {
-        tip?.remove();
-        tip = null;
+        showTip(ref, (t) => {
+          t.innerHTML = clone.innerHTML;
+        });
       };
 
       ref.addEventListener('mouseenter', show);
-      ref.addEventListener('mouseleave', hide);
+      ref.addEventListener('mouseleave', hideTip);
       ref.addEventListener('focus', show);
-      ref.addEventListener('blur', hide);
+      ref.addEventListener('blur', hideTip);
     });
+  }
+
+  // Glossary terms (<Term>): hover, keyboard focus or a tap shows the definition
+  function initTerms() {
+    document.querySelectorAll<HTMLButtonElement>('.term').forEach((term) => {
+      if (term.dataset.termReady) return;
+      term.dataset.termReady = 'true';
+      const show = () =>
+        showTip(term, (t) => {
+          t.classList.add('term-tooltip');
+          t.textContent = term.dataset.term || '';
+        });
+      term.addEventListener('mouseenter', show);
+      term.addEventListener('mouseleave', hideTip);
+      term.addEventListener('focus', show);
+      term.addEventListener('blur', hideTip);
+      term.addEventListener('click', show); // touch screens: a tap focuses and shows
+      term.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideTip();
+      });
+    });
+  }
+
+  // Sidenotes: on wide screens, each footnote is repeated in the left margin
+  // beside the line that cites it, so it can be read without jumping to the end.
+  // The numbered notes at the end stay (screen readers, print, small screens).
+  function initSidenotes() {
+    const rail = document.querySelector<HTMLElement>('[data-sidenotes]');
+    const body = document.querySelector<HTMLElement>('.post-body');
+    const refs = [...document.querySelectorAll<HTMLAnchorElement>('.post-body a[data-footnote-ref]')];
+    if (!rail || !body || refs.length === 0) return;
+    const wide = window.matchMedia('(min-width: 1280px)');
+    const boxes = new Map<HTMLAnchorElement, HTMLElement>();
+    // Pointing at a marker highlights its note
+    refs.forEach((ref) => {
+      ref.addEventListener('mouseenter', () => boxes.get(ref)?.classList.add('is-active'));
+      ref.addEventListener('mouseleave', () => boxes.get(ref)?.classList.remove('is-active'));
+    });
+
+    let frame = 0;
+    const layout = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        rail.replaceChildren();
+        boxes.clear();
+        document.documentElement.classList.toggle('has-sidenotes', wide.matches);
+        if (!wide.matches) return;
+        const railTop = rail.getBoundingClientRect().top;
+        let floor = 0;
+        refs.forEach((ref) => {
+          const note = document.getElementById(decodeURIComponent((ref.getAttribute('href') || '').slice(1)));
+          if (!note) return;
+          const clone = note.cloneNode(true) as HTMLElement;
+          clone.querySelectorAll('[data-footnote-backref]').forEach((a) => a.remove());
+          const box = document.createElement('div');
+          box.className = 'sidenote';
+          const number = document.createElement('span');
+          number.className = 'sidenote-number';
+          number.textContent = ref.textContent || '';
+          box.append(number, ...clone.childNodes);
+          rail.append(box);
+          // Level with the citing line, below the previous note if they'd overlap
+          const top = Math.max(ref.getBoundingClientRect().top - railTop - 4, floor);
+          box.style.top = `${top}px`;
+          floor = top + box.offsetHeight + 16;
+          boxes.set(ref, box);
+        });
+      });
+    };
+
+    layout();
+    wide.addEventListener('change', layout);
+    // Text size changes, images and charts loading, proofs opening: re-place the notes
+    new ResizeObserver(layout).observe(body);
   }
 
   function initPostEnhancements() {
     initCopyAttribution();
     initCodeCopy();
     initFootnotePreviews();
+    initTerms();
+    initSidenotes();
   }
 
   initPostEnhancements();

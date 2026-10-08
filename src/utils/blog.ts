@@ -55,6 +55,10 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     image,
     tags: rawTags = [],
     category: rawCategory,
+    series,
+    seriesPart,
+    level,
+    prerequisites = [],
     author,
     draft = false,
     metadata = {},
@@ -85,6 +89,11 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     category: category,
     tags: tags,
     author: author,
+
+    series: series,
+    seriesPart: seriesPart,
+    level: level,
+    prerequisites: prerequisites,
 
     draft: draft,
 
@@ -295,3 +304,17 @@ export function getRelatedPosts(allPosts: Post[], currentSlug: string, currentTa
 
   return relatedPosts;
 }
+
+/** The parts of a post's series in reading order: seriesPart, then publish date */
+export const findSeriesPosts = async (post: Post): Promise<Array<Post>> => {
+  if (!post.series) return [];
+  const posts = await fetchPosts();
+  return posts
+    .filter((p) => p.series === post.series)
+    .sort(
+      (a, b) =>
+        (a.seriesPart ?? Infinity) - (b.seriesPart ?? Infinity) || a.publishDate.valueOf() - b.publishDate.valueOf()
+    );
+};
+
+export const LEVEL_LABELS = { intro: 'Introductory', intermediate: 'Intermediate', advanced: 'Advanced' } as const;

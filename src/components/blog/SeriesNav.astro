@@ -1,0 +1,89 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Post } from '../../types';
+import { findSeriesPosts } from '../../utils/blog';
+import { getPermalink } from '../../utils/permalinks';
+
+export interface Props {
+  post: Post;
+  /** 'top': which part this is, with the list of parts; 'bottom': previous / next part */
+  variant: 'top' | 'bottom';
+}
+
+const { post, variant } = Astro.props;
+const parts = await findSeriesPosts(post);
+const index = parts.findIndex((p) => p.slug === post.slug);
+const previous = index > 0 ? parts[index - 1] : undefined;
+const next = index >= 0 && index < parts.length - 1 ? parts[index + 1] : undefined;
+const href = (p: Post) => getPermalink(p.permalink, 'post');
+---
+
+{
+  parts.length > 1 && index >= 0 && variant === 'top' && (
+    <details class="series-box max-w-3xl mx-auto mb-8 px-4 sm:px-6 print:hidden">
+      <summary class="flex cursor-pointer items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm">
+        <Icon name="tabler:books" class="w-4 h-4 shrink-0 text-blue-400" />
+        <span>
+          <span class="text-slate-400">
+            Part {index + 1} of {parts.length} in
+          </span>{' '}
+          <span class="font-semibold text-heading">{post.series}</span>
+        </span>
+        <Icon name="tabler:chevron-down" class="series-chevron ml-auto w-4 h-4 shrink-0 text-slate-400 transition-transform" />
+      </summary>
+      <ol class="mt-2 space-y-1 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm">
+        {parts.map((p, i) => (
+          <li class="flex gap-3">
+            <span class="w-5 shrink-0 text-right tabular-nums text-slate-500">{i + 1}.</span>
+            {i === index ? (
+              <span class="font-semibold text-heading" aria-current="page">
+                {p.title}
+              </span>
+            ) : (
+              <a href={href(p)} class="text-slate-300 hover:text-blue-400 transition-colors">
+                {p.title}
+              </a>
+            )}
+          </li>
+        ))}
+      </ol>
+    </details>
+  )
+}
+
+{
+  parts.length > 1 && index >= 0 && variant === 'bottom' && (
+    <nav class="mt-10 grid gap-4 sm:grid-cols-2 print:hidden" aria-label={`${post.series}: other parts`}>
+      {previous ? (
+        <a href={href(previous)} class="modern-card flex flex-col gap-1 p-4">
+          <span class="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-blue-400">
+            <Icon name="tabler:arrow-left" class="w-3.5 h-3.5" /> Previous part
+          </span>
+          <span class="font-semibold text-heading">{previous.title}</span>
+        </a>
+      ) : (
+        <span class="hidden sm:block" />
+      )}
+      {next && (
+        <a href={href(next)} class="modern-card flex flex-col gap-1 p-4 sm:text-right">
+          <span class="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-blue-400 sm:justify-end">
+            Next part <Icon name="tabler:arrow-right" class="w-3.5 h-3.5" />
+          </span>
+          <span class="font-semibold text-heading">{next.title}</span>
+        </a>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .series-box summary::-webkit-details-marker {
+    display: none;
+  }
+  .series-box summary {
+    list-style: none;
+  }
+  .series-box[open] :global(.series-chevron) {
+    transform: rotate(180deg);
+  }
+</style>

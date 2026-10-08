@@ -403,21 +403,16 @@
   color: rgb(148 163 184); /* slate-400 */
 }
 
-/* ---------- Citations (GFM footnotes as references) ---------- */
+/* ---------- Footnotes (GFM [^notes]) ---------- */
 
-/* In-text markers render as [1] in brand color */
+/* Footnote markers: plain superscript numbers in brand colour, so they don't
+   look like the [1] citations from the bibliography */
 .prose sup:has(> a[data-footnote-ref]) {
   margin-inline: 0.1em;
 }
 .prose a[data-footnote-ref] {
   font-weight: 600;
   text-decoration: none;
-}
-.prose a[data-footnote-ref]::before {
-  content: '[';
-}
-.prose a[data-footnote-ref]::after {
-  content: ']';
 }
 
 /* References section at the bottom */
@@ -787,6 +782,57 @@ a {
 }
 .post-abstract-box p {
   line-height: 1.7;
+}
+
+/* Glossary terms (<Term>): a dotted underline says "there's a definition here" */
+.term {
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px dotted currentColor;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: help;
+}
+.term:hover,
+.term:focus-visible {
+  border-bottom-style: solid;
+  color: var(--aw-color-primary);
+}
+.footnote-tooltip.term-tooltip {
+  max-width: 22rem;
+}
+
+/* Sidenotes: footnotes repeated in the left margin on wide screens (SinglePost script) */
+.sidenote {
+  position: absolute;
+  left: 0;
+  right: 0.5rem;
+  padding: 0.25rem 0.75rem 0.25rem 0;
+  border-right: 2px solid rgb(148 163 184 / 0.25);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: rgb(148 163 184); /* slate-400 */
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.sidenote.is-active {
+  border-right-color: var(--aw-color-primary);
+  color: rgb(226 232 240);
+}
+.sidenote p {
+  display: inline;
+  margin: 0;
+}
+.sidenote a {
+  color: var(--aw-color-primary);
+}
+.sidenote-number {
+  margin-right: 0.35rem;
+  font-weight: 600;
+  color: var(--aw-color-primary);
 }
 
 /* Bibliography from rehype-citation (IEEE style): "[1]" column + entry */

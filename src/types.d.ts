@@ -31,6 +31,15 @@ export interface Post {
   category?: string;
   /**  */
   tags?: Array<string>;
+
+  /** Series name; posts sharing it are linked as parts */
+  series?: string;
+  /** Position in the series (falls back to publish date order) */
+  seriesPart?: number;
+  /** Who the post is for */
+  level?: 'intro' | 'intermediate' | 'advanced';
+  /** What to know first: text, or a post URL starting with "/" */
+  prerequisites?: Array<string>;
   /**  */
   author?: string;
 

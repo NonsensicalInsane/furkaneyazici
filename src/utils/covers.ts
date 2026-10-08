@@ -3,6 +3,7 @@ import satori from 'satori';
 import sharp from 'sharp';
 import type { Post } from '~/types';
 import { cardCoverSvg, motifFor } from './cover-motifs';
+import { APP_BLOG } from './config';
 
 // Build-time cover images for posts that have no image of their own: shown on
 // blog cards and used as the post's social preview (og:image). Satori turns the
@@ -15,10 +16,17 @@ export const COVER_HEIGHT = 630;
 /**
  * URL of a generated cover, or undefined when the post has its own image.
  * 'social' carries the title, category and tags (og:image, seen on its own);
- * 'card' is artwork only, since a blog card prints all of that around it.
+ * 'card' is artwork only, since a blog card prints all of that around it;
+ * none when apps.blog.cardCovers is off in config.yaml (text-only cards).
  */
 export const coverUrl = (post: Pick<Post, 'slug' | 'image'>, variant: 'social' | 'card' = 'social') =>
-  post.image ? undefined : variant === 'card' ? `/covers/card/${post.slug}.jpg` : `/covers/${post.slug}.jpg`;
+  post.image
+    ? undefined
+    : variant === 'card'
+      ? APP_BLOG.cardCovers
+        ? `/covers/card/${post.slug}.jpg`
+        : undefined
+      : `/covers/${post.slug}.jpg`;
 
 // Satori reads static WOFF (not WOFF2 or variable fonts). The latin-ext subset
 // (ş, ğ, …) needs its own family name: Satori falls back between families, not

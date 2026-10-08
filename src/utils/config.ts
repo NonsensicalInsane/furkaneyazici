@@ -27,6 +27,8 @@ export interface AppBlogConfig {
   postsPerPage: number;
   isRelatedPostsEnabled: boolean;
   relatedPostsCount: number;
+  /** Generated covers on blog cards for posts without an image */
+  cardCovers: boolean;
   post: {
     isEnabled: boolean;
     permalink: string;
@@ -138,6 +140,7 @@ const getAppBlog = () => {
     postsPerPage: 6,
     isRelatedPostsEnabled: false,
     relatedPostsCount: 4,
+    cardCovers: true,
     post: {
       isEnabled: true,
       permalink: '/blog/%slug%',

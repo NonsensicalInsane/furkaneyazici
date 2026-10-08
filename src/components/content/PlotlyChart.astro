@@ -27,7 +27,7 @@ const { src, alt, id, number, height = 440 } = Astro.props;
 ---
 
 <FigureFrame id={id} number={number}>
-  <div class="plotly-chart" data-plotly-src={src} role="img" aria-label={alt} style={`height: ${height}px`}>
+  <div class="plotly-chart" data-plotly-src={src} role="group" aria-label={alt} style={`height: ${height}px`}>
     <p class="plotly-chart-status">Loading interactive chart…</p>
     <noscript><p class="plotly-chart-status">Interactive chart (needs JavaScript): {alt}</p></noscript>
   </div>

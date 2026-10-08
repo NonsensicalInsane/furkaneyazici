@@ -1,0 +1,26 @@
+---
+import { glossary } from '../../data/glossary';
+
+export interface Props {
+  /** Key in src/data/glossary.ts */
+  id?: string;
+  /** A one-off definition instead of a glossary entry */
+  def?: string;
+}
+
+// A term with its definition one hover, focus or tap away (the tooltip comes
+// from SinglePost's script). The text inside <Term> is what the reader sees;
+// without it, the glossary's own spelling is used.
+const { id, def } = Astro.props;
+const entry = id ? glossary[id] : undefined;
+if (id && !entry) throw new Error(`<Term id="${id}">: no such entry in src/data/glossary.ts`);
+const definition = def ?? entry?.definition;
+if (!definition) throw new Error('<Term> needs an id from src/data/glossary.ts or a def="…"');
+
+const text = Astro.slots.has('default') ? ((await Astro.slots.render('default')) ?? '').trim() : '';
+const descriptionId = `term-${Math.random().toString(36).slice(2, 10)}`;
+---
+
+<button type="button" class="term" data-term={definition} aria-describedby={descriptionId}
+  >{text ? <Fragment set:html={text} /> : entry?.term}</button
+><span id={descriptionId} hidden>{definition}</span>

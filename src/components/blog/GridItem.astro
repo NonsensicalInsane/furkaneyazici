@@ -8,6 +8,7 @@ import PostTags from '../../components/blog/Tags.astro';
 
 import { findImage } from '../../utils/images';
 import { coverUrl } from '../../utils/covers';
+import { LEVEL_LABELS } from '../../utils/blog';
 import { getPermalink } from '../../utils/permalinks';
 import { getFormattedDate } from '../../utils/utils';
 
@@ -18,7 +19,8 @@ export interface Props {
 }
 
 const { post, isFeatured = false } = Astro.props;
-// Posts without an image get their generated cover, so every card lines up
+// Posts without an image get a generated cover when cardCovers is on (config.yaml),
+// otherwise a text-only card
 const image = (await findImage(post.image)) ?? coverUrl(post, 'card');
 const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
 // Badge only for posts not in the site's default language
@@ -32,7 +34,7 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
   ]}
   data-blog-post={post.slug}
 >
-  <div class:list={['flex-1 flex flex-col', isFeatured && 'md:grid md:grid-cols-2']}>
+  <div class:list={['flex-1 flex flex-col', isFeatured && image && 'md:grid md:grid-cols-2']}>
     {
       image && (
         <div class="relative overflow-hidden">
@@ -73,7 +75,24 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
     }
 
     <div class:list={[isFeatured ? 'p-6 md:p-8 lg:p-10 flex flex-col justify-center' : 'p-6 flex-1 flex flex-col']}>
-      <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-slate-400 mb-3">
+      {
+        !image && (post.category || isFeatured) && (
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            {post.category && (
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize bg-blue-500/10 text-blue-300 ring-1 ring-inset ring-blue-400/20">
+                {post.category.replaceAll('-', ' ')}
+              </span>
+            )}
+            {isFeatured && (
+              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold text-slate-300 ring-1 ring-inset ring-white/15">
+                <Icon name="tabler:sparkles" class="w-3.5 h-3.5" />
+                Latest
+              </span>
+            )}
+          </div>
+        )
+      }
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-slate-400 mb-3 [&>*]:whitespace-nowrap">
         <div class="flex items-center gap-1">
           <Icon name="tabler:clock" class="w-4 h-4" />
           <time datetime={post.publishDate.toISOString()}>{getFormattedDate(post.publishDate)}</time>
@@ -86,6 +105,12 @@ const langBadge = post.lang && post.lang !== (I18N.language || 'en') ? post.lang
             </div>
           )
         }
+        {post.level && (
+          <span class="inline-flex items-center gap-1">
+            <Icon name="tabler:chart-bar" class="w-4 h-4" />
+            {LEVEL_LABELS[post.level]}
+          </span>
+        )}
         {post.draft && (
           <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold border border-amber-400/40 text-amber-400">
             Draft

@@ -61,6 +61,11 @@ apps:
     isRelatedPostsEnabled: true
     relatedPostsCount: 4
 
+    # Blog cards for posts without an `image`: false shows a text-only card,
+    # true draws a generated cover whose motif follows the category. Link
+    # previews (og:image) are generated either way, since they carry the title.
+    cardCovers: false
+
 analytics:
   vendors:
     googleAnalytics:
